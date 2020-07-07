@@ -1,0 +1,12 @@
+type Store @model {
+  id: ID!
+  name: String!
+  description: String
+  phoneNumber: String!
+  streetAddress: String!
+  zipCode: String!
+  state: String!
+  categories: [category]
+  items: [Item]
+  ordersByDate: [Order]
+}
