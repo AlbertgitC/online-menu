@@ -6,7 +6,5 @@ type Store @model {
   streetAddress: String!
   zipCode: String!
   state: String!
-  categories: [category]
-  items: [Item]
-  ordersByDate: [Order]
+  categories: [String]
 }
