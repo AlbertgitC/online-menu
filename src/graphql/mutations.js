@@ -1,43 +1,58 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createStore = /* GraphQL */ `
+  mutation CreateStore(
+    $input: CreateStoreInput!
+    $condition: ModelStoreConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createStore(input: $input, condition: $condition) {
       id
       name
       description
+      phoneNumber
+      streetAddress
+      zipCode
+      state
+      subMenu
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateStore = /* GraphQL */ `
+  mutation UpdateStore(
+    $input: UpdateStoreInput!
+    $condition: ModelStoreConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateStore(input: $input, condition: $condition) {
       id
       name
       description
+      phoneNumber
+      streetAddress
+      zipCode
+      state
+      subMenu
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteStore = /* GraphQL */ `
+  mutation DeleteStore(
+    $input: DeleteStoreInput!
+    $condition: ModelStoreConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteStore(input: $input, condition: $condition) {
       id
       name
       description
+      phoneNumber
+      streetAddress
+      zipCode
+      state
+      subMenu
       createdAt
       updatedAt
     }

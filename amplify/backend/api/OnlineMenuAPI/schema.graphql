@@ -6,5 +6,5 @@ type Store @model {
   streetAddress: String!
   zipCode: String!
   state: String!
-  categories: [String]
+  subMenu: [String]
 }
