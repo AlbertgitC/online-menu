@@ -9,7 +9,6 @@ function Store() {
         getData();
     }, []);
 
-    // execute the query in componentDidMount
     async function getData() {
         try {
             const storeData = await API.graphql(graphqlOperation(ListStores));
@@ -27,7 +26,9 @@ function Store() {
                     <div key={index}>
                         <h2>{store.name}</h2>
                         <p>{store.description}</p>
+                        <p>{store.phoneNumber}</p>
                         <p>{store.streetAddress}</p>
+                        <p>{store.state} {store.zipCode}</p>
                         <ul>
                             {store.subMenu.map((category, i) => (
                                 <li key={i}>{category}</li>
