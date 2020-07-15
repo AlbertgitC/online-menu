@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import Store from './components/store';
+import StoreList from './components/list-stores';
 
 function App() {
 
   return (
     <div className="App">
-      <Store />
+      <StoreList />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listStores as ListStores } from '../graphql/queries';
 
-function Store() {
+function StoreList() {
     const [stores, updateStores] = useState([]);
 
     useEffect(() => {
@@ -41,4 +41,4 @@ function Store() {
     );
 };
 
-export default Store;
+export default StoreList;
