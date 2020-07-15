@@ -10,7 +10,7 @@ export const onCreateStore = /* GraphQL */ `
       phoneNumber
       streetAddress
       zipCode
-      state
+      usState
       subMenu
       createdAt
       updatedAt
@@ -26,7 +26,7 @@ export const onUpdateStore = /* GraphQL */ `
       phoneNumber
       streetAddress
       zipCode
-      state
+      usState
       subMenu
       createdAt
       updatedAt
@@ -42,7 +42,7 @@ export const onDeleteStore = /* GraphQL */ `
       phoneNumber
       streetAddress
       zipCode
-      state
+      usState
       subMenu
       createdAt
       updatedAt

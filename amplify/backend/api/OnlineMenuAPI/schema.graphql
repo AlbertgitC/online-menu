@@ -5,6 +5,6 @@ type Store @model {
   phoneNumber: String!
   streetAddress: String!
   zipCode: String!
-  state: String!
-  subMenu: [String]!
+  usState: String!
+  subMenu: [String!]!
 }

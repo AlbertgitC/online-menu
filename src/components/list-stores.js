@@ -28,7 +28,7 @@ function StoreList() {
                         <p>{store.description}</p>
                         <p>{store.phoneNumber}</p>
                         <p>{store.streetAddress}</p>
-                        <p>{store.state} {store.zipCode}</p>
+                        <p>{store.usState} {store.zipCode}</p>
                         <ul>
                             {store.subMenu.map((category, i) => (
                                 <li key={i}>{category}</li>
