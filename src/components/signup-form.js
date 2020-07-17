@@ -58,22 +58,23 @@ function SignupForm() {
     async function confirmSignUp() {
         try {
             const confirmObj = await Auth.confirmSignUp(username, code);
-            console.log({ confirmObj });
             updateConfirm(initialConfirm);
+            updateState({ ...state, err: "" });
         } catch (error) {
             console.log('error confirming sign up', error);
+            updateState({ ...state, err: error.message });
         }
     }
 
-    // async function confirmSignUp() {
-    //     try {
-    //         const confirmObj = await Auth.confirmSignUp(username, code);
-    //         console.log({ confirmObj });
-    //         updateConfirm(initialConfirm);
-    //     } catch (error) {
-    //         console.log('error confirming sign up', error);
-    //     }
-    // }
+    async function resendConfirm() {
+        try {
+            const confirmObj = await Auth.resendSignUp(username);
+            updateState({ ...state, err: "" });
+        } catch (error) {
+            console.log('error resending confirm', error);
+            updateState({ ...state, err: error.message });
+        }
+    }
 
     function handleInput(e) {
         updateState({ ...state, [e.target.name]: e.target.value });
@@ -118,9 +119,9 @@ function SignupForm() {
                     />
                 </div>
                 <button>Create User</button>
-            </form>
+            </form>---------
             <div>{err}</div>
-            <div>
+            <div>---------
                 <div>Confirmation Code Sent to: {username}</div>
                 <input
                     name='code'
@@ -129,6 +130,16 @@ function SignupForm() {
                     placeholder='Confirmation Code'
                 />
                 <button onClick={confirmSignUp}>Confirm User</button>
+                <button onClick={resendConfirm}>Resend Confirmation</button>
+            </div>
+            <div>---------
+                <input
+                    name='username'
+                    onChange={handleConfirm}
+                    value={username}
+                    placeholder='Email'
+                />
+                <button onClick={resendConfirm}>Resend Confirmation</button>
             </div>
         </div>
     );
