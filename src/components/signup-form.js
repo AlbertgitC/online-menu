@@ -28,13 +28,15 @@ function SignupForm() {
             return;
         };
 
+        const phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
+
         try {
             const user = await Auth.signUp({
                 username: email,
                 password: password,
                 attributes: {
                     name: name,
-                    phone_number: phone_number
+                    phone_number: phoneNumber
                 }
             });
             console.log({ user });
@@ -86,12 +88,15 @@ function SignupForm() {
                 value={name}
                 placeholder='User Name'
             />
-            <input
-                name='phone_number'
-                onChange={handleInput}
-                value={phone_number}
-                placeholder='Phone Number'
-            />
+            <div>
+                <div>+1</div>
+                <input
+                    name='phone_number'
+                    onChange={handleInput}
+                    value={phone_number}
+                    placeholder='Phone Number'
+                />
+            </div>
             <button onClick={signUp}>Create User</button>
             <div>{err}</div>
             <div>
