@@ -22,13 +22,20 @@ function SignupForm() {
     const [confirmState, updateConfirm] = useState(initialConfirm);
     const { username, code } = confirmState;
 
-    async function signUp() {
+    async function signUp(e) {
+        e.preventDefault();
+        const phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
+
         if (email === "" || password === "" || name === "" || phone_number === "") {
             updateState({ ...state, err: "info missing" });
             return;
+        } else if (phoneNumber.length !== 12) {
+            updateState({ ...state, err: "invalid phone number" });
+            return;
+        } else if (password.length < 8) {
+            updateState({ ...state, err: "password must be 8 characters or more" });
+            return;
         };
-
-        const phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
 
         try {
             const user = await Auth.signUp({
@@ -50,13 +57,23 @@ function SignupForm() {
 
     async function confirmSignUp() {
         try {
-            await Auth.confirmSignUp(username, code);
-            console.log("confirmed");
+            const confirmObj = await Auth.confirmSignUp(username, code);
+            console.log({ confirmObj });
             updateConfirm(initialConfirm);
         } catch (error) {
             console.log('error confirming sign up', error);
         }
     }
+
+    // async function confirmSignUp() {
+    //     try {
+    //         const confirmObj = await Auth.confirmSignUp(username, code);
+    //         console.log({ confirmObj });
+    //         updateConfirm(initialConfirm);
+    //     } catch (error) {
+    //         console.log('error confirming sign up', error);
+    //     }
+    // }
 
     function handleInput(e) {
         updateState({ ...state, [e.target.name]: e.target.value });
@@ -68,45 +85,43 @@ function SignupForm() {
 
     return (
         <div>
-            <input
-                name='email'
-                type='email'
-                onChange={handleInput}
-                value={email}
-                placeholder='Email'
-            />
-            <input
-                name='password'
-                type='password'
-                onChange={handleInput}
-                value={password}
-                placeholder='Password'
-            />
-            <input
-                name='name'
-                onChange={handleInput}
-                value={name}
-                placeholder='User Name'
-            />
-            <div>
-                <div>+1</div>
+            <form onSubmit={signUp}>
                 <input
-                    name='phone_number'
+                    name='email'
+                    type='email'
                     onChange={handleInput}
-                    value={phone_number}
-                    placeholder='Phone Number'
+                    value={email}
+                    placeholder='Email'
+                    autoComplete="username"
                 />
-            </div>
-            <button onClick={signUp}>Create User</button>
+                <input
+                    name='password'
+                    type='password'
+                    onChange={handleInput}
+                    value={password}
+                    placeholder='Password'
+                    autoComplete="new-password"
+                />
+                <input
+                    name='name'
+                    onChange={handleInput}
+                    value={name}
+                    placeholder='User Name'
+                />
+                <div>
+                    <div>+1</div>
+                    <input
+                        name='phone_number'
+                        onChange={handleInput}
+                        value={phone_number}
+                        placeholder='Phone Number'
+                    />
+                </div>
+                <button>Create User</button>
+            </form>
             <div>{err}</div>
             <div>
-                <input
-                    name='username'
-                    type='email'
-                    onChange={handleConfirm}
-                    value={username}
-                    placeholder='Email'
-                />
+                <div>Confirmation Code Sent to: {username}</div>
                 <input
                     name='code'
                     onChange={handleConfirm}
