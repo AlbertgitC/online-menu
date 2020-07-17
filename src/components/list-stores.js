@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { listStores as ListStores } from '../graphql/queries';
 
 function StoreList() {
@@ -11,11 +11,15 @@ function StoreList() {
 
     async function getData() {
         try {
-            const storeData = await API.graphql(graphqlOperation(ListStores));
+            const storeData = await API.graphql({
+                query: ListStores,
+                variables: {},
+                authMode: 'API_KEY'
+            });
             console.log('storeData:', storeData);
             updateStores(storeData.data.listStores.items);
         } catch (err) {
-            console.log('error fetching talks...', err)
+            console.log('error fetching stores', err)
         }
     }
     

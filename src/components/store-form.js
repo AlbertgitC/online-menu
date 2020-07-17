@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { createStore as CreateStore } from '../graphql/mutations';
+import { withAuthenticator } from 'aws-amplify-react'
 
 const initialState = {
     name: "",
@@ -53,10 +54,7 @@ function StoreForm() {
             dispatch({ type: "SET_STORE", store });
             dispatch({ type: "CLEAR_INPUT" });
         } catch (err) {
-            console.log("error on creating store");
-            err.errors.map((el) => (
-                console.log(el)
-            ));
+            console.log(`error on creating store, ${err}`);
         };
     };
 
