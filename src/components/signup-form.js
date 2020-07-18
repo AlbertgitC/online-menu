@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
+import Modal from './modal/modal';
 
 const initialState = {
     email: "",
@@ -11,20 +12,25 @@ const initialState = {
 
 const initialConfirm = {
     username: "",
-    code: ""
+    code: "",
+    err: ""
 };
 
-
-function SignupForm() {
+export function SignupForm() {
     const [state, updateState] = useState(initialState);
     const { email, password, name, phone_number, err } = state;
 
-    const [confirmState, updateConfirm] = useState(initialConfirm);
-    const { username, code } = confirmState;
+    const [modalState, updateModal] = useState({ component: "" });
 
     async function signUp(e) {
         e.preventDefault();
-        const phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
+
+        let phoneNumber;
+        if (!phone_number.match(/\d+/g)) {
+            phoneNumber = "";
+        } else {
+            phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
+        };
 
         if (email === "" || password === "" || name === "" || phone_number === "") {
             updateState({ ...state, err: "info missing" });
@@ -47,7 +53,9 @@ function SignupForm() {
                 }
             });
             console.log({ user });
-            updateConfirm({ ...confirmState, username: email });
+            
+            updateModal({ component: <ConfirmSignUp 
+                usernameProp={email} action={updateModal}/> });
             updateState(initialState);
         } catch (error) {
             console.log('error signing up:', error);
@@ -55,33 +63,8 @@ function SignupForm() {
         }
     }
 
-    async function confirmSignUp() {
-        try {
-            const confirmObj = await Auth.confirmSignUp(username, code);
-            updateConfirm(initialConfirm);
-            updateState({ ...state, err: "" });
-        } catch (error) {
-            console.log('error confirming sign up', error);
-            updateState({ ...state, err: error.message });
-        }
-    }
-
-    async function resendConfirm() {
-        try {
-            const confirmObj = await Auth.resendSignUp(username);
-            updateState({ ...state, err: "" });
-        } catch (error) {
-            console.log('error resending confirm', error);
-            updateState({ ...state, err: error.message });
-        }
-    }
-
     function handleInput(e) {
         updateState({ ...state, [e.target.name]: e.target.value });
-    };
-
-    function handleConfirm(e) {
-        updateConfirm({ ...confirmState, [e.target.name]: e.target.value });
     };
 
     return (
@@ -121,18 +104,9 @@ function SignupForm() {
                 <button>Create User</button>
             </form>---------
             <div>{err}</div>
-            <div>---------
-                <div>Confirmation Code Sent to: {username}</div>
-                <input
-                    name='code'
-                    onChange={handleConfirm}
-                    value={code}
-                    placeholder='Confirmation Code'
-                />
-                <button onClick={confirmSignUp}>Confirm User</button>
-                <button onClick={resendConfirm}>Resend Confirmation</button>
-            </div>
-            <div>---------
+            <Modal component={modalState.component}/>
+           
+            {/* <div>---------
                 <input
                     name='username'
                     onChange={handleConfirm}
@@ -140,9 +114,63 @@ function SignupForm() {
                     placeholder='Email'
                 />
                 <button onClick={resendConfirm}>Resend Confirmation</button>
-            </div>
+            </div> */}
         </div>
     );
 };
 
-export default SignupForm;
+export function ConfirmSignUp(prop) {
+    const [confirmState, updateConfirm] = useState({ ...initialConfirm, 
+        username: prop.usernameProp });
+    const { username, code, err } = confirmState;
+
+    async function confirmSignUp() {
+        if (code === "") {
+            updateConfirm({ ...confirmState, err: "info missing" });
+            return;
+        };
+
+        try {
+            await Auth.confirmSignUp(username, code);
+            updateConfirm(initialConfirm);
+            prop.action({ component: "" });
+        } catch (error) {
+            console.log('error confirming sign up', error);
+            updateConfirm({ ...confirmState, err: error.message });
+        }
+    }
+
+    async function resendConfirm() {
+        if (username === "") {
+            updateConfirm({ ...confirmState, err: "info missing" });
+            return;
+        };
+
+        try {
+            await Auth.resendSignUp(username);
+            updateConfirm({ ...confirmState, err: "" });
+        } catch (error) {
+            console.log('error resending confirm', error);
+            updateConfirm({ ...confirmState, err: error.message });
+        }
+    }
+
+    function handleConfirm(e) {
+        updateConfirm({ ...confirmState, [e.target.name]: e.target.value });
+    };
+    
+    return (
+        <div>
+            <div>Confirmation Code Sent to: {username}</div>
+            <input
+                name='code'
+                onChange={handleConfirm}
+                value={code}
+                placeholder='Confirmation Code'
+            />
+            <button onClick={confirmSignUp}>Confirm User</button>
+            <button onClick={resendConfirm}>Resend Confirmation</button>
+            <div>{err}</div>
+        </div>
+    );
+};
