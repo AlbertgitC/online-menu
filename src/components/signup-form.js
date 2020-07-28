@@ -55,7 +55,7 @@ export function SignupForm() {
             console.log({ user });
             
             updateModal({ component: <ConfirmSignUp 
-                usernameProp={email} action={updateModal}/> });
+                usernameProp={email} modalAction={updateModal}/> });
             updateState(initialState);
         } catch (error) {
             console.log('error signing up:', error);
@@ -133,7 +133,7 @@ export function ConfirmSignUp(prop) {
         try {
             await Auth.confirmSignUp(username, code);
             updateConfirm(initialConfirm);
-            prop.action({ component: "" });
+            prop.modalAction({ component: "" });
         } catch (error) {
             console.log('error confirming sign up', error);
             updateConfirm({ ...confirmState, err: error.message });
