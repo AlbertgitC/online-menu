@@ -1,7 +1,6 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { createStore as CreateStore } from '../graphql/mutations';
-import { withAuthenticator } from 'aws-amplify-react'
 
 const initialState = {
     name: "",

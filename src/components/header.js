@@ -3,8 +3,6 @@ import { Auth } from 'aws-amplify';
 import Modal from './modal/modal';
 import SignIn from './sign-in';
 
-// const userInfo = Auth.currentAuthenticatedUser();
-
 const initialState = {
     authState: "Sign In",
     userName: ""
