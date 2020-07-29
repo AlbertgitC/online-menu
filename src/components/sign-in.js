@@ -14,10 +14,15 @@ function SignIn() {
 
     async function signIn(e) {
         e.preventDefault();
+        if (email === "" || password === "") {
+            updateState({ ...state, err: "info missing" });
+            return;
+        };
 
         try {
             const user = await Auth.signIn(email, password);
             console.log(user);
+            updateState(initialState);
         } catch (error) {
             console.log('error signing in', error);
             updateState({ ...state, err: error.message });
@@ -50,6 +55,9 @@ function SignIn() {
                 <button>Sign In</button>
             </form>
             <div>{err}</div>
+            <div>Resend Confirmation</div>
         </div>
     );
 };
+
+export default SignIn;
