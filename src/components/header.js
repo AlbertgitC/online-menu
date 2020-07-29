@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import Modal from './modal/modal';
 import SignIn from './sign-in';
+import './header.css';
 
 const initialState = {
     authState: "Sign In",
@@ -15,6 +16,25 @@ async function signOut() {
         console.log('error signing out: ', error);
     }
 }
+
+let lastScrollPos = 0;
+let turnWhite = false;
+
+window.addEventListener('scroll', function (e) {
+    // lastScrollPos = window.scrollY;
+    if (window.scrollY !== 0 && !turnWhite) {
+        const header = document.getElementById("header");
+        header.style.animation = "increase 0.3s forwards";
+        header.style.color = "#00CED1";
+        turnWhite = true;
+    } else if (turnWhite && window.scrollY === 0) {
+        const header = document.getElementById("header");
+        header.style.animation = "fade 0.3s forwards";
+        header.style.color = "#ffffff";
+        turnWhite = false;
+    };
+
+});
 
 function Header() {
     const [state, updateState] = useState(initialState);
@@ -48,11 +68,13 @@ function Header() {
     };
 
     return (
-        <div>
+        <div className="header" id="header">
             <div>Online Menu</div>
-            <div>{state.userName}</div>
-            <button onClick={authAction}>{authState}</button>
             <Modal component={modalState.component} />
+            <div style={{ display: "flex" }}>
+                <div style={{ paddingRight: "8px" }}>{state.userName}</div>
+                <button onClick={authAction}>{authState}</button>
+            </div>
         </div>
     );
 };

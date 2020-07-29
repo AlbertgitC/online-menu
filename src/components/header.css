@@ -1,0 +1,26 @@
+.header {
+    background-color: transparent;
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+}
+
+.header > div {
+    font-size: 140%;
+    font-weight: 500;
+    padding: 20px;
+}
+
+@keyframes increase {
+    from {background-color:rgba(255, 255, 255, 0);}
+    to {background-color:rgb(255, 255, 255, 1);}
+}
+
+@keyframes fade {
+    from {background-color:rgba(255, 255, 255, 1);}
+    to {background-color:rgb(255, 255, 255, 0);}
+}
