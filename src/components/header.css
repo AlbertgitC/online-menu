@@ -12,7 +12,7 @@
 .header > div {
     font-size: 140%;
     font-weight: 500;
-    padding: 20px;
+    padding: 26px;
 }
 
 @keyframes increase {
@@ -23,4 +23,8 @@
 @keyframes fade {
     from {background-color:rgba(255, 255, 255, 1);}
     to {background-color:rgb(255, 255, 255, 0);}
+}
+
+#auth-button:hover {
+    cursor: pointer;
 }

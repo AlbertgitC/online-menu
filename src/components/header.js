@@ -72,8 +72,8 @@ function Header() {
             <div>Online Menu</div>
             <Modal component={modalState.component} />
             <div style={{ display: "flex" }}>
-                <div style={{ paddingRight: "8px" }}>{state.userName}</div>
-                <button onClick={authAction}>{authState}</button>
+                <div style={{ paddingRight: "40px" }}>{state.userName}</div>
+                <div onClick={authAction} id="auth-button">{authState}</div>
             </div>
         </div>
     );
