@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
+import ResendConfirm from './resend-confirm';
 
 const initialState = {
     email: "",
@@ -22,14 +23,21 @@ function SignIn(prop) {
 
         try {
             const user = await Auth.signIn(email, password);
-            updateState(initialState);
-            prop.modalAction({ component: "" });
             prop.updateHeader({ authState: "Sign Out", userName: user.attributes.name });
+            prop.modalAction({ component: "" });
         } catch (error) {
             console.log('error signing in', error);
             updateState({ ...state, err: error.message });
         }
     }
+
+    function resendConfirm() {
+        prop.modalAction({
+            component: <ResendConfirm
+                modalAction={prop.modalAction}
+            /> 
+        });
+    };
 
     function close() {
         prop.modalAction({ component: "" });
@@ -61,7 +69,7 @@ function SignIn(prop) {
                 <button>Sign In</button>
             </form>
             <div>{err}</div>
-            <div>Resend Confirmation</div>
+            <div onClick={resendConfirm}>Resend Confirmation</div>
             <button onClick={close}>Close</button>
         </div>
     );
