@@ -10,6 +10,14 @@ const initialState = {
     userName: ""
 };
 
+async function signOut() {
+    try {
+        await Auth.signOut();
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+}
+
 function Header() {
     const [state, updateState] = useState(initialState);
     const { authState, userName } = state;
@@ -20,16 +28,25 @@ function Header() {
         Auth.currentAuthenticatedUser()
             .then(res => {
                 console.log("user info:", res);
-                updateState({ ...state, userName: res.attributes.name });
+                updateState({ authState: "Sign Out", userName: res.attributes.name });
             })
-            .catch(err => console.log("error finding user:", err));
-    }, [userName]);
+            .catch(err => {
+                console.log("error finding user:", err);
+            });
+    }, []);
 
     function authAction() {
-        updateModal({
-            component: <SignIn
-                modalAction={updateModal} />
-        });
+        if (authState === "Sign In") {
+            updateModal({
+                component: <SignIn
+                    updateHeader={updateState}
+                    modalAction={updateModal}/>
+            });
+        } else if (authState === "Sign Out") {
+            signOut();
+            updateState(initialState);
+        };
+        
     };
 
     return (

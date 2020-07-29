@@ -18,11 +18,13 @@ function SignIn(prop) {
             return;
         };
 
+        updateState({ ...state, err: "loading" });
+
         try {
             const user = await Auth.signIn(email, password);
-            console.log(user);
             updateState(initialState);
             prop.modalAction({ component: "" });
+            prop.updateHeader({ authState: "Sign Out", userName: user.attributes.name });
         } catch (error) {
             console.log('error signing in', error);
             updateState({ ...state, err: error.message });
