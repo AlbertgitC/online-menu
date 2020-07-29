@@ -3,13 +3,12 @@ import { Auth } from 'aws-amplify';
 
 const initialState = {
     email: "",
-    code: "",
     err: ""
 };
 
 function ResendConfirm() {
     const [state, updateState] = useState(initialState);
-    const { email, code, err } = state;
+    const { email, err } = state;
 
 
     async function resendConfirm() {
@@ -27,13 +26,17 @@ function ResendConfirm() {
         }
     }
 
+    function handleInput(e) {
+        updateState({ ...state, [e.target.name]: e.target.value });
+    };
+
     return (
         <div>
             <form>
                 <input
-                    name='username'
-                    onChange={handleConfirm}
-                    value={username}
+                    name='email'
+                    onChange={handleInput}
+                    value={email}
                     placeholder='Email'
                 />
                 <button onClick={resendConfirm}>Resend Confirmation</button>

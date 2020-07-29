@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
-import Modal from './modal/modal';
 
 const initialState = {
     email: "",
@@ -8,7 +7,7 @@ const initialState = {
     err: ""
 };
 
-function SignIn() {
+function SignIn(prop) {
     const [state, updateState] = useState(initialState);
     const { email, password, err } = state;
 
@@ -23,11 +22,16 @@ function SignIn() {
             const user = await Auth.signIn(email, password);
             console.log(user);
             updateState(initialState);
+            prop.modalAction({ component: "" });
         } catch (error) {
             console.log('error signing in', error);
             updateState({ ...state, err: error.message });
         }
     }
+
+    function close() {
+        prop.modalAction({ component: "" });
+    };
 
     function handleInput(e) {
         updateState({ ...state, [e.target.name]: e.target.value });
@@ -56,6 +60,7 @@ function SignIn() {
             </form>
             <div>{err}</div>
             <div>Resend Confirmation</div>
+            <button onClick={close}>Close</button>
         </div>
     );
 };
