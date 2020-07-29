@@ -105,16 +105,6 @@ export function SignupForm() {
             </form>---------
             <div>{err}</div>
             <Modal component={modalState.component}/>
-           
-            {/* <div>---------
-                <input
-                    name='username'
-                    onChange={handleConfirm}
-                    value={username}
-                    placeholder='Email'
-                />
-                <button onClick={resendConfirm}>Resend Confirmation</button>
-            </div> */}
         </div>
     );
 };

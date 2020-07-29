@@ -13,18 +13,34 @@ function ResendConfirm() {
 
 
     async function resendConfirm() {
-        if (username === "") {
-            updateConfirm({ ...confirmState, err: "info missing" });
+        if (email === "") {
+            updateState({ ...state, err: "info missing" });
             return;
         };
 
         try {
-            await Auth.resendSignUp(username);
-            updateConfirm({ ...confirmState, err: "" });
+            await Auth.resendSignUp(email);
+            updateState({ ...state, err: "" });
         } catch (error) {
             console.log('error resending confirm', error);
-            updateConfirm({ ...confirmState, err: error.message });
+            updateState({ ...state, err: error.message });
         }
     }
-    
+
+    return (
+        <div>
+            <form>
+                <input
+                    name='username'
+                    onChange={handleConfirm}
+                    value={username}
+                    placeholder='Email'
+                />
+                <button onClick={resendConfirm}>Resend Confirmation</button>
+            </form>
+            <div>{err}</div>
+        </div>
+    );
 };
+
+export default ResendConfirm;
