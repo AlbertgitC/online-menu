@@ -3,7 +3,7 @@ import StoreList from './components/list-stores';
 import StoreForm from './components/store-form';
 import Header from './components/header';
 import Landing from './components/landing';
-import './app.css';
+import './App.css';
 
 function App() {
 
