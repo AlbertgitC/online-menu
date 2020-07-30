@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { ConfirmSignUp } from './signup-form';
+import './resend-confirm.css';
 
 const initialState = {
     email: "",
@@ -40,7 +41,7 @@ function ResendConfirm(prop) {
     };
 
     return (
-        <div>
+        <div className="resend-confirm">
             <form>
                 <input
                     name='email'
