@@ -10,11 +10,11 @@
     font-size: 140%;
     font-weight: 500;
     padding: 26px;
+    font-family: sans-serif;
 }
 
 .auth-block {
     display: flex;
-    padding-right: 52px;
 }
 
 @keyframes increase {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import Modal from './modal/modal';
+import './signup-form.css'
 
 const initialState = {
     email: "",
@@ -68,7 +69,7 @@ export function SignupForm() {
     };
 
     return (
-        <div>
+        <div className="sign-up">
             <form onSubmit={signUp}>
                 <input
                     name='email'
@@ -92,8 +93,8 @@ export function SignupForm() {
                     value={name}
                     placeholder='User Name'
                 />
-                <div>
-                    <div>+1</div>
+                <div className="phone-input">
+                    <div id="add-one">+1</div>
                     <input
                         name='phone_number'
                         onChange={handleInput}
@@ -102,7 +103,7 @@ export function SignupForm() {
                     />
                 </div>
                 <button>Create User</button>
-            </form>---------
+            </form>
             <div>{err}</div>
             <Modal component={modalState.component}/>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import StoreList from './components/list-stores';
 import StoreForm from './components/store-form';
 import Header from './components/header';
-import { SignupForm } from './components/signup-form';
+import Landing from './components/landing';
 import './app.css';
 
 function App() {
@@ -11,9 +11,7 @@ function App() {
         <div className="main">
             <Header />
             <div className="body">
-                <div className="landing">
-                    <SignupForm />
-                </div>
+                <Landing />
                 <StoreForm />
                 <StoreList />
             </div>
