@@ -69,44 +69,47 @@ export function SignupForm() {
     };
 
     return (
-        <div className="sign-up">
-            <form onSubmit={signUp}>
-                <input
-                    name='email'
-                    type='email'
-                    onChange={handleInput}
-                    value={email}
-                    placeholder='Email'
-                    autoComplete="username"
-                />
-                <input
-                    name='password'
-                    type='password'
-                    onChange={handleInput}
-                    value={password}
-                    placeholder='Password'
-                    autoComplete="new-password"
-                />
-                <input
-                    name='name'
-                    onChange={handleInput}
-                    value={name}
-                    placeholder='User Name'
-                />
-                <div className="phone-input">
-                    <div id="add-one">+1</div>
+        <div>
+            <div className="sign-up">
+                <form onSubmit={signUp}>
                     <input
-                        name='phone_number'
+                        name='email'
+                        type='email'
                         onChange={handleInput}
-                        value={phone_number}
-                        placeholder='Phone Number'
+                        value={email}
+                        placeholder='Email'
+                        autoComplete="username"
                     />
-                </div>
-                <button>Create User</button>
-            </form>
-            <div>{err}</div>
+                    <input
+                        name='password'
+                        type='password'
+                        onChange={handleInput}
+                        value={password}
+                        placeholder='Password'
+                        autoComplete="new-password"
+                    />
+                    <input
+                        name='name'
+                        onChange={handleInput}
+                        value={name}
+                        placeholder='User Name'
+                    />
+                    <div className="phone-input">
+                        <div id="add-one">+1</div>
+                        <input
+                            name='phone_number'
+                            onChange={handleInput}
+                            value={phone_number}
+                            placeholder='Phone Number'
+                        />
+                    </div>
+                    <button>Create User</button>
+                </form>
+                <div>{err}</div>
+            </div>
             <Modal component={modalState.component}/>
         </div>
+        
     );
 };
 
@@ -151,7 +154,7 @@ export function ConfirmSignUp(prop) {
     };
     
     return (
-        <div>
+        <div className="confirm-user">
             <div>Confirmation Code Sent to: {username}</div>
             <input
                 name='code'
