@@ -17,11 +17,9 @@ async function signOut() {
     }
 }
 
-let lastScrollPos = 0;
 let turnWhite = false;
 
 window.addEventListener('scroll', function (e) {
-    // lastScrollPos = window.scrollY;
     if (window.scrollY !== 0 && !turnWhite) {
         const header = document.getElementById("header");
         header.style.animation = "increase 0.3s forwards";
@@ -33,7 +31,6 @@ window.addEventListener('scroll', function (e) {
         header.style.color = "#ffffff";
         turnWhite = false;
     };
-
 });
 
 function Header() {
@@ -68,13 +65,15 @@ function Header() {
     };
 
     return (
-        <div className="header" id="header">
-            <div>Online Menu</div>
-            <Modal component={modalState.component} />
-            <div style={{ display: "flex" }}>
-                <div style={{ paddingRight: "40px" }}>{state.userName}</div>
-                <div onClick={authAction} id="auth-button">{authState}</div>
+        <div>
+            <div className="header" id="header">
+                <a id="logo">Online Menu</a>
+                <div className="auth-block">
+                    <div style={{ paddingRight: "26px" }}>{state.userName}</div>
+                    <a onClick={authAction} id="auth-button">{authState}</a>
+                </div>
             </div>
+            <Modal component={modalState.component} />
         </div>
     );
 };

@@ -7,24 +7,26 @@
     justify-content: space-between;
     align-items: center;
     color: #ffffff;
-}
-
-.header > div {
     font-size: 140%;
     font-weight: 500;
     padding: 26px;
 }
 
+.auth-block {
+    display: flex;
+    padding-right: 52px;
+}
+
 @keyframes increase {
-    from {background-color:rgba(255, 255, 255, 0);}
-    to {background-color:rgb(255, 255, 255, 1);}
+    from {background-color:rgba(36, 37, 38, 0);}
+    to {background-color:rgb(36, 37, 38, 1);}
 }
 
 @keyframes fade {
-    from {background-color:rgba(255, 255, 255, 1);}
-    to {background-color:rgb(255, 255, 255, 0);}
+    from {background-color:rgba(36, 37, 38, 1);}
+    to {background-color:rgb(36, 37, 38, 0);}
 }
 
-#auth-button:hover {
+.header a {
     cursor: pointer;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import ResendConfirm from './resend-confirm';
+import './sign-in.css';
 
 const initialState = {
     email: "",
@@ -19,7 +20,7 @@ function SignIn(prop) {
             return;
         };
 
-        updateState({ ...state, err: "loading" });
+        updateState({ ...state, err: "loading..." });
 
         try {
             const user = await Auth.signIn(email, password);
@@ -48,7 +49,8 @@ function SignIn(prop) {
     };
 
     return (
-        <div>
+        <div className="sign-in">
+            <h3>Online Menu Merchant</h3>
             <form onSubmit={signIn}>
                 <input
                     name='email'
