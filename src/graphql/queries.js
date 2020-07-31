@@ -5,13 +5,13 @@ export const getStore = /* GraphQL */ `
   query GetStore($id: ID!) {
     getStore(id: $id) {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -26,13 +26,54 @@ export const listStores = /* GraphQL */ `
     listStores(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        createdBy
         name
         description
         phoneNumber
-        streetAddress
-        zipCode
-        usState
-        subMenu
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getLocation = /* GraphQL */ `
+  query GetLocation($id: ID!) {
+    getLocation(id: $id) {
+      id
+      createdBy
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listLocations = /* GraphQL */ `
+  query ListLocations(
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        createdBy
+        storeId
+        address
+        description
+        phoneNumber
         createdAt
         updatedAt
       }

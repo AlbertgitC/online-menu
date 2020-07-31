@@ -8,13 +8,13 @@ export const createStore = /* GraphQL */ `
   ) {
     createStore(input: $input, condition: $condition) {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -27,13 +27,13 @@ export const updateStore = /* GraphQL */ `
   ) {
     updateStore(input: $input, condition: $condition) {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -46,13 +46,91 @@ export const deleteStore = /* GraphQL */ `
   ) {
     deleteStore(input: $input, condition: $condition) {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createLocation = /* GraphQL */ `
+  mutation CreateLocation(
+    $input: CreateLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    createLocation(input: $input, condition: $condition) {
+      id
+      createdBy
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLocation = /* GraphQL */ `
+  mutation UpdateLocation(
+    $input: UpdateLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    updateLocation(input: $input, condition: $condition) {
+      id
+      createdBy
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLocation = /* GraphQL */ `
+  mutation DeleteLocation(
+    $input: DeleteLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    deleteLocation(input: $input, condition: $condition) {
+      id
+      createdBy
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
