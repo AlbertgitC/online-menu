@@ -10,7 +10,7 @@ export const getStore = /* GraphQL */ `
       phoneNumber
       streetAddress
       zipCode
-      state
+      usState
       subMenu
       createdAt
       updatedAt
@@ -31,7 +31,7 @@ export const listStores = /* GraphQL */ `
         phoneNumber
         streetAddress
         zipCode
-        state
+        usState
         subMenu
         createdAt
         updatedAt
