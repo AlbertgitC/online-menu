@@ -65,7 +65,6 @@ export const createLocation = /* GraphQL */ `
   ) {
     createLocation(input: $input, condition: $condition) {
       id
-      createdBy
       storeId
       address
       description
@@ -91,7 +90,6 @@ export const updateLocation = /* GraphQL */ `
   ) {
     updateLocation(input: $input, condition: $condition) {
       id
-      createdBy
       storeId
       address
       description
@@ -117,7 +115,6 @@ export const deleteLocation = /* GraphQL */ `
   ) {
     deleteLocation(input: $input, condition: $condition) {
       id
-      createdBy
       storeId
       address
       description

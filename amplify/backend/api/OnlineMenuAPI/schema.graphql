@@ -1,10 +1,10 @@
 type Store @model @auth (
     rules: [
-      { allow: owner, queries: null }
+      { allow: owner, queries: null, ownerField: "createdBy" }
     ]
   ) {
   id: ID!
-  createdBy: String!
+  createdBy: String
   name: String!
   description: String
   phoneNumber: String!
@@ -13,12 +13,12 @@ type Store @model @auth (
 
 type Location @model @auth (
     rules: [
-      { allow: owner, queries: null }
+      { allow: owner, queries: null, ownerField: "createdBy" }
     ]
   ) 
   @key(name: "byStore", fields: ["storeId", "address"]) {
   id: ID!
-  createdBy: String!
+  createdBy: String
   storeId: ID!
   address: String!
   description: String

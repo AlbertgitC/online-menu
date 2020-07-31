@@ -53,7 +53,6 @@ export const onCreateLocation = /* GraphQL */ `
   subscription OnCreateLocation {
     onCreateLocation {
       id
-      createdBy
       storeId
       address
       description
@@ -76,7 +75,6 @@ export const onUpdateLocation = /* GraphQL */ `
   subscription OnUpdateLocation {
     onUpdateLocation {
       id
-      createdBy
       storeId
       address
       description
@@ -99,7 +97,6 @@ export const onDeleteLocation = /* GraphQL */ `
   subscription OnDeleteLocation {
     onDeleteLocation {
       id
-      createdBy
       storeId
       address
       description

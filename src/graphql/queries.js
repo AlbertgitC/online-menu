@@ -41,7 +41,6 @@ export const getLocation = /* GraphQL */ `
   query GetLocation($id: ID!) {
     getLocation(id: $id) {
       id
-      createdBy
       storeId
       address
       description
@@ -69,7 +68,6 @@ export const listLocations = /* GraphQL */ `
     listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        createdBy
         storeId
         address
         description
