@@ -1,0 +1,25 @@
+.landing {
+    height: 600px;
+    background: url("../assets/images/jason-jarrach-7hO3yb3EzcY-unsplash.jpg") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: #FFFFF0;
+    min-height: 480px;
+    padding: 90px 26px 26px 26px;
+    display: flex;
+    justify-content: space-evenly;
+    font-family: sans-serif;
+}
+
+.slogan {
+    color: #ffffff;
+    font-size: 280%;
+    font-weight: 800;
+    max-width: 420px;
+}
+
+.slogan p {
+    margin: 44px 0 44px 0;
+}

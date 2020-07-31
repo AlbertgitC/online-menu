@@ -1,10 +1,16 @@
-type Store @model {
+type Store @model @auth (
+    rules: [
+      { allow: owner },
+      { allow: private, operations: [read] },
+      { allow: public, operations: [read] }
+    ]
+  ) {
   id: ID!
   name: String!
   description: String
   phoneNumber: String!
   streetAddress: String!
   zipCode: String!
-  state: String!
-  subMenu: [String]!
+  usState: String!
+  subMenu: [String!]!
 }

@@ -1,0 +1,32 @@
+.resend-confirm {
+    background-color: #242526;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    color: #ffffff;
+    padding: 26px;
+    border-radius: .25rem;
+    align-items: center;
+}
+
+.resend-confirm form {
+    display: flex;
+    flex-direction: column;
+}
+
+.resend-confirm input,
+.resend-confirm button {
+    width: 380px;
+    height: 40px;
+    border:none;
+    border-radius: .25rem;
+    margin: 10px 0 10px 0;
+}
+
+.resend-confirm input {
+    padding-left: 12px;
+}
+
+.resend-confirm button {
+    cursor: pointer;
+}

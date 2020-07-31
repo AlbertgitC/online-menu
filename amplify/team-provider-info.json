@@ -10,6 +10,11 @@
             "StackName": "amplify-onlinemenu-dev-190840",
             "StackId": "arn:aws:cloudformation:us-west-2:657690358143:stack/amplify-onlinemenu-dev-190840/c7c72a80-bff6-11ea-b10e-02ed5deec07a",
             "AmplifyAppId": "d11dn39hndyql7"
+        },
+        "categories": {
+            "auth": {
+                "onlinemenu159c27d9": {}
+            }
         }
     }
 }

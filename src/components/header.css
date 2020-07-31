@@ -1,0 +1,32 @@
+.header {
+    background-color: transparent;
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    font-size: 140%;
+    font-weight: 500;
+    padding: 26px;
+    font-family: sans-serif;
+}
+
+.auth-block {
+    display: flex;
+}
+
+@keyframes increase {
+    from {background-color:rgba(36, 37, 38, 0);}
+    to {background-color:rgb(36, 37, 38, 1);}
+}
+
+@keyframes fade {
+    from {background-color:rgba(36, 37, 38, 1);}
+    to {background-color:rgb(36, 37, 38, 0);}
+}
+
+.header a {
+    cursor: pointer;
+}
