@@ -12,7 +12,11 @@ export const createStore = /* GraphQL */ `
       name
       description
       phoneNumber
+      email
       locations {
+        nextToken
+      }
+      items {
         nextToken
       }
       createdAt
@@ -31,7 +35,11 @@ export const updateStore = /* GraphQL */ `
       name
       description
       phoneNumber
+      email
       locations {
+        nextToken
+      }
+      items {
         nextToken
       }
       createdAt
@@ -50,7 +58,11 @@ export const deleteStore = /* GraphQL */ `
       name
       description
       phoneNumber
+      email
       locations {
+        nextToken
+      }
+      items {
         nextToken
       }
       createdAt
@@ -65,19 +77,23 @@ export const createLocation = /* GraphQL */ `
   ) {
     createLocation(input: $input, condition: $condition) {
       id
+      createdBy
       storeId
-      address
-      description
-      phoneNumber
       store {
         id
         createdBy
         name
         description
         phoneNumber
+        email
         createdAt
         updatedAt
       }
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
       createdAt
       updatedAt
     }
@@ -90,19 +106,23 @@ export const updateLocation = /* GraphQL */ `
   ) {
     updateLocation(input: $input, condition: $condition) {
       id
+      createdBy
       storeId
-      address
-      description
-      phoneNumber
       store {
         id
         createdBy
         name
         description
         phoneNumber
+        email
         createdAt
         updatedAt
       }
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
       createdAt
       updatedAt
     }
@@ -115,19 +135,104 @@ export const deleteLocation = /* GraphQL */ `
   ) {
     deleteLocation(input: $input, condition: $condition) {
       id
+      createdBy
       storeId
-      address
-      description
-      phoneNumber
       store {
         id
         createdBy
         name
         description
         phoneNumber
+        email
         createdAt
         updatedAt
       }
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createItem = /* GraphQL */ `
+  mutation CreateItem(
+    $input: CreateItemInput!
+    $condition: ModelItemConditionInput
+  ) {
+    createItem(input: $input, condition: $condition) {
+      id
+      createdBy
+      storeId
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        email
+        createdAt
+        updatedAt
+      }
+      name
+      price
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateItem = /* GraphQL */ `
+  mutation UpdateItem(
+    $input: UpdateItemInput!
+    $condition: ModelItemConditionInput
+  ) {
+    updateItem(input: $input, condition: $condition) {
+      id
+      createdBy
+      storeId
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        email
+        createdAt
+        updatedAt
+      }
+      name
+      price
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteItem = /* GraphQL */ `
+  mutation DeleteItem(
+    $input: DeleteItemInput!
+    $condition: ModelItemConditionInput
+  ) {
+    deleteItem(input: $input, condition: $condition) {
+      id
+      createdBy
+      storeId
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        email
+        createdAt
+        updatedAt
+      }
+      name
+      price
+      description
       createdAt
       updatedAt
     }
