@@ -5,13 +5,13 @@ export const onCreateStore = /* GraphQL */ `
   subscription OnCreateStore {
     onCreateStore {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -21,13 +21,13 @@ export const onUpdateStore = /* GraphQL */ `
   subscription OnUpdateStore {
     onUpdateStore {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -37,13 +37,79 @@ export const onDeleteStore = /* GraphQL */ `
   subscription OnDeleteStore {
     onDeleteStore {
       id
+      createdBy
       name
       description
       phoneNumber
-      streetAddress
-      zipCode
-      usState
-      subMenu
+      locations {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateLocation = /* GraphQL */ `
+  subscription OnCreateLocation {
+    onCreateLocation {
+      id
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateLocation = /* GraphQL */ `
+  subscription OnUpdateLocation {
+    onUpdateLocation {
+      id
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteLocation = /* GraphQL */ `
+  subscription OnDeleteLocation {
+    onDeleteLocation {
+      id
+      storeId
+      address
+      description
+      phoneNumber
+      store {
+        id
+        createdBy
+        name
+        description
+        phoneNumber
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
