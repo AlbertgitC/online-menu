@@ -51,8 +51,10 @@ $util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.inpu
 #end
 ## [End] Check authMode and execute owner/group checks **
 
+
+
 ## [Start] Prepare DynamoDB PutItem Request. **
-$util.qr($context.args.input.put("__typename", "Store"))
+$util.qr($context.args.input.put("__typename", "Location"))
 #set( $condition = {
   "expression": "attribute_not_exists(#id)",
   "expressionNames": {

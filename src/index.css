@@ -91,6 +91,10 @@ select {
 
 /* --------------------------- */
 
+body {
+  background-color: #18191A;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

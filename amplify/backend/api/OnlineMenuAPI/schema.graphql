@@ -1,16 +1,27 @@
 type Store @model @auth (
     rules: [
-      { allow: owner },
-      { allow: private, operations: [read] },
-      { allow: public, operations: [read] }
+      { allow: owner, queries: null, ownerField: "createdBy" }
     ]
   ) {
   id: ID!
+  createdBy: String
   name: String!
   description: String
   phoneNumber: String!
-  streetAddress: String!
-  zipCode: String!
-  usState: String!
-  subMenu: [String!]!
+  locations: [Location] @connection(keyName: "byStore", fields: ["id"])
+}
+
+type Location @model @auth (
+    rules: [
+      { allow: owner, queries: null, ownerField: "createdBy" }
+    ]
+  ) 
+  @key(name: "byStore", fields: ["storeId", "address"]) {
+  id: ID!
+  createdBy: String
+  storeId: ID!
+  address: String!
+  description: String
+  phoneNumber: String!
+  store: Store @connection(fields: ["storeId"])
 }

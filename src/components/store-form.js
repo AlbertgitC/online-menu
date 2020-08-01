@@ -5,12 +5,9 @@ import { createStore as CreateStore } from '../graphql/mutations';
 const initialState = {
     name: "",
     description: "",
-    phoneNumber: "",
-    streetAddress: "",
-    zipCode: "",
-    usState: "",
-    subMenu: ["rootMenu"],
-    currentStore: {}
+    phone_number: "",
+    currentStore: {},
+    err: ""
 };
 
 function reducer(state, action) {
@@ -30,18 +27,27 @@ function StoreForm() {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     async function creatStore() {
-        const { name, description, phoneNumber, streetAddress, zipCode, 
-            usState, subMenu } = state;
+        const { name, description, phone_number, err } = state;
 
-        if (name === "" || phoneNumber === "" || streetAddress === "" || 
-        zipCode === "" || usState === "") {
+        let phoneNumber;
+        if (!phone_number.match(/\d+/g)) {
+            phoneNumber = "";
+        } else {
+            phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
+        };
+
+        if (name === "" || phone_number === "") {
             console.log("info missing");
+            dispatch({ type: "SET_INPUT", key: "err", value: "info missing" });
+            return;
+        } else if (phoneNumber.length !== 12) {
+            console.log("invalid phone number");
+            console.log(phoneNumber);
+            dispatch({ type: "SET_INPUT", key: "err", value: "invalid phone number" });
             return;
         };
 
-        const store = {
-            name, description, phoneNumber, streetAddress, zipCode,
-            usState, subMenu };
+        const store = { name, description, phoneNumber };
 
         if (store.description === "") {
             delete store.description;
@@ -52,8 +58,8 @@ function StoreForm() {
             console.log("store created");
             dispatch({ type: "SET_STORE", store });
             dispatch({ type: "CLEAR_INPUT" });
-        } catch (err) {
-            console.log(`error on creating store, ${err}`);
+        } catch (error) {
+            console.log("error on creating store", error);
         };
     };
 
@@ -82,37 +88,18 @@ function StoreForm() {
                     placeholder='description'
                 />
                 <input
-                    name='phoneNumber'
+                    name='phone_number'
                     onChange={handleInput}
-                    value={state.phoneNumber}
+                    value={state.phone_number}
                     placeholder='phone number'
-                />
-                <input
-                    name='streetAddress'
-                    onChange={handleInput}
-                    value={state.streetAddress}
-                    placeholder='street address'
-                />
-                <input
-                    name='zipCode'
-                    onChange={handleInput}
-                    value={state.zipCode}
-                    placeholder='zip code'
-                />
-                <input
-                    name='usState'
-                    onChange={handleInput}
-                    value={state.usState}
-                    placeholder='US state'
                 />
                 <button>Create Store</button>
             </form>
+            <div>{state.err}</div>
             <div>
                 <h3>{state.currentStore.name}</h3>
                 <p>{state.currentStore.description}</p>
                 <p>{state.currentStore.phoneNumber}</p>
-                <p>{state.currentStore.streetAddress}</p>
-                <p>{state.currentStore.usState} {state.currentStore.zipCode}</p>
             </div>
                 
         </div>
