@@ -8,7 +8,9 @@ type Store @model @auth (
   name: String!
   description: String
   phoneNumber: String!
+  email: String!
   locations: [Location] @connection(keyName: "byStore", fields: ["id"])
+  items: [Item] @connection(keyName: "byStore", fields: ["id"])
 }
 
 type Location @model @auth (
@@ -20,8 +22,25 @@ type Location @model @auth (
   id: ID!
   createdBy: String
   storeId: ID!
+  store: Store @connection(fields: ["storeId"])
   address: String!
   description: String
   phoneNumber: String!
+  email: String!
+  menuCategories: [String]
+}
+
+type Item @model @auth (
+    rules: [
+      { allow: owner, queries: null, ownerField: "createdBy" }
+    ]
+  ) 
+  @key(name: "byStore", fields: ["storeId", "name"]) {
+  id: ID!
+  createdBy: String
+  storeId: ID!
   store: Store @connection(fields: ["storeId"])
+  name: String!
+  price: Float!
+  description: String
 }
