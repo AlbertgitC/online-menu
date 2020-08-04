@@ -1,9 +1,9 @@
 .sign-up {
-    background: transparent;
+    background: #ffffff;
     display: flex;
     flex-direction: column;
     color: #00CED1;
-    padding: 0 26px 26px 26px;
+    padding: 22px;
     border-radius: .25rem;
     align-items: center;
     margin: 44px 0 44px 0;
@@ -54,7 +54,7 @@
 .phone-input input {
     border-radius: 0 .25rem .25rem 0;
     border-left: none;
-    width: 353px;
+    width: 350px;
 }
 
 /* confirm user component */
