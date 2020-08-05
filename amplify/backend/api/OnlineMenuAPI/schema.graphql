@@ -1,6 +1,8 @@
 type Store @model @auth (
     rules: [
-      { allow: owner, queries: null, ownerField: "createdBy" }
+      { allow: owner, ownerField: "createdBy" },
+      { allow: private, operations: [read] },
+      { allow: public, operations: [read], provider: iam }
     ]
   ) {
   id: ID!
@@ -13,9 +15,22 @@ type Store @model @auth (
   items: [Item] @connection(keyName: "byStore", fields: ["id"])
 }
 
+# type Store @model {
+#   id: ID!
+#   createdBy: String
+#   name: String!
+#   description: String
+#   phoneNumber: String!
+#   email: String!
+#   locations: [Location] @connection(keyName: "byStore", fields: ["id"])
+#   items: [Item] @connection(keyName: "byStore", fields: ["id"])
+# }
+
 type Location @model @auth (
     rules: [
-      { allow: owner, queries: null, ownerField: "createdBy" }
+      { allow: owner, ownerField: "createdBy" },
+      { allow: private, operations: [read] },
+      { allow: public, operations: [read], provider: iam }
     ]
   ) 
   @key(name: "byStore", fields: ["storeId", "address"]) {
@@ -32,9 +47,11 @@ type Location @model @auth (
 
 type Item @model @auth (
     rules: [
-      { allow: owner, queries: null, ownerField: "createdBy" }
+      { allow: owner, ownerField: "createdBy" },
+      { allow: private, operations: [read] },
+      { allow: public, operations: [read], provider: iam }
     ]
-  ) 
+  )
   @key(name: "byStore", fields: ["storeId", "name"]) {
   id: ID!
   createdBy: String

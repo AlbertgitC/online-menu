@@ -13,7 +13,8 @@ function StoreList() {
         try {
             const storeData = await API.graphql({
                 query: ListStores,
-                variables: {}
+                variables: {},
+                authMode: "AWS_IAM"
             });
             console.log('storeData:', storeData);
             updateStores(storeData.data.listStores.items);
@@ -30,6 +31,7 @@ function StoreList() {
                         <h2>{store.name}</h2>
                         <p>{store.description}</p>
                         <p>{store.phoneNumber}</p>
+                        <p>{store.email}</p>
                     </div>
                 ))
             }

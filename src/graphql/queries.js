@@ -1,26 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getStore = /* GraphQL */ `
-  query GetStore($id: ID!) {
-    getStore(id: $id) {
-      id
-      createdBy
-      name
-      description
-      phoneNumber
-      email
-      locations {
-        nextToken
-      }
-      items {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const listStores = /* GraphQL */ `
   query ListStores(
     $filter: ModelStoreFilterInput
@@ -42,12 +22,39 @@ export const listStores = /* GraphQL */ `
     }
   }
 `;
+export const getStore = /* GraphQL */ `
+  query GetStore($id: ID!) {
+    getStore(id: $id) {
+      id
+      createdBy
+      name
+      description
+      phoneNumber
+      email
+      createdAt
+      updatedAt
+      locations {
+        nextToken
+      }
+      items {
+        nextToken
+      }
+    }
+  }
+`;
 export const getLocation = /* GraphQL */ `
   query GetLocation($id: ID!) {
     getLocation(id: $id) {
       id
       createdBy
       storeId
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -58,13 +65,6 @@ export const getLocation = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      address
-      description
-      phoneNumber
-      email
-      menuCategories
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -97,6 +97,11 @@ export const getItem = /* GraphQL */ `
       id
       createdBy
       storeId
+      name
+      price
+      description
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -107,11 +112,6 @@ export const getItem = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      price
-      description
-      createdAt
-      updatedAt
     }
   }
 `;

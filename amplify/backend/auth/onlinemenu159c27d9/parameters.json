@@ -1,6 +1,6 @@
 {
-    "identityPoolName": "onlinemenu159c27d9_identitypool_159c27d9",
-    "allowUnauthenticatedIdentities": false,
+    "identityPoolName": "onlinemenu4fb5dd90_identitypool_4fb5dd90",
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "online159c27d9",
     "userPoolName": "onlinemenu159c27d9_userpool_159c27d9",
     "autoVerifiedAttributes": [
@@ -46,7 +46,7 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "usernameAttributes": [
         "email"
     ],
@@ -59,5 +59,6 @@
     "dependsOn": [],
     "userPoolGroups": false,
     "adminQueries": false,
-    "hostedUI": false
+    "hostedUI": false,
+    "thirdPartyAuth": false
 }

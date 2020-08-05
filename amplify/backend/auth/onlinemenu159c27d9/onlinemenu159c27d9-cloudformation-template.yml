@@ -112,6 +112,9 @@ Parameters:
               
   hostedUI:
     Type: String
+              
+  thirdPartyAuth:
+    Type: String
                       
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
@@ -344,7 +347,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'onlinemenu159c27d9_identitypool_159c27d9', !Join ['',['onlinemenu159c27d9_identitypool_159c27d9', '__', !Ref env]]]
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'onlinemenu4fb5dd90_identitypool_4fb5dd90', !Join ['',['onlinemenu4fb5dd90_identitypool_4fb5dd90', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient

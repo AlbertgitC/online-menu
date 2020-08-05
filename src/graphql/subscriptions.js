@@ -10,14 +10,14 @@ export const onCreateStore = /* GraphQL */ `
       description
       phoneNumber
       email
+      createdAt
+      updatedAt
       locations {
         nextToken
       }
       items {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -30,14 +30,14 @@ export const onUpdateStore = /* GraphQL */ `
       description
       phoneNumber
       email
+      createdAt
+      updatedAt
       locations {
         nextToken
       }
       items {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -50,14 +50,14 @@ export const onDeleteStore = /* GraphQL */ `
       description
       phoneNumber
       email
+      createdAt
+      updatedAt
       locations {
         nextToken
       }
       items {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -67,6 +67,13 @@ export const onCreateLocation = /* GraphQL */ `
       id
       createdBy
       storeId
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -77,13 +84,6 @@ export const onCreateLocation = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      address
-      description
-      phoneNumber
-      email
-      menuCategories
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -93,6 +93,13 @@ export const onUpdateLocation = /* GraphQL */ `
       id
       createdBy
       storeId
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -103,13 +110,6 @@ export const onUpdateLocation = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      address
-      description
-      phoneNumber
-      email
-      menuCategories
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -119,6 +119,13 @@ export const onDeleteLocation = /* GraphQL */ `
       id
       createdBy
       storeId
+      address
+      description
+      phoneNumber
+      email
+      menuCategories
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -129,13 +136,6 @@ export const onDeleteLocation = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      address
-      description
-      phoneNumber
-      email
-      menuCategories
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -145,6 +145,11 @@ export const onCreateItem = /* GraphQL */ `
       id
       createdBy
       storeId
+      name
+      price
+      description
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -155,11 +160,6 @@ export const onCreateItem = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      price
-      description
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -169,6 +169,11 @@ export const onUpdateItem = /* GraphQL */ `
       id
       createdBy
       storeId
+      name
+      price
+      description
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -179,11 +184,6 @@ export const onUpdateItem = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      price
-      description
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -193,6 +193,11 @@ export const onDeleteItem = /* GraphQL */ `
       id
       createdBy
       storeId
+      name
+      price
+      description
+      createdAt
+      updatedAt
       store {
         id
         createdBy
@@ -203,11 +208,6 @@ export const onDeleteItem = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      price
-      description
-      createdAt
-      updatedAt
     }
   }
 `;
