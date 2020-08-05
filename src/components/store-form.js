@@ -6,6 +6,7 @@ const initialState = {
     name: "",
     description: "",
     phone_number: "",
+    email: "",
     currentStore: {},
     err: ""
 };
@@ -27,7 +28,7 @@ function StoreForm() {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     async function creatStore() {
-        const { name, description, phone_number, err } = state;
+        const { name, description, phone_number, email, err } = state;
 
         let phoneNumber;
         if (!phone_number.match(/\d+/g)) {
@@ -36,7 +37,7 @@ function StoreForm() {
             phoneNumber = "+1" + phone_number.match(/\d+/g).join("");
         };
 
-        if (name === "" || phone_number === "") {
+        if (name === "" || phone_number === "" || email === "") {
             console.log("info missing");
             dispatch({ type: "SET_INPUT", key: "err", value: "info missing" });
             return;
@@ -47,7 +48,7 @@ function StoreForm() {
             return;
         };
 
-        const store = { name, description, phoneNumber };
+        const store = { name, description, phoneNumber, email };
 
         if (store.description === "") {
             delete store.description;
@@ -93,6 +94,12 @@ function StoreForm() {
                     value={state.phone_number}
                     placeholder='phone number'
                 />
+                <input
+                    name='email'
+                    onChange={handleInput}
+                    value={state.email}
+                    placeholder='email'
+                />
                 <button>Create Store</button>
             </form>
             <div>{state.err}</div>
@@ -100,6 +107,7 @@ function StoreForm() {
                 <h3>{state.currentStore.name}</h3>
                 <p>{state.currentStore.description}</p>
                 <p>{state.currentStore.phoneNumber}</p>
+                <p>{state.currentStore.email}</p>
             </div>
                 
         </div>
