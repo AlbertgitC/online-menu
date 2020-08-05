@@ -1,8 +1,8 @@
 .landing {
-    padding: 90px 26px 26px 26px;
     display: flex;
     justify-content: space-evenly;
     font-family: sans-serif;
+    height: 510px;
 }
 
 .slogan {

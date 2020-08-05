@@ -1,0 +1,8 @@
+.landing2 {
+    height: 500px;
+    background-color: #242526;
+    color: #00CED1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -3,6 +3,7 @@ import StoreList from './components/list-stores';
 import StoreForm from './components/store-form';
 import Header from './components/header';
 import Landing from './components/landing';
+import Landing2 from './components/landing2';
 import './App.css';
 
 function App() {
@@ -13,12 +14,12 @@ function App() {
             <div className="splash">
                 <div className="content">
                     <Landing />
+                    <Landing2 />
                     <StoreForm />
                     <StoreList />
                 </div>
+                <div>Footer</div>
             </div>
-            
-            <div>Footer</div>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 .main {
-    display: grid;
+
 }
 
 .splash {
@@ -16,4 +16,6 @@
 .content {
     max-width: 1000px;
     margin: 0 auto;
+    padding: 90px 26px 26px 26px;
+    font-family: sans-serif;
 }
