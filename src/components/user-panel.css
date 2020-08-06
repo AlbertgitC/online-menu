@@ -1,0 +1,34 @@
+.user-panel-wrapper {
+    display: flex;
+    font-family: sans-serif;
+}
+
+.side-panel {
+    min-width: 400px;
+    height: 100vh;
+    background-color: #242526;
+    color: #ffffff;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-panel-main {
+    width: 100%;
+    background-color: #DCDCDC;
+}
+
+.side-panel > div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #808080;
+    padding-bottom: 26px;
+}
+
+.side-panel > div:nth-child(1) h3 {
+    margin: 0 auto;
+}
+
+.side-panel div:last-child {
+    margin-top: auto;
+}
