@@ -11,6 +11,7 @@
     font-weight: 500;
     padding: 26px;
     font-family: sans-serif;
+    z-index: 2;
 }
 
 .auth-block {

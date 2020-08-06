@@ -11,15 +11,14 @@ function App() {
     return (
         <div className="main">
             <Header />
-            <div className="splash">
-                <div className="content">
-                    <Landing />
-                    <Landing2 />
-                    <StoreForm />
-                    <StoreList />
-                </div>
-                <div>Footer</div>
+            <div className="splash"></div>
+            <div className="content">
+                <Landing />
+                <Landing2 />
+                <StoreForm />
+                <StoreList />
             </div>
+            <div>Footer</div>
         </div>
     );
 }
