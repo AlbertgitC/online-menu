@@ -16,6 +16,7 @@
 .user-panel-main {
     width: 100%;
     background-color: #DCDCDC;
+    color: #585858;
 }
 
 .side-panel > div:nth-child(1) {
@@ -31,4 +32,25 @@
 
 .side-panel div:last-child {
     margin-top: auto;
+}
+
+.side-panel > div:first-of-type h3 {
+    color: #00CED1;
+}
+
+.user-panel-main > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+}
+
+.user-panel-main > div:nth-child(2) {
+    margin: 0 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #808080;
+}
+
+.user-panel-detail {
+    padding: 15px;
 }

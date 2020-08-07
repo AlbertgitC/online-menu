@@ -46,15 +46,15 @@ function UserPanel() {
             </div>
             <div className="user-panel-main">
                 <div>
-                    <div>
-                        <h2>{selectedStore.name}</h2>
-                        <p>{selectedStore.description}</p>
-                        <p>{selectedStore.phoneNumber}</p>
-                        <p>{selectedStore.email}</p>
-                    </div>
+                    <h1>{selectedStore.name}</h1>
                     <div>Edit</div>
                 </div>
-                <div>Locations</div>
+                <div>
+                    <p>{selectedStore.description}</p>
+                    <p>{selectedStore.phoneNumber}</p>
+                    <p>{selectedStore.email}</p>
+                </div>
+                <div className="user-panel-detail">Locations</div>
             </div>
         </div>
     );
