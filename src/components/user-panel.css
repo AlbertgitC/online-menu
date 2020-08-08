@@ -1,56 +1,82 @@
 .user-panel-wrapper {
-    display: flex;
     font-family: sans-serif;
-}
-
-.side-panel {
-    min-width: 400px;
-    height: 100vh;
+    position: relative;
     background-color: #242526;
-    color: #ffffff;
-    padding: 26px;
-    display: flex;
-    flex-direction: column;
 }
 
-.user-panel-main {
-    width: 100%;
-    background-color: #DCDCDC;
-    color: #585858;
-}
-
-.side-panel > div:nth-child(1) {
+.user-panel-wrapper > div:first-of-type {
     display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
     align-items: center;
     border-bottom: 1px solid #808080;
-    padding-bottom: 26px;
+    color: #00CED1;
+    width: 348px;
+    margin: 0 26px;
+    padding: 26px 0;
 }
 
-.side-panel > div:nth-child(1) h3 {
+.user-panel-wrapper > div:first-of-type h3 {
     margin: 0 auto;
 }
 
-.side-panel div:last-child {
-    margin-top: auto;
+ul.dropdown_menu {
+    position: absolute;
+    top: 30%;
+    left: 0;
+    width: 100%;
+    perspective: 1000px;
+    display: none;
+    padding-top: 45px;
 }
 
-.side-panel > div:first-of-type h3 {
-    color: #00CED1;
+/* .dropdown_menu:hover {
+    display: block;
+} */
+
+/* .dropdown_menu-1 {
+    for num in (1..5)
+     .dropdown_item-{num}
+       transform-origin: top center
+       animation: slideDown 300ms (num * 60ms) ease-in-out forwards
+} */
+
+.dropdown_item-1 {
+    transform-origin: top center;
+    animation: slideDown 300ms (60ms) ease-in-out forwards;
 }
 
-.user-panel-main > div:first-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 15px;
+.dropdown_item-2 {
+    transform-origin: top center;
+    animation: slideDown 120ms ease-in-out forwards;
 }
 
-.user-panel-main > div:nth-child(2) {
-    margin: 0 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #808080;
+.dropdown_item-3 {
+    transform-origin: top center;
+    animation: slideDown 180ms ease-in-out forwards;
 }
 
-.user-panel-detail {
-    padding: 15px;
+.dropdown_item-4 {
+    transform-origin: top center;
+    animation: slideDown 240ms ease-in-out forwards;
 }
+
+.dropdown_item-5 {
+    transform-origin: top center;
+    animation: slideDown 300ms ease-in-out forwards;
+}
+     
+         
+@keyframes slideDown {
+  0% { 
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  

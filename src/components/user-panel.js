@@ -1,61 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { API } from 'aws-amplify';
-import { listStores as ListStores } from '../graphql/queries';
 import './user-panel.css';
+import StoreComponent from './store-component';
+
+const initialState = { component: <StoreComponent /> };
+
+function menuClick() {
+    const menu = document.getElementsByClassName("dropdown_menu");
+    menu[0].style.display = "block";
+};
 
 function UserPanel() {
-    const [stores, updateStores] = useState([]);
-    const [selectedStore, updateSelectStore] = useState({});
+    const [currentComponent, updateComponent] = useState(initialState);
 
     useEffect(() => {
-        getData();
+        const menuDropdown = document.getElementsByClassName("dropdown_menu");
+        menuDropdown[0].addEventListener('mouseleave', e => {
+            menuDropdown[0].style.display = "none";
+        });
     }, []);
 
-    async function getData() {
-        try {
-            const storeData = await API.graphql({
-                query: ListStores,
-                variables: {},
-                authMode: "AWS_IAM"
-            });
-            console.log('storeData:', storeData);
-            updateStores(storeData.data.listStores.items);
-            updateSelectStore(storeData.data.listStores.items[0]);
-        } catch (err) {
-            console.log('error fetching stores', err)
-        }
-    }
+    
 
     return (
         <div className="user-panel-wrapper">
-            <div className="side-panel">
-                <div>
-                    <div>MENU</div>
-                    <h3>Online Menu</h3>
+            <div>
+                <div class="dropdown" onClick={menuClick}>MENU
+                    <ul class="dropdown_menu">
+                        <li class="dropdown_item-1">Item 1</li>
+                        <li class="dropdown_item-2">Item 2</li>
+                        <li class="dropdown_item-3">Item 3</li>
+                        <li class="dropdown_item-4">Item 4</li>
+                        <li class="dropdown_item-5">Item 5</li>
+                    </ul>
                 </div>
-                <ul>
-                    {
-                        stores.map((store, index) => (
-                            <li key={index}>
-                                <h3>{store.name}</h3>
-                            </li>
-                        ))
-                    }
-                </ul>
-                <div>Add Store</div>
+                <h3>Online Menu</h3>
             </div>
-            <div className="user-panel-main">
-                <div>
-                    <h1>{selectedStore.name}</h1>
-                    <div>Edit</div>
-                </div>
-                <div>
-                    <p>{selectedStore.description}</p>
-                    <p>{selectedStore.phoneNumber}</p>
-                    <p>{selectedStore.email}</p>
-                </div>
-                <div className="user-panel-detail">Locations</div>
-            </div>
+            {currentComponent.component}
         </div>
     );
 };
