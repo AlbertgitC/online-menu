@@ -29,6 +29,7 @@ function Header() {
         Auth.currentAuthenticatedUser()
             .then(res => {
                 console.log("user info:", res);
+                console.log(res.signInUserSession.accessToken);
                 updateState({ authState: "Sign Out", userName: res.attributes.name });
             })
             .catch(err => {

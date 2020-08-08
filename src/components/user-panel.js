@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './user-panel.css';
 import StoreComponent from './store-component';
+import { signOut } from './util/util-auth';
 
 const initialState = { component: <StoreComponent /> };
 
@@ -24,13 +25,13 @@ function UserPanel() {
     return (
         <div className="user-panel-wrapper">
             <div>
-                <div class="dropdown" onClick={menuClick}>MENU
-                    <ul class="dropdown_menu">
-                        <li class="dropdown_item-1">Item 1</li>
-                        <li class="dropdown_item-2">Item 2</li>
-                        <li class="dropdown_item-3">Item 3</li>
-                        <li class="dropdown_item-4">Item 4</li>
-                        <li class="dropdown_item-5">Item 5</li>
+                <div className="dropdown" onClick={menuClick}>MENU
+                    <ul className="dropdown_menu">
+                        <li className="dropdown_item-1">Orders</li>
+                        <li className="dropdown_item-2">Stores</li>
+                        <li className="dropdown_item-3">Menu</li>
+                        <li className="dropdown_item-4">User Info</li>
+                        <li className="dropdown_item-5" onClick={signOut}>Sign out</li>
                     </ul>
                 </div>
                 <h3>Online Menu</h3>
