@@ -6,20 +6,23 @@ function StoreList() {
     const [stores, updateStores] = useState([]);
 
     useEffect(() => {
-        getData();
+        let isSubscribed = true;
+        getData()
+            .then(stores => (isSubscribed ? updateStores(stores.data.listStores.items) : null))
+            .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
+
+        return () => (isSubscribed = false);
     }, []);
 
     async function getData() {
         try {
-            const storeData = await API.graphql({
+            return await API.graphql({
                 query: ListStores,
                 variables: {},
                 authMode: "AWS_IAM"
             });
-            console.log('storeData:', storeData);
-            updateStores(storeData.data.listStores.items);
         } catch (err) {
-            console.log('error fetching stores', err)
+            return err;
         }
     }
     

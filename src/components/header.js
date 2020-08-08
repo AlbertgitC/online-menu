@@ -19,21 +19,24 @@ async function signOut() {
 
 let turnWhite = false;
 
-function Header() {
+function Header(prop) {
     const [state, updateState] = useState(initialState);
     const { authState, userName } = state;
 
     const [modalState, updateModal] = useState({ component: "" });
 
     useEffect(() => {
-        Auth.currentAuthenticatedUser()
-            .then(res => {
-                console.log("user info:", res);
-                updateState({ authState: "Sign Out", userName: res.attributes.name });
-            })
-            .catch(err => {
-                console.log("error finding user:", err);
-            });
+        // Auth.currentAuthenticatedUser()
+        //     .then(res => {
+        //         console.log("user info:", res);
+        //         updateState({ authState: "Sign Out", userName: res.attributes.name });
+        //     })
+        //     .catch(err => {
+        //         console.log("error finding user:", err);
+        //     });
+        if (prop.currentUser) {
+            updateState({ authState: "Sign Out", userName: prop.currentUser.attributes.name });
+        };
     }, []);
 
     function authAction() {
