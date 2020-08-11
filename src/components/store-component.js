@@ -2,27 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listStores as ListStores } from '../graphql/queries';
 import './store-component.css';
+import Modal from './modal/modal';
 
-function StoreComponent() {
+function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
     const [selectedStore, updateSelectStore] = useState({});
+    const [modalState, updateModal] = useState({ component: "" });
 
     useEffect(() => {
-        getData();
+        console.log(prop.currentUser);
+        let isSubscribed = true;
+        getStores()
+            .then(res => {
+                if (isSubscribed) {
+                    console.log('storeData:', res);
+                    updateStores(res.data.listStores.items);
+                    if (res.data.listStores.items[0]) {
+                        updateSelectStore(res.data.listStores.items[0])
+                    };
+                } else { return null };
+            })
+            .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
+        return () => (isSubscribed = false);
     }, []);
 
-    async function getData() {
+    async function getStores() {
         try {
-            const storeData = await API.graphql({
+            return await API.graphql({
                 query: ListStores,
-                variables: {},
-                authMode: "AWS_IAM"
+                variables: { filter: { createdBy: { eq: prop.currentUser.username } } }
             });
-            console.log('storeData:', storeData);
-            updateStores(storeData.data.listStores.items);
-            updateSelectStore(storeData.data.listStores.items[0]);
         } catch (err) {
-            console.log('error fetching stores', err)
+            return err;
         }
     }
 
@@ -37,6 +48,7 @@ function StoreComponent() {
                             </li>
                         ))
                     }
+                    <li>+</li>
                 </ul>
                 <div>Add Store</div>
             </div>
@@ -52,6 +64,7 @@ function StoreComponent() {
                 </div>
                 <div className="user-panel-detail">Locations</div>
             </div>
+            <Modal component={modalState.component} />
         </div>
     );
 };

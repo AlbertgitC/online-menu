@@ -4,14 +4,14 @@ import StoreComponent from './store-component';
 import { signOut } from './util/util-auth';
 import { useHistory } from 'react-router-dom';
 
-const initialState = { component: <StoreComponent /> };
-
 function menuClick() {
     const menu = document.getElementsByClassName("dropdown_menu");
     menu[0].style.display = "block";
 };
 
 function UserPanel(prop) {
+    const initialState = { component: <StoreComponent currentUser={prop.currentUser}/> };
+
     const [currentComponent, updateComponent] = useState(initialState);
     const history = useHistory();
 

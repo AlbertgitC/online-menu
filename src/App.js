@@ -66,8 +66,8 @@ function App() {
     return (
         <div className="main">
             <Switch>
-                <ProtectedRoute path="/user-panel">
-                    <UserPanel setUser={setUser}/>
+                <ProtectedRoute exact path="/user-panel">
+                    <UserPanel setUser={setUser} currentUser={currentUser}/>
                 </ProtectedRoute>
                 <PublicRoute path="/">
                     <Header currentUser={currentUser} setUser={setUser}/>

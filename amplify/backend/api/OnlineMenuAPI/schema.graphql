@@ -15,17 +15,6 @@ type Store @model @auth (
   items: [Item] @connection(keyName: "byStore", fields: ["id"])
 }
 
-# type Store @model {
-#   id: ID!
-#   createdBy: String
-#   name: String!
-#   description: String
-#   phoneNumber: String!
-#   email: String!
-#   locations: [Location] @connection(keyName: "byStore", fields: ["id"])
-#   items: [Item] @connection(keyName: "byStore", fields: ["id"])
-# }
-
 type Location @model @auth (
     rules: [
       { allow: owner, ownerField: "createdBy" },
