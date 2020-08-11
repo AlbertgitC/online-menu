@@ -11,11 +11,11 @@ export const listStores = /* GraphQL */ `
       items {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
       nextToken
@@ -27,11 +27,11 @@ export const getStore = /* GraphQL */ `
     getStore(id: $id) {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -39,6 +39,37 @@ export const getStore = /* GraphQL */ `
       items {
         nextToken
       }
+    }
+  }
+`;
+export const storesByCreatedDate = /* GraphQL */ `
+  query StoresByCreatedDate(
+    $createdBy: String
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelStoreFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    storesByCreatedDate(
+      createdBy: $createdBy
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdBy
+        createdAt
+        name
+        description
+        phoneNumber
+        email
+        updatedAt
+      }
+      nextToken
     }
   }
 `;
@@ -58,11 +89,11 @@ export const getLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -105,11 +136,11 @@ export const getItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }

@@ -9,11 +9,11 @@ export const createStore = /* GraphQL */ `
     createStore(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -32,11 +32,11 @@ export const updateStore = /* GraphQL */ `
     updateStore(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -55,11 +55,11 @@ export const deleteStore = /* GraphQL */ `
     deleteStore(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -89,11 +89,11 @@ export const createLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -118,11 +118,11 @@ export const updateLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -147,11 +147,11 @@ export const deleteLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -174,11 +174,11 @@ export const createItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -201,11 +201,11 @@ export const updateItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -228,11 +228,11 @@ export const deleteItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }

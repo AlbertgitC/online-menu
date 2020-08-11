@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listStores as ListStores } from '../graphql/queries';
+import * as queries from '../graphql/queries';
 import './store-component.css';
 import Modal from './modal/modal';
 import StoreForm from './store-form';
@@ -17,20 +17,22 @@ function StoreComponent(prop) {
             .then(res => {
                 if (isSubscribed) {
                     console.log('storeData:', res);
-                    updateStores(res.data.listStores.items);
-                    const selected = res.data.listStores.items[0] ? res.data.listStores.items[0] : {};
+                    updateStores(res.data.storesByCreatedDate.items);
+                    const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
                     updateSelectStore(selected);
                 } else { return null };
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
-    }, [stores.length]);
+    }, []);
 
     async function getStores() {
         try {
             return await API.graphql({
-                query: ListStores,
-                variables: { filter: { createdBy: { eq: prop.currentUser.username } } }
+                query: queries.storesByCreatedDate,
+                variables: {
+                    createdBy: prop.currentUser.username, sortDirection: "ASC" 
+                }
             });
         } catch (err) {
             return err;

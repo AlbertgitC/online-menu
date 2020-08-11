@@ -12,6 +12,7 @@ type Store @model @auth (
   ) {
   id: ID!
   createdBy: String
+  createdAt: String
   name: String!
   description: String
   phoneNumber: String!

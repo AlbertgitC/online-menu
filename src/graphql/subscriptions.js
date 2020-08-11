@@ -6,11 +6,11 @@ export const onCreateStore = /* GraphQL */ `
     onCreateStore {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -26,11 +26,11 @@ export const onUpdateStore = /* GraphQL */ `
     onUpdateStore {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -46,11 +46,11 @@ export const onDeleteStore = /* GraphQL */ `
     onDeleteStore {
       id
       createdBy
+      createdAt
       name
       description
       phoneNumber
       email
-      createdAt
       updatedAt
       locations {
         nextToken
@@ -77,11 +77,11 @@ export const onCreateLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -103,11 +103,11 @@ export const onUpdateLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -129,11 +129,11 @@ export const onDeleteLocation = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -153,11 +153,11 @@ export const onCreateItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -177,11 +177,11 @@ export const onUpdateItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
@@ -201,11 +201,11 @@ export const onDeleteItem = /* GraphQL */ `
       store {
         id
         createdBy
+        createdAt
         name
         description
         phoneNumber
         email
-        createdAt
         updatedAt
       }
     }
