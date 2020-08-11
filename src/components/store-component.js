@@ -3,6 +3,7 @@ import { API } from 'aws-amplify';
 import { listStores as ListStores } from '../graphql/queries';
 import './store-component.css';
 import Modal from './modal/modal';
+import StoreForm from './store-form';
 
 function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
@@ -17,14 +18,13 @@ function StoreComponent(prop) {
                 if (isSubscribed) {
                     console.log('storeData:', res);
                     updateStores(res.data.listStores.items);
-                    if (res.data.listStores.items[0]) {
-                        updateSelectStore(res.data.listStores.items[0])
-                    };
+                    const selected = res.data.listStores.items[0] ? res.data.listStores.items[0] : {};
+                    updateSelectStore(selected);
                 } else { return null };
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
-    }, []);
+    }, [stores.length]);
 
     async function getStores() {
         try {
@@ -37,6 +37,10 @@ function StoreComponent(prop) {
         }
     }
 
+    function openStoreForm() {
+        updateModal({ component: <StoreForm modalAction={updateModal}/> });
+    };
+
     return (
         <div className="store-wrapper">
             <div className="side-panel">
@@ -48,9 +52,9 @@ function StoreComponent(prop) {
                             </li>
                         ))
                     }
-                    <li>+</li>
+                    <li onClick={openStoreForm}>+</li>
                 </ul>
-                <div>Add Store</div>
+                <div onClick={openStoreForm}>Add Store</div>
             </div>
             <div className="user-panel-main">
                 <div>

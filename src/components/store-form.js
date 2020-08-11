@@ -1,30 +1,27 @@
 import React, { useReducer } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { createStore as CreateStore } from '../graphql/mutations';
+import * as mutations from '../graphql/mutations';
 
 const initialState = {
     name: "",
     description: "",
     phone_number: "",
     email: "",
-    currentStore: {},
     err: ""
 };
 
 function reducer(state, action) {
     switch(action.type) {
-        case "SET_STORE":
-            return { ...state, currentStore: action.store };
         case "SET_INPUT":
             return { ...state, [action.key]: action.value };
         case "CLEAR_INPUT":
-            return { ...initialState, currentStore: state.currentStore };
+            return { ...initialState };
         default:
             return state;
     };
 };
 
-function StoreForm() {
+function StoreForm(prop) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     async function creatStore() {
@@ -55,12 +52,12 @@ function StoreForm() {
         };
 
         try {
-            await API.graphql(graphqlOperation(CreateStore, { input: store }));
+            await API.graphql(graphqlOperation(mutations.createStore, { input: store }));
             console.log("store created");
-            dispatch({ type: "SET_STORE", store });
             dispatch({ type: "CLEAR_INPUT" });
         } catch (error) {
             console.log("error on creating store", error);
+            dispatch({ type: "SET_INPUT", key: "err", value: error });
         };
     };
 
@@ -73,6 +70,10 @@ function StoreForm() {
         creatStore();
     };
 
+    function close() {
+        prop.modalAction({ component: "" });
+    };
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -80,7 +81,7 @@ function StoreForm() {
                     name='name'
                     onChange={handleInput}
                     value={state.name}
-                    placeholder='name'
+                    placeholder='store name'
                 />
                 <input
                     name='description'
@@ -103,13 +104,7 @@ function StoreForm() {
                 <button>Create Store</button>
             </form>
             <div>{state.err}</div>
-            <div>
-                <h3>{state.currentStore.name}</h3>
-                <p>{state.currentStore.description}</p>
-                <p>{state.currentStore.phoneNumber}</p>
-                <p>{state.currentStore.email}</p>
-            </div>
-                
+            <button onClick={close}>Cancel</button>
         </div>
     );
 };

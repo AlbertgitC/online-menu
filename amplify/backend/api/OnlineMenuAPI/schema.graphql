@@ -4,6 +4,11 @@ type Store @model @auth (
       { allow: private, operations: [read] },
       { allow: public, operations: [read], provider: iam }
     ]
+  ) 
+  @key(
+    name: "byCreatedDate", 
+    fields: ["createdBy", "createdAt"],
+    queryField: "storesByCreatedDate"
   ) {
   id: ID!
   createdBy: String
