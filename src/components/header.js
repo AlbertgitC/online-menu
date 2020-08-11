@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import Modal from './modal/modal';
 import SignIn from './sign-in';
@@ -24,20 +24,6 @@ function Header(prop) {
     const { authState, userName } = state;
 
     const [modalState, updateModal] = useState({ component: "" });
-
-    useEffect(() => {
-        // Auth.currentAuthenticatedUser()
-        //     .then(res => {
-        //         console.log("user info:", res);
-        //         updateState({ authState: "Sign Out", userName: res.attributes.name });
-        //     })
-        //     .catch(err => {
-        //         console.log("error finding user:", err);
-        //     });
-        // if (prop.currentUser) {
-        //     updateState({ authState: "Sign Out", userName: prop.currentUser.attributes.name });
-        // };
-    }, []);
 
     function authAction() {
         if (authState === "Sign In") {

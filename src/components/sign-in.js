@@ -31,9 +31,6 @@ function SignIn(prop) {
                     history.push("/user-panel");
                 }
             );
-            // prop.updateHeader({ authState: "Sign Out", userName: user.attributes.name });
-            // prop.modalAction({ component: "" });
-            
         } catch (error) {
             console.log('error signing in', error);
             updateState({ ...state, err: error.message });
