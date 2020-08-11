@@ -34,16 +34,16 @@ function Header(prop) {
         //     .catch(err => {
         //         console.log("error finding user:", err);
         //     });
-        if (prop.currentUser) {
-            updateState({ authState: "Sign Out", userName: prop.currentUser.attributes.name });
-        };
+        // if (prop.currentUser) {
+        //     updateState({ authState: "Sign Out", userName: prop.currentUser.attributes.name });
+        // };
     }, []);
 
     function authAction() {
         if (authState === "Sign In") {
             updateModal({
                 component: <SignIn
-                    updateHeader={updateState}
+                    setUser={prop.setUser}
                     modalAction={updateModal}/>
             });
         } else if (authState === "Sign Out") {

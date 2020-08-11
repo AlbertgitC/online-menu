@@ -70,7 +70,7 @@ function App() {
                     <UserPanel />
                 </ProtectedRoute>
                 <PublicRoute path="/">
-                    <Header currentUser={currentUser}/>
+                    <Header currentUser={currentUser} setUser={setUser}/>
                     <div className="splash"></div>
                     <div className="content">
                         <Landing />
