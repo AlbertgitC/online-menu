@@ -11,6 +11,7 @@
     font-weight: 500;
     padding: 26px;
     font-family: sans-serif;
+    z-index: 2;
 }
 
 .auth-block {
@@ -27,6 +28,6 @@
     to {background-color:rgb(36, 37, 38, 0);}
 }
 
-.header a {
+#auth-button {
     cursor: pointer;
 }

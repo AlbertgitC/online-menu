@@ -4,9 +4,15 @@ type Store @model @auth (
       { allow: private, operations: [read] },
       { allow: public, operations: [read], provider: iam }
     ]
+  ) 
+  @key(
+    name: "byCreatedDate", 
+    fields: ["createdBy", "createdAt"],
+    queryField: "storesByCreatedDate"
   ) {
   id: ID!
   createdBy: String
+  createdAt: String
   name: String!
   description: String
   phoneNumber: String!
@@ -14,17 +20,6 @@ type Store @model @auth (
   locations: [Location] @connection(keyName: "byStore", fields: ["id"])
   items: [Item] @connection(keyName: "byStore", fields: ["id"])
 }
-
-# type Store @model {
-#   id: ID!
-#   createdBy: String
-#   name: String!
-#   description: String
-#   phoneNumber: String!
-#   email: String!
-#   locations: [Location] @connection(keyName: "byStore", fields: ["id"])
-#   items: [Item] @connection(keyName: "byStore", fields: ["id"])
-# }
 
 type Location @model @auth (
     rules: [

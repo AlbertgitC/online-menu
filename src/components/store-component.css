@@ -1,0 +1,89 @@
+.store-wrapper {
+    display: flex;
+}
+
+.side-panel {
+    min-width: 400px;
+    height: 100vh;
+    background-color: #242526;
+    color: #ffffff;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-panel ul {
+    margin-top: 78px;
+    overflow: auto;
+}
+
+.side-panel ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.side-panel ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+ 
+.side-panel ul::-webkit-scrollbar-thumb {
+  background: #808080;
+  border-radius: 10px;
+}
+
+.side-panel ul::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.user-panel-main {
+    width: 100%;
+    background-color: #DCDCDC;
+    color: #585858;
+}
+
+.side-panel > div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #808080;
+    padding-bottom: 26px;
+}
+
+.side-panel > div:nth-child(1) h3 {
+    margin: 0 auto;
+}
+
+.side-panel div:last-child {
+    margin-top: auto;
+}
+
+.side-panel > div:first-of-type h3 {
+    color: #00CED1;
+}
+
+.user-panel-main > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+}
+
+.user-panel-main > div:nth-child(2) {
+    margin: 0 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #808080;
+}
+
+.user-panel-detail {
+    padding: 15px;
+}
+
+.side-panel ul li {
+    cursor: pointer;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    margin: 8px 10px 8px 0;
+    padding: 16px;
+}
+
+.side-panel ul li:first-of-type {
+    background-color: #000000;
+}

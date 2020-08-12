@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import ResendConfirm from './resend-confirm';
 import './sign-in.css';
+import { useHistory } from 'react-router-dom';
 
 const initialState = {
     email: "",
@@ -12,6 +13,7 @@ const initialState = {
 function SignIn(prop) {
     const [state, updateState] = useState(initialState);
     const { email, password, err } = state;
+    const history = useHistory();
 
     async function signIn(e) {
         e.preventDefault();
@@ -23,9 +25,12 @@ function SignIn(prop) {
         updateState({ ...state, err: "loading..." });
 
         try {
-            const user = await Auth.signIn(email, password);
-            prop.updateHeader({ authState: "Sign Out", userName: user.attributes.name });
-            prop.modalAction({ component: "" });
+            await Auth.signIn(email, password).then(
+                res => {
+                    prop.setUser(res);
+                    history.push("/user-panel");
+                }
+            );
         } catch (error) {
             console.log('error signing in', error);
             updateState({ ...state, err: error.message });

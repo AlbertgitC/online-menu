@@ -1,22 +1,30 @@
 .main {
-
+    display: flex;
+    flex-direction: column;
 }
 
 .splash {
     height: 600px;
+    width: 100%;
     background: url("./assets/images/jason-jarrach-7hO3yb3EzcY-unsplash.jpg") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    min-height: 480px;
     background-color: #18191A;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
 }
 
 .content {
-    max-width: 1000px;
-    margin: 0 auto;
     padding: 90px 26px 26px 26px;
     font-family: sans-serif;
     color: #ffffff;
+}
+
+ul, ol {
+    list-style-type: none;
+    padding-left: 0;
 }
