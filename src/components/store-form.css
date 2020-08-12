@@ -1,0 +1,36 @@
+.store-form {
+    background-color: #242526;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    color: #ffffff;
+    padding: 26px;
+    border-radius: .25rem;
+    align-items: center;
+}
+
+.store-form h3 {
+    font-size: 150%;
+}
+
+.store-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.store-form input,
+.store-form button {
+    width: 380px;
+    height: 40px;
+    border:none;
+    border-radius: .25rem;
+    margin: 10px 0 10px 0;
+}
+
+.store-form input {
+    padding-left: 12px;
+}
+
+.store-form button {
+    cursor: pointer;
+}

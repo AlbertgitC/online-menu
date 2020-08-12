@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../graphql/mutations';
+import './store-form.css';
 
 const initialState = {
     name: "",
@@ -81,7 +82,8 @@ function StoreForm(prop) {
     };
 
     return (
-        <div>
+        <div className="store-form">
+            <h3>Create New Store</h3>
             <form onSubmit={handleSubmit}>
                 <input
                     name='name'
