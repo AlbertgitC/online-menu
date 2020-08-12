@@ -12,6 +12,19 @@ function StoreComponent(prop) {
 
     useEffect(() => {
         console.log(prop.currentUser);
+        async function getStores() {
+                try {
+                    return await API.graphql({
+                        query: queries.storesByCreatedDate,
+                        variables: {
+                            createdBy: prop.currentUser.username, sortDirection: "ASC" 
+                        }
+                    });
+                } catch (err) {
+                    return err;
+                }
+            }
+
         let isSubscribed = true;
         getStores()
             .then(res => {
@@ -24,20 +37,7 @@ function StoreComponent(prop) {
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
-    }, []);
-
-    async function getStores() {
-        try {
-            return await API.graphql({
-                query: queries.storesByCreatedDate,
-                variables: {
-                    createdBy: prop.currentUser.username, sortDirection: "ASC" 
-                }
-            });
-        } catch (err) {
-            return err;
-        }
-    }
+    }, [prop]);
 
     function openStoreForm() {
         updateModal({ component: <StoreForm 
@@ -47,13 +47,23 @@ function StoreComponent(prop) {
         /> });
     };
 
+    function setSelectedStore(idx,e) {
+        const selected = stores[idx];
+        updateSelectStore(selected);
+        const storeLis = document.getElementsByClassName("store-li");
+        for (let i = 0; i < storeLis.length; i++) {
+            storeLis[i].style.backgroundColor = "#242526";
+        };
+        e.currentTarget.style.backgroundColor = "#000000";
+    };
+
     return (
         <div className="store-wrapper">
             <div className="side-panel">
                 <ul>
                     {
-                        stores.map((store, index) => (
-                            <li key={index}>
+                        stores.map((store, idx) => (
+                            <li key={idx} className="store-li" onClick={(e) => setSelectedStore(idx,e)}>
                                 <h3>{store.name}</h3>
                             </li>
                         ))

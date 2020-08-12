@@ -57,3 +57,15 @@
 .user-panel-detail {
     padding: 15px;
 }
+
+.side-panel ul li {
+    cursor: pointer;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    margin: 8px 0;
+    padding: 16px;
+}
+
+.side-panel ul li:first-of-type {
+    background-color: #000000;
+}
