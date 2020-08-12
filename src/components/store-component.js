@@ -40,7 +40,11 @@ function StoreComponent(prop) {
     }
 
     function openStoreForm() {
-        updateModal({ component: <StoreForm modalAction={updateModal}/> });
+        updateModal({ component: <StoreForm 
+            modalAction={updateModal}
+            updateStores={updateStores}
+            stores={stores}
+        /> });
     };
 
     return (

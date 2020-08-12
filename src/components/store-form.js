@@ -52,9 +52,15 @@ function StoreForm(prop) {
         };
 
         try {
-            await API.graphql(graphqlOperation(mutations.createStore, { input: store }));
-            console.log("store created");
+            await API.graphql(graphqlOperation(mutations.createStore, { input: store }))
+                .then(newStore => {
+                    const currentStores = prop.stores;
+                    currentStores.push(newStore.data.createStore);
+                    prop.updateStores(currentStores);
+                    console.log("store created", newStore);
+                });
             dispatch({ type: "CLEAR_INPUT" });
+            prop.modalAction({ component: "" });
         } catch (error) {
             console.log("error on creating store", error);
             dispatch({ type: "SET_INPUT", key: "err", value: error });
