@@ -3,6 +3,8 @@ import './user-panel.css';
 import StoreComponent from './store-component';
 import { signOut } from './util/util-auth';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 function menuClick() {
     const menu = document.getElementsByClassName("dropdown_menu");
@@ -31,18 +33,27 @@ function UserPanel(prop) {
         );
     };
 
+    // <div className="dropdown" onClick={menuClick}>MENU
+    //                 <ul className="dropdown_menu">
+    //         <li className="dropdown_item-1">Orders</li>
+    //         <li className="dropdown_item-2">Stores</li>
+    //         <li className="dropdown_item-3">Menu</li>
+    //         <li className="dropdown_item-4">User Info</li>
+    //         <li className="dropdown_item-5" onClick={signOutRedirect}>Sign out</li>
+    //     </ul>
+    // </div>
+
     return (
         <div className="user-panel-wrapper">
             <div>
-                <div className="dropdown" onClick={menuClick}>MENU
-                    <ul className="dropdown_menu">
-                        <li className="dropdown_item-1">Orders</li>
-                        <li className="dropdown_item-2">Stores</li>
-                        <li className="dropdown_item-3">Menu</li>
-                        <li className="dropdown_item-4">User Info</li>
-                        <li className="dropdown_item-5" onClick={signOutRedirect}>Sign out</li>
-                    </ul>
-                </div>
+                <FontAwesomeIcon icon={faBars} className="dropdown" onClick={menuClick}/>
+                <ul className="dropdown_menu">
+                    <li className="dropdown_item-1">Orders</li>
+                    <li className="dropdown_item-2">Stores</li>
+                    <li className="dropdown_item-3">Menu</li>
+                    <li className="dropdown_item-4">User Info</li>
+                    <li className="dropdown_item-5" onClick={signOutRedirect}>Sign out</li>
+                </ul>
                 <h3>Online Menu</h3>
             </div>
             {currentComponent.component}

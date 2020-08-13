@@ -23,6 +23,7 @@
 
 .dropdown {
     cursor: pointer;
+    font-size: 140%;
 }
 
 ul.dropdown_menu {

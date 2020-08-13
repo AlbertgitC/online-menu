@@ -87,3 +87,16 @@
 .side-panel ul li:first-of-type {
     background-color: #000000;
 }
+
+.side-panel ul li:last-of-type {
+    width: fit-content;
+}
+
+.side-panel ul li:last-of-type svg{
+    margin: 0 5px 0 5px;
+}
+
+.side-panel > div {
+    cursor: pointer;
+    width: fit-content;
+}

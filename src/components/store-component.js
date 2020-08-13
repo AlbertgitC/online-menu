@@ -4,6 +4,8 @@ import * as queries from '../graphql/queries';
 import './store-component.css';
 import Modal from './modal/modal';
 import StoreForm from './store-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
@@ -68,7 +70,9 @@ function StoreComponent(prop) {
                             </li>
                         ))
                     }
-                    <li onClick={openStoreForm}>+</li>
+                    <li onClick={openStoreForm}>
+                        <FontAwesomeIcon icon={faPlus}/>
+                    </li>
                 </ul>
                 <div onClick={openStoreForm}>Add Store</div>
             </div>
