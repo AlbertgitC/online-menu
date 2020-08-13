@@ -11,6 +11,7 @@
 
 .store-form h3 {
     font-size: 150%;
+    margin-bottom: 10px;
 }
 
 .store-form form {
@@ -29,6 +30,7 @@
 
 .store-form input {
     padding-left: 12px;
+    margin-bottom: 27px;
 }
 
 .store-form button {

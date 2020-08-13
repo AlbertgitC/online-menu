@@ -4,6 +4,8 @@ import * as queries from '../graphql/queries';
 import './store-component.css';
 import Modal from './modal/modal';
 import StoreForm from './store-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
@@ -13,17 +15,17 @@ function StoreComponent(prop) {
     useEffect(() => {
         console.log(prop.currentUser);
         async function getStores() {
-                try {
-                    return await API.graphql({
-                        query: queries.storesByCreatedDate,
-                        variables: {
-                            createdBy: prop.currentUser.username, sortDirection: "ASC" 
-                        }
-                    });
-                } catch (err) {
-                    return err;
-                }
-            }
+            try {
+                return await API.graphql({
+                    query: queries.storesByCreatedDate,
+                    variables: {
+                        createdBy: prop.currentUser.username, sortDirection: "ASC" 
+                    }
+                });
+            } catch (err) {
+                return err;
+            };
+        };
 
         let isSubscribed = true;
         getStores()
@@ -32,24 +34,38 @@ function StoreComponent(prop) {
                     console.log('storeData:', res);
                     updateStores(res.data.storesByCreatedDate.items);
                     const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
-                    updateSelectStore(selected);
+                    updateSelectStore({ ...selected, idx: 0 });
                 } else { return null };
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
     }, [prop]);
 
-    function openStoreForm() {
+    function createStoreForm() {
         updateModal({ component: <StoreForm 
             modalAction={updateModal}
             updateStores={updateStores}
             stores={stores}
+            action="create"
         /> });
+    };
+
+    function updateStoreForm() {
+        updateModal({
+            component: <StoreForm
+                modalAction={updateModal}
+                updateSelectStore={updateSelectStore}
+                updateStores={updateStores}
+                stores={stores}
+                selectedStore={selectedStore}
+                action="update"
+            />
+        });
     };
 
     function setSelectedStore(idx,e) {
         const selected = stores[idx];
-        updateSelectStore(selected);
+        updateSelectStore({ ...selected, idx: idx });
         const storeLis = document.getElementsByClassName("store-li");
         for (let i = 0; i < storeLis.length; i++) {
             storeLis[i].style.backgroundColor = "#242526";
@@ -68,19 +84,23 @@ function StoreComponent(prop) {
                             </li>
                         ))
                     }
-                    <li onClick={openStoreForm}>+</li>
+                    <li onClick={createStoreForm}>
+                        <FontAwesomeIcon icon={faPlus}/>
+                    </li>
                 </ul>
-                <div onClick={openStoreForm}>Add Store</div>
+                <div onClick={createStoreForm}>Add Store</div>
             </div>
             <div className="user-panel-main">
                 <div>
-                    <h1>{selectedStore.name}</h1>
-                    <div>Edit</div>
-                </div>
-                <div>
-                    <p>{selectedStore.description}</p>
-                    <p>{selectedStore.phoneNumber}</p>
-                    <p>{selectedStore.email}</p>
+                    <div>
+                        <div className="store-head">
+                            <h1>{selectedStore.name}</h1>
+                            <p>{selectedStore.description}</p>
+                        </div>
+                        <p>{selectedStore.phoneNumber}</p>
+                        <p>{selectedStore.email}</p>
+                    </div>
+                    <div className="edit-button" onClick={updateStoreForm}>Edit</div>
                 </div>
                 <div className="user-panel-detail">Locations</div>
             </div>
