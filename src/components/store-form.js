@@ -116,24 +116,28 @@ function StoreForm(prop) {
         <div className="store-form">
             <h3>{prop.action === "create" ? "Create New Store" : "Edit Store"}</h3>
             <form onSubmit={handleSubmit}>
+                <p>Store Name:</p>
                 <input
                     name='name'
                     onChange={handleInput}
                     value={state.name}
                     placeholder='store name'
                 />
+                <p>Store Description:</p>
                 <input
                     name='description'
                     onChange={handleInput}
                     value={state.description}
                     placeholder='description'
                 />
+                <p>Store Phone Number:</p>
                 <input
                     name='phoneNumber'
                     onChange={handleInput}
                     value={state.phoneNumber}
                     placeholder='phone number'
                 />
+                <p>Store Email:</p>
                 <input
                     name='email'
                     onChange={handleInput}
