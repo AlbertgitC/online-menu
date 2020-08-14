@@ -13,6 +13,7 @@ function StoreComponent(prop) {
     const [selectedStore, updateSelectStore] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
     const [locations, updateLocations] = useState([]);
+    const [selectedLocations, updateSelectLocations] = useState([]);
 
     useEffect(() => {
         console.log(prop.currentUser);
@@ -29,17 +30,31 @@ function StoreComponent(prop) {
             };
         };
 
-        async function getLocations(id) {
+        async function getLocations() {
             try {
                 return await API.graphql({
-                    query: queries.locationsByCreatedDate,
+                    query: queries.listLocations,
                     variables: {
-                        storeId: id, sortDirection: "ASC"
+                        createdBy: prop.currentUser.username
                     }
                 });
             } catch (err) {
                 return err;
             };
+        };
+
+        function setSelectedLocations(id, locationsArr) {
+            const selectedLocations = [];
+
+            for (const location of locationsArr) {
+                if (location.storeId === id) { selectedLocations.push(location); };
+            };
+
+            selectedLocations.sort((a, b) => {
+                return new Date(a.createdAt) - new Date(b.createdAt);
+            });
+
+            updateSelectLocations(selectedLocations);
         };
 
         let isSubscribed = true;
@@ -50,16 +65,17 @@ function StoreComponent(prop) {
                     updateStores(res.data.storesByCreatedDate.items);
                     const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
                     updateSelectStore({ ...selected, idx: 0 });
-                    getLocations(selected.id).then(locations => {
+                    getLocations().then(locations => {
                             console.log('locationData:', locations);
-                            updateLocations(locations.data.locationsByCreatedDate.items);
+                        updateLocations(locations.data.listLocations.items);
+                        setSelectedLocations(selected.id, locations.data.listLocations.items);
                         })
                         .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
                 } else { return null };
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
-    }, [prop]);
+    },[prop]);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 
@@ -91,6 +107,8 @@ function StoreComponent(prop) {
             storeLis[i].style.backgroundColor = "#242526";
         };
         e.currentTarget.style.backgroundColor = "#000000";
+
+        setSelectedLocations(selected.id);
     };
 
     function createLocationForm() {
@@ -100,9 +118,25 @@ function StoreComponent(prop) {
                 modalAction={updateModal}
                 updateLocations={updateLocations}
                 locations={locations}
+                updateSelectLocations={updateSelectLocations}
+                selectedLocations={selectedLocations}
                 action="create"
             />
         });
+    };
+
+    function setSelectedLocations(id) {
+        const selectedLocations = [];
+
+        for (const location of locations) {
+            if (location.storeId === id) { selectedLocations.push(location); };
+        };
+
+        selectedLocations.sort((a, b) => {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        });
+
+        updateSelectLocations(selectedLocations);
     };
 
     return (
@@ -137,7 +171,7 @@ function StoreComponent(prop) {
                 <div className="user-panel-detail">Locations
                     <ul>
                         {
-                            locations.map((location, idx) => (
+                            selectedLocations.map((location, idx) => (
                                 <li key={idx} className="location-li">
                                     <p>{location.address}</p>
                                     <p>{location.description}</p>

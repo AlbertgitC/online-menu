@@ -70,9 +70,12 @@ function LocationForm(prop) {
             try {
                 await API.graphql(graphqlOperation(mutations.createLocation, { input: location }))
                     .then(newLocation => {
-                        const currentLocations = prop.locations;
+                        const currentLocations = prop.selectedLocations;
+                        const allLocations = prop.locations;
                         currentLocations.push(newLocation.data.createLocation);
-                        prop.updateLocations(currentLocations);
+                        prop.updateSelectLocations(currentLocations);
+                        allLocations.push(newLocation.data.createLocation);
+                        prop.updateLocations(allLocations);
                         console.log("location created", newLocation);
                     });
                 dispatch({ type: "CLEAR_INPUT" });
