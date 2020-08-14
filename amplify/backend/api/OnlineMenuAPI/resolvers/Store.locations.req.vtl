@@ -11,41 +11,41 @@
   }
 } )
 ## [Start] Applying Key Condition **
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.beginsWith) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.beginsWith) )
   #set( $query.expression = "$query.expression AND begins_with(#sortKey, :sortKey)" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.address.beginsWith" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.createdAt.beginsWith" }))
 #end
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.between) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.between) )
   #set( $query.expression = "$query.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey0", { "S": "$ctx.args.address.between[0]" }))
-  $util.qr($query.expressionValues.put(":sortKey1", { "S": "$ctx.args.address.between[1]" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey0", { "S": "$ctx.args.createdAt.between[0]" }))
+  $util.qr($query.expressionValues.put(":sortKey1", { "S": "$ctx.args.createdAt.between[1]" }))
 #end
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.eq) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.eq) )
   #set( $query.expression = "$query.expression AND #sortKey = :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.address.eq" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.createdAt.eq" }))
 #end
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.lt) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.lt) )
   #set( $query.expression = "$query.expression AND #sortKey < :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.address.lt" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.createdAt.lt" }))
 #end
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.le) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.le) )
   #set( $query.expression = "$query.expression AND #sortKey <= :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.address.le" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.createdAt.le" }))
 #end
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.gt) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.gt) )
   #set( $query.expression = "$query.expression AND #sortKey > :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.address.gt" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.createdAt.gt" }))
 #end
-#if( !$util.isNull($ctx.args.address) && !$util.isNull($ctx.args.address.ge) )
+#if( !$util.isNull($ctx.args.createdAt) && !$util.isNull($ctx.args.createdAt.ge) )
   #set( $query.expression = "$query.expression AND #sortKey >= :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "address"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.address.ge" }))
+  $util.qr($query.expressionNames.put("#sortKey", "createdAt"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.createdAt.ge" }))
 #end
 ## [End] Applying Key Condition **
 {

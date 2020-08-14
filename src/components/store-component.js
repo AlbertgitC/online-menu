@@ -4,6 +4,7 @@ import * as queries from '../graphql/queries';
 import './store-component.css';
 import Modal from './modal/modal';
 import StoreForm from './store-form';
+import LocationForm from './location-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,6 +12,8 @@ function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
     const [selectedStore, updateSelectStore] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
+    const [locations, updateLocations] = useState([]);
+    const [selectedLocations, updateSelectLocations] = useState([]);
 
     useEffect(() => {
         console.log(prop.currentUser);
@@ -27,6 +30,33 @@ function StoreComponent(prop) {
             };
         };
 
+        async function getLocations() {
+            try {
+                return await API.graphql({
+                    query: queries.listLocations,
+                    variables: {
+                        createdBy: prop.currentUser.username
+                    }
+                });
+            } catch (err) {
+                return err;
+            };
+        };
+
+        function setSelectedLocations(id, locationsArr) {
+            const selectedLocations = [];
+
+            for (const location of locationsArr) {
+                if (location.storeId === id) { selectedLocations.push(location); };
+            };
+
+            selectedLocations.sort((a, b) => {
+                return new Date(a.createdAt) - new Date(b.createdAt);
+            });
+
+            updateSelectLocations(selectedLocations);
+        };
+
         let isSubscribed = true;
         getStores()
             .then(res => {
@@ -35,11 +65,17 @@ function StoreComponent(prop) {
                     updateStores(res.data.storesByCreatedDate.items);
                     const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
                     updateSelectStore({ ...selected, idx: 0 });
+                    getLocations().then(locations => {
+                            console.log('locationData:', locations);
+                        updateLocations(locations.data.listLocations.items);
+                        setSelectedLocations(selected.id, locations.data.listLocations.items);
+                        })
+                        .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
                 } else { return null };
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
-    }, [prop]);
+    },[prop]);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 
@@ -71,6 +107,36 @@ function StoreComponent(prop) {
             storeLis[i].style.backgroundColor = "#242526";
         };
         e.currentTarget.style.backgroundColor = "#000000";
+
+        setSelectedLocations(selected.id);
+    };
+
+    function createLocationForm() {
+        updateModal({
+            component: <LocationForm
+                storeId={selectedStore.id}
+                modalAction={updateModal}
+                updateLocations={updateLocations}
+                locations={locations}
+                updateSelectLocations={updateSelectLocations}
+                selectedLocations={selectedLocations}
+                action="create"
+            />
+        });
+    };
+
+    function setSelectedLocations(id) {
+        const selectedLocations = [];
+
+        for (const location of locations) {
+            if (location.storeId === id) { selectedLocations.push(location); };
+        };
+
+        selectedLocations.sort((a, b) => {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        });
+
+        updateSelectLocations(selectedLocations);
     };
 
     return (
@@ -102,7 +168,23 @@ function StoreComponent(prop) {
                     </div>
                     <div className="edit-button" onClick={updateStoreForm}>Edit</div>
                 </div>
-                <div className="user-panel-detail">Locations</div>
+                <div className="user-panel-detail">Locations
+                    <ul>
+                        {
+                            selectedLocations.map((location, idx) => (
+                                <li key={idx} className="location-li">
+                                    <p>{location.address}</p>
+                                    <p>{location.description}</p>
+                                    <p>{location.phoneNumber}</p>
+                                    <p>{location.email}</p>
+                                </li>
+                            ))
+                        }
+                        <li onClick={createLocationForm}>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </li>
+                    </ul>
+                </div>
             </div>
             <Modal component={modalState.component} />
         </div>
