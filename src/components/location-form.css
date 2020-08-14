@@ -1,0 +1,38 @@
+.location-form {
+    background-color: #242526;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    color: #ffffff;
+    padding: 26px;
+    border-radius: .25rem;
+    align-items: center;
+}
+
+.location-form h3 {
+    font-size: 150%;
+    margin-bottom: 10px;
+}
+
+.location-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.location-form input,
+.location-form button {
+    width: 380px;
+    height: 40px;
+    border:none;
+    border-radius: .25rem;
+    margin: 10px 0 10px 0;
+}
+
+.location-form input {
+    padding-left: 12px;
+    margin-bottom: 27px;
+}
+
+.location-form button {
+    cursor: pointer;
+}

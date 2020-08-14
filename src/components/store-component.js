@@ -4,6 +4,7 @@ import * as queries from '../graphql/queries';
 import './store-component.css';
 import Modal from './modal/modal';
 import StoreForm from './store-form';
+import LocationForm from './location-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,6 +12,7 @@ function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
     const [selectedStore, updateSelectStore] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
+    const [locations, updateLocations] = useState([]);
 
     useEffect(() => {
         console.log(prop.currentUser);
@@ -27,6 +29,19 @@ function StoreComponent(prop) {
             };
         };
 
+        async function getLocations(id) {
+            try {
+                return await API.graphql({
+                    query: queries.locationsByCreatedDate,
+                    variables: {
+                        storeId: id, sortDirection: "ASC"
+                    }
+                });
+            } catch (err) {
+                return err;
+            };
+        };
+
         let isSubscribed = true;
         getStores()
             .then(res => {
@@ -35,6 +50,11 @@ function StoreComponent(prop) {
                     updateStores(res.data.storesByCreatedDate.items);
                     const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
                     updateSelectStore({ ...selected, idx: 0 });
+                    getLocations(selected.id).then(locations => {
+                            console.log('locationData:', locations);
+                            updateLocations(locations.data.locationsByCreatedDate.items);
+                        })
+                        .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
                 } else { return null };
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
@@ -73,6 +93,18 @@ function StoreComponent(prop) {
         e.currentTarget.style.backgroundColor = "#000000";
     };
 
+    function createLocationForm() {
+        updateModal({
+            component: <LocationForm
+                storeId={selectedStore.id}
+                modalAction={updateModal}
+                updateLocations={updateLocations}
+                locations={locations}
+                action="create"
+            />
+        });
+    };
+
     return (
         <div className="store-wrapper">
             <div className="side-panel">
@@ -103,7 +135,21 @@ function StoreComponent(prop) {
                     <div className="edit-button" onClick={updateStoreForm}>Edit</div>
                 </div>
                 <div className="user-panel-detail">Locations
-                    <FontAwesomeIcon icon={faPlus} />
+                    <ul>
+                        {
+                            locations.map((location, idx) => (
+                                <li key={idx} className="location-li">
+                                    <p>{location.address}</p>
+                                    <p>{location.description}</p>
+                                    <p>{location.phoneNumber}</p>
+                                    <p>{location.email}</p>
+                                </li>
+                            ))
+                        }
+                        <li onClick={createLocationForm}>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </li>
+                    </ul>
                 </div>
             </div>
             <Modal component={modalState.component} />

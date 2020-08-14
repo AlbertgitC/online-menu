@@ -38,7 +38,7 @@ function StoreForm(prop) {
     }, [prop]);
 
     async function storeAction() {
-        const { name, description, email, err } = state;
+        const { name, description, email } = state;
 
         let phoneNumber = state.phoneNumber;
         if (!phoneNumber.match(/\d+/g)) {
