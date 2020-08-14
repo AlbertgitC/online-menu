@@ -102,7 +102,9 @@ function StoreComponent(prop) {
                     </div>
                     <div className="edit-button" onClick={updateStoreForm}>Edit</div>
                 </div>
-                <div className="user-panel-detail">Locations</div>
+                <div className="user-panel-detail">Locations
+                    <FontAwesomeIcon icon={faPlus} />
+                </div>
             </div>
             <Modal component={modalState.component} />
         </div>

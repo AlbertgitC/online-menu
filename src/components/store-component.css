@@ -3,7 +3,7 @@
 }
 
 .side-panel {
-    min-width: 400px;
+    width: 400px;
     height: 100vh;
     background-color: #242526;
     color: #ffffff;
@@ -59,6 +59,8 @@
     border-radius: 4px;
     margin: 8px 10px 8px 0;
     padding: 16px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .side-panel ul li:first-of-type {
@@ -82,25 +84,27 @@
     width: 100%;
     background-color: #DCDCDC;
     color: #585858;
+    padding: 26px;
 }
 
 .user-panel-main > div:first-child {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 15px;
 }
 
 .store-head {
-    height: 80px;
+    height: 100px;
+    overflow-wrap: anywhere;
+    overflow: hidden;
 }
 
 .edit-button {
-    margin-bottom: 60px;
+    margin: 0 0 90px 12px;
     cursor: pointer;
 }
 
 .user-panel-detail {
-    padding: 15px;
+    padding-top: 15px;
     border-top: 1px solid #808080;
 }

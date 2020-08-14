@@ -27,10 +27,15 @@ type Location @model @auth (
       { allow: private, operations: [read] },
       { allow: public, operations: [read], provider: iam }
     ]
-  ) 
-  @key(name: "byStore", fields: ["storeId", "address"]) {
+  )
+  @key(
+    name: "byStore", 
+    fields: ["storeId", "createdAt"], 
+    queryField: "locationsByCreatedDate"
+  ) {
   id: ID!
   createdBy: String
+  createdAt: String
   storeId: ID!
   store: Store @connection(fields: ["storeId"])
   address: String!
