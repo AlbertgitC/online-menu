@@ -78,13 +78,13 @@ export const createLocation = /* GraphQL */ `
     createLocation(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id
@@ -107,13 +107,13 @@ export const updateLocation = /* GraphQL */ `
     updateLocation(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id
@@ -136,13 +136,13 @@ export const deleteLocation = /* GraphQL */ `
     deleteLocation(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id

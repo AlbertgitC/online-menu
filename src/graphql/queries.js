@@ -78,13 +78,13 @@ export const getLocation = /* GraphQL */ `
     getLocation(id: $id) {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id
@@ -109,13 +109,46 @@ export const listLocations = /* GraphQL */ `
       items {
         id
         createdBy
+        createdAt
         storeId
         address
         description
         phoneNumber
         email
         menuCategories
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const locationsByCreatedDate = /* GraphQL */ `
+  query LocationsByCreatedDate(
+    $storeId: ID
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    locationsByCreatedDate(
+      storeId: $storeId
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdBy
         createdAt
+        storeId
+        address
+        description
+        phoneNumber
+        email
+        menuCategories
         updatedAt
       }
       nextToken

@@ -66,13 +66,13 @@ export const onCreateLocation = /* GraphQL */ `
     onCreateLocation {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id
@@ -92,13 +92,13 @@ export const onUpdateLocation = /* GraphQL */ `
     onUpdateLocation {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id
@@ -118,13 +118,13 @@ export const onDeleteLocation = /* GraphQL */ `
     onDeleteLocation {
       id
       createdBy
+      createdAt
       storeId
       address
       description
       phoneNumber
       email
       menuCategories
-      createdAt
       updatedAt
       store {
         id
