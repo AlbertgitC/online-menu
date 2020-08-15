@@ -125,6 +125,20 @@ function StoreComponent(prop) {
         });
     };
 
+    function updateLocationForm(idx) {
+        updateModal({
+            component: <LocationForm
+                modalAction={updateModal}
+                updateLocations={updateLocations}
+                locations={locations}
+                updateSelectLocations={updateSelectLocations}
+                selectedLocations={selectedLocations}
+                targetLocationIdx={idx}
+                action="update"
+            />
+        });
+    };
+
     function setSelectedLocations(id) {
         const selectedLocations = [];
 
@@ -177,6 +191,7 @@ function StoreComponent(prop) {
                                     <p>{location.description}</p>
                                     <p>{location.phoneNumber}</p>
                                     <p>{location.email}</p>
+                                    <div onClick={() => updateLocationForm(idx)}>Edit</div>
                                 </li>
                             ))
                         }

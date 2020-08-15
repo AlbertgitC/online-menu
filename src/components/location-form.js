@@ -28,15 +28,16 @@ function LocationForm(prop) {
 
     useEffect(() => {
         dispatch({ type: "SET_INPUT", key: "storeId", value: prop.storeId });
-        // if (prop.action === "update") {
-        //     for (const key in prop.selectedStore) {
-        //         dispatch({ type: "SET_INPUT", key: key, value: prop.selectedStore[key] });
-        //     };
-        //     if (!prop.selectedStore.description) {
-        //         dispatch({ type: "SET_INPUT", key: "description", value: "" });
-        //     };
-        //     dispatch({ type: "SET_INPUT", key: "phoneNumber", value: prop.selectedStore.phoneNumber.slice(2) });
-        // };
+        if (prop.action === "update") {
+            const targetLocation = prop.selectedLocations[prop.targetLocationIdx];
+            for (const key in targetLocation) {
+                dispatch({ type: "SET_INPUT", key: key, value: targetLocation[key] });
+            };
+            // if (!prop.selectedStore.description) {
+            //     dispatch({ type: "SET_INPUT", key: "description", value: "" });
+            // };
+            dispatch({ type: "SET_INPUT", key: "phoneNumber", value: targetLocation.phoneNumber.slice(2) });
+        };
     }, [prop]);
 
     async function locationAction() {
@@ -63,10 +64,6 @@ function LocationForm(prop) {
         const location = { storeId, address, description, phoneNumber, email };
 
         if (prop.action === "create") {
-            // if (location.description === "") {
-            //     delete location.description;
-            // };
-
             try {
                 await API.graphql(graphqlOperation(mutations.createLocation, { input: location }))
                     .then(newLocation => {
@@ -82,6 +79,31 @@ function LocationForm(prop) {
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on creating location", error);
+                dispatch({ type: "SET_INPUT", key: "err", value: error });
+            };
+        } else if (prop.action === "update") {
+            location.id = state.id;
+            try {
+                await API.graphql(graphqlOperation(mutations.updateLocation, { input: location }))
+                    .then(newLocation => {
+                        const allLocations = prop.locations;
+                        for (let i = 0; i < prop.locations.length; i++) {
+                            if (prop.locations[i].id === location.id) {
+                                allLocations.splice(i, 1, newLocation.data.updateLocation);
+                                prop.updateLocations(allLocations);
+                                break
+                            };
+                        };
+                        const selectedLocations = prop.selectedLocations;
+                        selectedLocations.splice(prop.targetLocationIdx, 1, newLocation.data.updateLocation);
+                        prop.updateSelectLocations(selectedLocations);
+
+                        console.log("location updated", newLocation);
+                    });
+                dispatch({ type: "CLEAR_INPUT" });
+                prop.modalAction({ component: "" });
+            } catch (error) {
+                console.log("error on updating location", error);
                 dispatch({ type: "SET_INPUT", key: "err", value: error });
             };
         };
