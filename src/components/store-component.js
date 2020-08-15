@@ -43,7 +43,7 @@ function StoreComponent(prop) {
             };
         };
 
-        function setSelectedLocations(id, locationsArr) {
+        function initSelectedLocations(id, locationsArr) {
             const selectedLocations = [];
 
             for (const location of locationsArr) {
@@ -68,7 +68,7 @@ function StoreComponent(prop) {
                     getLocations().then(locations => {
                             console.log('locationData:', locations);
                         updateLocations(locations.data.listLocations.items);
-                        setSelectedLocations(selected.id, locations.data.listLocations.items);
+                        initSelectedLocations(selected.id, locations.data.listLocations.items);
                         })
                         .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
                 } else { return null };
