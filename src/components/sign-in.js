@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import ResendConfirm from './resend-confirm';
 import './sign-in.css';
@@ -14,6 +14,10 @@ function SignIn(prop) {
     const [state, updateState] = useState(initialState);
     const { email, password, err } = state;
     const history = useHistory();
+
+    useEffect(() => {
+        if (prop.email) { updateState({ ...state, email: prop.email }); };
+    },[prop]);
 
     async function signIn(e) {
         e.preventDefault();

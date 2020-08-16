@@ -69,9 +69,16 @@ function StoreForm(prop) {
                 await API.graphql(graphqlOperation(mutations.createStore, { input: store }))
                     .then(newStore => {
                         const currentStores = prop.stores;
-                        currentStores.push(newStore.data.createStore);
-                        prop.updateStores(currentStores);
-                        console.log("store created", newStore);
+                        if (currentStores[0]) {
+                            currentStores.push(newStore.data.createStore);
+                            prop.updateStores(currentStores);
+                            console.log("store created", newStore);
+                        } else {
+                            currentStores.push(newStore.data.createStore);
+                            prop.updateStores(currentStores);
+                            prop.updateSelectStore(newStore.data.createStore);
+                            console.log("store created", newStore);
+                        };
                     });
                 dispatch({ type: "CLEAR_INPUT" });
                 prop.modalAction({ component: "" });

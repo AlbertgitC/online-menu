@@ -72,7 +72,7 @@ function App() {
                     <Header currentUser={currentUser} setUser={setUser}/>
                     <div className="splash"></div>
                     <div className="content">
-                        <Landing />
+                        <Landing setUser={setUser}/>
                         <Landing2 />
                         <StoreList />
                     </div>

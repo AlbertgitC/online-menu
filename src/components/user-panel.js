@@ -33,16 +33,6 @@ function UserPanel(prop) {
         );
     };
 
-    // <div className="dropdown" onClick={menuClick}>MENU
-    //                 <ul className="dropdown_menu">
-    //         <li className="dropdown_item-1">Orders</li>
-    //         <li className="dropdown_item-2">Stores</li>
-    //         <li className="dropdown_item-3">Menu</li>
-    //         <li className="dropdown_item-4">User Info</li>
-    //         <li className="dropdown_item-5" onClick={signOutRedirect}>Sign out</li>
-    //     </ul>
-    // </div>
-
     return (
         <div className="user-panel-wrapper">
             <div>

@@ -35,7 +35,7 @@ function StoreComponent(prop) {
                 return await API.graphql({
                     query: queries.listLocations,
                     variables: {
-                        createdBy: prop.currentUser.username
+                        filter: { createdBy: { eq: prop.currentUser.username } }
                     }
                 });
             } catch (err) {
@@ -81,6 +81,7 @@ function StoreComponent(prop) {
         updateModal({ component: <StoreForm 
             modalAction={updateModal}
             updateStores={updateStores}
+            updateSelectStore={updateSelectStore}
             stores={stores}
             action="create"
         /> });
@@ -158,11 +159,12 @@ function StoreComponent(prop) {
             <div className="side-panel">
                 <ul>
                     {
+                        stores[0] ?
                         stores.map((store, idx) => (
                             <li key={idx} className="store-li" onClick={(e) => setSelectedStore(idx,e)}>
                                 <h3>{store.name}</h3>
                             </li>
-                        ))
+                        )) : <div>Create Store</div>
                     }
                     <li onClick={createStoreForm}>
                         <FontAwesomeIcon icon={faPlus}/>
@@ -180,7 +182,11 @@ function StoreComponent(prop) {
                         <p>{selectedStore.phoneNumber}</p>
                         <p>{selectedStore.email}</p>
                     </div>
-                    <div className="edit-button" onClick={updateStoreForm}>Edit</div>
+                    {
+                        selectedStore.id ?
+                            <div className="edit-button" onClick={updateStoreForm}>Edit</div>
+                            : <div></div>
+                    }
                 </div>
                 <div className="user-panel-detail">Locations
                     <ul>
@@ -195,9 +201,13 @@ function StoreComponent(prop) {
                                 </li>
                             ))
                         }
-                        <li onClick={createLocationForm}>
-                            <FontAwesomeIcon icon={faPlus} />
-                        </li>
+                        {
+                            selectedStore.id ?
+                                <li onClick={createLocationForm}>
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </li>
+                                : <div></div>
+                        }
                     </ul>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 }
 
 .side-panel {
-    width: 400px;
+    min-width: 400px;
     height: 100vh;
     background-color: #242526;
     color: #ffffff;
