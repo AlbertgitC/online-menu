@@ -6,7 +6,7 @@ import Modal from './modal/modal';
 import StoreForm from './store-form';
 import LocationForm from './location-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 
 function StoreComponent(prop) {
     const [stores, updateStores] = useState([]);
@@ -157,7 +157,7 @@ function StoreComponent(prop) {
     return (
         <div className="store-wrapper">
             <div className="side-panel">
-                <ul>
+                <ul className="stores-ul">
                     {
                         stores[0] ?
                         stores.map((store, idx) => (
@@ -188,8 +188,8 @@ function StoreComponent(prop) {
                             : <div></div>
                     }
                 </div>
-                <div className="user-panel-detail">Locations
-                    <ul>
+                <div className="user-panel-detail">Locations:
+                    <ul className="locations-ul">
                         {
                             selectedLocations.map((location, idx) => (
                                 <li key={idx} className="location-li">
@@ -197,7 +197,7 @@ function StoreComponent(prop) {
                                     <p>{location.description}</p>
                                     <p>{location.phoneNumber}</p>
                                     <p>{location.email}</p>
-                                    <div onClick={() => updateLocationForm(idx)}>Edit</div>
+                                    <FontAwesomeIcon icon={faCog} onClick={() => updateLocationForm(idx)}/>
                                 </li>
                             ))
                         }
