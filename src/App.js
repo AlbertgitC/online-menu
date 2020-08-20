@@ -7,6 +7,7 @@ import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserPanel from './components/user-panel';
 import { Auth } from 'aws-amplify';
+import GlobalStore from './components/util/global-store';
 
 function App() {
     const [currentUser, setUser] = useState(null);
@@ -63,23 +64,25 @@ function App() {
     };
 
     return (
-        <div className="main">
-            <Switch>
-                <ProtectedRoute exact path="/user-panel">
-                    <UserPanel setUser={setUser} currentUser={currentUser}/>
-                </ProtectedRoute>
-                <PublicRoute path="/">
-                    <Header currentUser={currentUser} setUser={setUser}/>
-                    <div className="splash"></div>
-                    <div className="content">
-                        <Landing setUser={setUser}/>
-                        <Landing2 />
-                        <StoreList />
-                    </div>
-                    <div>Footer</div>
-                </PublicRoute>
-            </Switch>
-        </div>
+        <GlobalStore>
+            <div className="main">
+                <Switch>
+                    <ProtectedRoute exact path="/user-panel">
+                        <UserPanel setUser={setUser} currentUser={currentUser}/>
+                    </ProtectedRoute>
+                    <PublicRoute path="/">
+                        <Header currentUser={currentUser} setUser={setUser}/>
+                        <div className="splash"></div>
+                        <div className="content">
+                            <Landing setUser={setUser}/>
+                            <Landing2 />
+                            <StoreList />
+                        </div>
+                        <div>Footer</div>
+                    </PublicRoute>
+                </Switch>
+            </div>
+        </GlobalStore>
     );
 }
 
