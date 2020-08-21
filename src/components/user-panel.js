@@ -14,7 +14,7 @@ function menuClick() {
 
 function UserPanel(prop) {
     const [globalState, dispatch] = useContext(Context);
-    const initialState = { component: <StoreComponent currentUser={prop.currentUser}/> };
+    const initialState = { component: <StoreComponent /> };
     const [currentComponent, updateComponent] = useState(initialState);
     const history = useHistory();
 
@@ -23,12 +23,7 @@ function UserPanel(prop) {
         menuDropdown[0].addEventListener('mouseleave', e => {
             menuDropdown[0].style.display = "none";
         });
-        dispatch({
-            type: 'SIGN_IN',
-            payload: prop.currentUser
-        });
-        console.log("global state", globalState);
-    }, [prop]);
+    }, []);
 
     function signOutRedirect() {
         signOut().then(

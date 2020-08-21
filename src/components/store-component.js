@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from './util/global-store';
 import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';
 import './store-component.css';
@@ -8,7 +9,8 @@ import LocationForm from './location-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 
-function StoreComponent(prop) {
+function StoreComponent() {
+    const [globalState, dispatch] = useContext(Context);
     const [stores, updateStores] = useState([]);
     const [selectedStore, updateSelectStore] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
@@ -16,13 +18,12 @@ function StoreComponent(prop) {
     const [selectedLocations, updateSelectLocations] = useState([]);
 
     useEffect(() => {
-        console.log(prop.currentUser);
         async function getStores() {
             try {
                 return await API.graphql({
                     query: queries.storesByCreatedDate,
                     variables: {
-                        createdBy: prop.currentUser.username, sortDirection: "ASC" 
+                        createdBy: globalState.user.username, sortDirection: "ASC" 
                     }
                 });
             } catch (err) {
@@ -35,7 +36,7 @@ function StoreComponent(prop) {
                 return await API.graphql({
                     query: queries.listLocations,
                     variables: {
-                        filter: { createdBy: { eq: prop.currentUser.username } }
+                        filter: { createdBy: { eq: globalState.user.username } }
                     }
                 });
             } catch (err) {
@@ -75,7 +76,7 @@ function StoreComponent(prop) {
             })
             .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
         return () => (isSubscribed = false);
-    },[prop]);
+    }, [globalState]);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 

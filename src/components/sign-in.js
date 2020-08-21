@@ -19,7 +19,7 @@ function SignIn(prop) {
 
     useEffect(() => {
         if (prop.email) { updateState({ ...state, email: prop.email }); };
-    },[prop]);
+    },[prop,state]);
 
     async function signIn(e) {
         e.preventDefault();
@@ -33,7 +33,6 @@ function SignIn(prop) {
         try {
             await Auth.signIn(email, password).then(
                 res => {
-                    prop.setUser(res);
                     dispatch({
                         type: 'SIGN_IN',
                         payload: res

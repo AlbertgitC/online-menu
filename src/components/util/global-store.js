@@ -4,7 +4,8 @@ import Reducer from './reducer'
 
 export const initialState = {
     user: null,
-    stores: []
+    stores: [],
+    locations: []
 };
 
 export const Context = createContext();
