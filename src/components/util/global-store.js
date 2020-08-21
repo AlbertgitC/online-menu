@@ -4,9 +4,10 @@ import Reducer from './reducer'
 
 export const initialState = {
     user: null,
-    stores: [],
-    error: null
+    stores: []
 };
+
+export const Context = createContext();
 
 const GlobalStore = ({ children }) => {
     const [state, dispatch] = useReducer(Reducer, initialState);
@@ -17,5 +18,4 @@ const GlobalStore = ({ children }) => {
     )
 };
 
-export const Context = createContext(initialState);
 export default GlobalStore;
