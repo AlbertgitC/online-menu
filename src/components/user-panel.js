@@ -14,8 +14,8 @@ function menuClick() {
 
 function UserPanel(prop) {
     const [globalState, dispatch] = useContext(Context);
-    const initialState = { component: <StoreComponent /> };
-    const [currentComponent, updateComponent] = useState(initialState);
+    // const initialState = { component: <StoreComponent /> };
+    const [currentComponent, updateComponent] = useState(<StoreComponent />);
     const history = useHistory();
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function UserPanel(prop) {
                 dispatch({
                     type: 'SIGN_OUT'
                 });
-                prop.setUser(res);
+                // prop.setUser(res);
                 history.push("/");
             }
         );
@@ -50,7 +50,7 @@ function UserPanel(prop) {
                 </ul>
                 <h3>Online Menu</h3>
             </div>
-            {currentComponent.component}
+            {currentComponent}
         </div>
     );
 };

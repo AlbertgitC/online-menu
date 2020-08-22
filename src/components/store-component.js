@@ -11,7 +11,7 @@ import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 
 function StoreComponent() {
     const [globalState, dispatch] = useContext(Context);
-    const [stores, updateStores] = useState([]);
+    // const [stores, updateStores] = useState([]);
     const [selectedStore, updateSelectStore] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
     const [locations, updateLocations] = useState([]);
@@ -60,38 +60,47 @@ function StoreComponent() {
 
         let isSubscribed = true;
 
-        if (!globalState.stores) {
+        if (!globalState.stores && isSubscribed) {
             getStores()
                 .then(res => {
-                    if (isSubscribed) {
+                    
                         console.log('storeData:', res);
                         dispatch({
                             type: 'GET_STORES',
                             payload: res.data.storesByCreatedDate.items
                         });
                         // updateStores(res.data.storesByCreatedDate.items);
-                        const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
-                        updateSelectStore({ ...selected, idx: 0 });
-                        getLocations().then(locations => {
-                                console.log('locationData:', locations);
-                            updateLocations(locations.data.listLocations.items);
-                            initSelectedLocations(selected.id, locations.data.listLocations.items);
-                            })
-                            .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
-                    } else { return null };
+                        // const selected = res.data.storesByCreatedDate.items[0] ? 
+                        //     res.data.storesByCreatedDate.items[0] : {};
+                        // updateSelectStore({ ...selected, idx: 0 });
+                        // getLocations().then(locations => {
+                        //         console.log('locationData:', locations);
+                        //     updateLocations(locations.data.listLocations.items);
+                        //     initSelectedLocations(selected.id, locations.data.listLocations.items);
+                        //     })
+                        //     .catch(locationsError => (isSubscribed ?
+                        //         console.log('error fetching locations', locationsError) : null));
                 })
-                .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
+                .catch(error => {
+                    console.log('error fetching stores', error);
+                });
         };
         
         return () => (isSubscribed = false);
-    }, [globalState]);
+    }, [globalState, dispatch]);
+
+    useEffect(() => {
+        const selected = globalState.stores && globalState.stores[0] ? 
+            globalState.stores[0] : {};
+        updateSelectStore({ ...selected, idx: 0 });
+    }, []);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 
             modalAction={updateModal}
-            updateStores={updateStores}
+            // updateStores={updateStores}
             updateSelectStore={updateSelectStore}
-            stores={stores}
+            // stores={stores}
             action="create"
         /> });
     };
@@ -101,8 +110,8 @@ function StoreComponent() {
             component: <StoreForm
                 modalAction={updateModal}
                 updateSelectStore={updateSelectStore}
-                updateStores={updateStores}
-                stores={stores}
+                // updateStores={updateStores}
+                // stores={stores}
                 selectedStore={selectedStore}
                 action="update"
             />
@@ -110,7 +119,7 @@ function StoreComponent() {
     };
 
     function setSelectedStore(idx,e) {
-        const selected = stores[idx];
+        const selected = globalState.stores[idx];
         updateSelectStore({ ...selected, idx: idx });
         const storeLis = document.getElementsByClassName("store-li");
         for (let i = 0; i < storeLis.length; i++) {
