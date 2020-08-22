@@ -19,7 +19,7 @@ function SignIn(prop) {
 
     useEffect(() => {
         if (prop.email) { updateState({ ...state, email: prop.email }); };
-    },[prop,state]);
+    },[prop, state]);
 
     async function signIn(e) {
         e.preventDefault();

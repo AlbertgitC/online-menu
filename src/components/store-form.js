@@ -1,4 +1,5 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect, useContext } from 'react';
+import { Context } from './util/global-store';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../graphql/mutations';
 import './store-form.css';
@@ -23,17 +24,18 @@ function reducer(state, action) {
 };
 
 function StoreForm(prop) {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [globalState, dispatch] = useContext(Context);
+    const [state, setState] = useState(initialState);
 
     useEffect(() => {
         if (prop.action === "update") {
             for (const key in prop.selectedStore) {
-                dispatch({ type: "SET_INPUT", key: key, value: prop.selectedStore[key] });
+                setState(s => ({ ...s, [key]: prop.selectedStore[key] }));
             };
             if (!prop.selectedStore.description) {
-                dispatch({ type: "SET_INPUT", key: "description", value: "" });
+                setState(s => ({ ...s, description: "" }));
             };
-            dispatch({ type: "SET_INPUT", key: "phoneNumber", value: prop.selectedStore.phoneNumber.slice(2) });
+            setState(s => ({ ...s, phoneNumber: prop.selectedStore.phoneNumber.slice(2) }));
         };
     }, [prop]);
 

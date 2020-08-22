@@ -12,9 +12,8 @@ function menuClick() {
     menu[0].style.display = "block";
 };
 
-function UserPanel(prop) {
+function UserPanel() {
     const [globalState, dispatch] = useContext(Context);
-    // const initialState = { component: <StoreComponent /> };
     const [currentComponent, updateComponent] = useState(<StoreComponent />);
     const history = useHistory();
 
@@ -28,10 +27,10 @@ function UserPanel(prop) {
     function signOutRedirect() {
         signOut().then(
             res => {
+                console.log(globalState);
                 dispatch({
                     type: 'SIGN_OUT'
                 });
-                // prop.setUser(res);
                 history.push("/");
             }
         );
