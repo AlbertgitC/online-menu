@@ -51,7 +51,7 @@ function StoreComponent() {
             Promise.all([storesData, locationsData]).then(res => {
                 console.log('storeData:', res[0]);
                 dispatch({
-                    type: 'GET_STORES',
+                    type: 'SET_STORES',
                     payload: res[0].data.storesByCreatedDate.items
                 });
                 console.log('locationData:', res[1]);
@@ -90,7 +90,7 @@ function StoreComponent() {
 
         updateSelectStore({ ...selected, idx: 0 });
         initSelectedLocations(selected.id, locationsData);
-
+        
     }, [globalState]);
 
     function createStoreForm() {

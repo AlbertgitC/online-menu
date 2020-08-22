@@ -18,6 +18,7 @@ function UserPanel() {
     const history = useHistory();
 
     useEffect(() => {
+        console.log("user panel mounted");
         const menuDropdown = document.getElementsByClassName("dropdown_menu");
         menuDropdown[0].addEventListener('mouseleave', e => {
             menuDropdown[0].style.display = "none";
@@ -26,8 +27,7 @@ function UserPanel() {
 
     function signOutRedirect() {
         signOut().then(
-            res => {
-                console.log(globalState);
+            () => {
                 dispatch({
                     type: 'SIGN_OUT'
                 });

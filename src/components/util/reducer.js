@@ -11,7 +11,7 @@ const Reducer = (state, action) => {
             return {
                 ...initialState
             };
-        case 'GET_STORES':
+        case 'SET_STORES':
             return {
                 ...state,
                 stores: action.payload
@@ -19,7 +19,7 @@ const Reducer = (state, action) => {
         case 'CREATE_STORE':
             return {
                 ...state,
-                stores: state.stores.push(action.payload)
+                stores: action.payload
             };
         case 'UPDATE_STORE':
             return {
@@ -34,7 +34,7 @@ const Reducer = (state, action) => {
         case 'CREATE_LOCATION':
             return {
                 ...state,
-                locations: state.locations.push(action.payload)
+                locations: action.payload
             };
         case 'UPDATE_LOCATION':
             return {
