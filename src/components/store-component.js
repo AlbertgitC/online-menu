@@ -23,7 +23,7 @@ function StoreComponent() {
                 return await API.graphql({
                     query: queries.storesByCreatedDate,
                     variables: {
-                        createdBy: globalState.user.username, sortDirection: "ASC" 
+                        createdBy: globalState.user.username, sortDirection: "ASC"
                     }
                 });
             } catch (err) {
@@ -59,22 +59,30 @@ function StoreComponent() {
         };
 
         let isSubscribed = true;
-        getStores()
-            .then(res => {
-                if (isSubscribed) {
-                    console.log('storeData:', res);
-                    updateStores(res.data.storesByCreatedDate.items);
-                    const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
-                    updateSelectStore({ ...selected, idx: 0 });
-                    getLocations().then(locations => {
-                            console.log('locationData:', locations);
-                        updateLocations(locations.data.listLocations.items);
-                        initSelectedLocations(selected.id, locations.data.listLocations.items);
-                        })
-                        .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
-                } else { return null };
-            })
-            .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
+
+        if (!globalState.stores) {
+            getStores()
+                .then(res => {
+                    if (isSubscribed) {
+                        console.log('storeData:', res);
+                        dispatch({
+                            type: 'GET_STORES',
+                            payload: res.data.storesByCreatedDate.items
+                        });
+                        // updateStores(res.data.storesByCreatedDate.items);
+                        const selected = res.data.storesByCreatedDate.items[0] ? res.data.storesByCreatedDate.items[0] : {};
+                        updateSelectStore({ ...selected, idx: 0 });
+                        getLocations().then(locations => {
+                                console.log('locationData:', locations);
+                            updateLocations(locations.data.listLocations.items);
+                            initSelectedLocations(selected.id, locations.data.listLocations.items);
+                            })
+                            .catch(locationsError => (isSubscribed ? console.log('error fetching locations', locationsError) : null));
+                    } else { return null };
+                })
+                .catch(error => (isSubscribed ? console.log('error fetching stores', error) : null));
+        };
+        
         return () => (isSubscribed = false);
     }, [globalState]);
 
@@ -160,8 +168,8 @@ function StoreComponent() {
             <div className="side-panel">
                 <ul className="stores-ul">
                     {
-                        stores[0] ?
-                        stores.map((store, idx) => (
+                        globalState.stores && globalState.stores[0]?
+                        globalState.stores.map((store, idx) => (
                             <li key={idx} className="store-li" onClick={(e) => setSelectedStore(idx,e)}>
                                 <h3>{store.name}</h3>
                             </li>

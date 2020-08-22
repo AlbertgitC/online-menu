@@ -4,7 +4,7 @@ import Reducer from './reducer'
 
 export const initialState = {
     user: null,
-    stores: [],
+    stores: null,
     locations: []
 };
 
