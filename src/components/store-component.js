@@ -44,56 +44,122 @@ function StoreComponent() {
             };
         };
 
-        function initSelectedLocations(id, locationsArr) {
-            const selectedLocations = [];
+        // function initSelectedLocations(id, locationsArr) {
+        //     const selectedLocations = [];
 
-            for (const location of locationsArr) {
-                if (location.storeId === id) { selectedLocations.push(location); };
-            };
+        //     for (const location of locationsArr) {
+        //         if (location.storeId === id) { selectedLocations.push(location); };
+        //     };
 
-            selectedLocations.sort((a, b) => {
-                return new Date(a.createdAt) - new Date(b.createdAt);
-            });
+        //     selectedLocations.sort((a, b) => {
+        //         return new Date(a.createdAt) - new Date(b.createdAt);
+        //     });
 
-            updateSelectLocations(selectedLocations);
-        };
+        //     updateSelectLocations(selectedLocations);
+        // };
+        const storesData = getStores();
+        const locationsData = getLocations();
 
         let isSubscribed = true;
 
         if (!globalState.stores && isSubscribed) {
-            getStores()
-                .then(res => {
-                    
-                        console.log('storeData:', res);
-                        dispatch({
-                            type: 'GET_STORES',
-                            payload: res.data.storesByCreatedDate.items
-                        });
-                        // updateStores(res.data.storesByCreatedDate.items);
-                        // const selected = res.data.storesByCreatedDate.items[0] ? 
-                        //     res.data.storesByCreatedDate.items[0] : {};
-                        // updateSelectStore({ ...selected, idx: 0 });
-                        // getLocations().then(locations => {
-                        //         console.log('locationData:', locations);
-                        //     updateLocations(locations.data.listLocations.items);
-                        //     initSelectedLocations(selected.id, locations.data.listLocations.items);
-                        //     })
-                        //     .catch(locationsError => (isSubscribed ?
-                        //         console.log('error fetching locations', locationsError) : null));
-                })
-                .catch(error => {
-                    console.log('error fetching stores', error);
+            Promise.all([storesData, locationsData]).then(res => {
+                console.log('storeData:', res[0]);
+                dispatch({
+                    type: 'GET_STORES',
+                    payload: res[0].data.storesByCreatedDate.items
                 });
+                console.log('locationData:', res[1]);
+                dispatch({
+                    type: 'GET_LOCATIONS',
+                    payload: res[1].data.listLocations.items
+                });
+            }).catch(errors => {
+                console.log('error fetching stores', errors[0]);
+                console.log('error fetching locations', errors[1]);
+            });
+            // getStores()
+            //     .then(res => {
+            //         console.log('storeData:', res);
+            //         dispatch({
+            //             type: 'GET_STORES',
+            //             payload: res.data.storesByCreatedDate.items
+            //         });
+                    // updateStores(res.data.storesByCreatedDate.items);
+                    // const selected = res.data.storesByCreatedDate.items[0] ? 
+                    //     res.data.storesByCreatedDate.items[0] : {};
+                    // updateSelectStore({ ...selected, idx: 0 });
+                    // getLocations()
+                    //     .then(locations => {
+                    //         console.log('locationData:', locations);
+                    //         updateLocations(locations.data.listLocations.items);
+                    //         initSelectedLocations(selected.id, locations.data.listLocations.items);
+                    //     })
+                    //     .catch(locationsError => (isSubscribed ?
+                    //         console.log('error fetching locations', locationsError) : null));
+                // })
+                // .catch(error => {
+                //     console.log('error fetching stores', error);
+                // });
         };
         
         return () => (isSubscribed = false);
     }, [globalState, dispatch]);
 
+    // useEffect(() => {
+    //     async function getLocations() {
+    //         try {
+    //             return await API.graphql({
+    //                 query: queries.listLocations,
+    //                 variables: {
+    //                     filter: { createdBy: { eq: globalState.user.username } }
+    //                 }
+    //             });
+    //         } catch (err) {
+    //             return err;
+    //         };
+    //     };
+
+    //     function initSelectedLocations(id, locationsArr) {
+    //         const selectedLocations = [];
+
+    //         for (const location of locationsArr) {
+    //             if (location.storeId === id) { selectedLocations.push(location); };
+    //         };
+
+    //         selectedLocations.sort((a, b) => {
+    //             return new Date(a.createdAt) - new Date(b.createdAt);
+    //         });
+
+    //         updateSelectLocations(selectedLocations);
+    //     };
+
+    //     let isSubscribed = true;
+
+    //     if (!globalState.locations && isSubscribed) {
+    //         getLocations()
+    //             .then(locations => {
+    //                 console.log('locationData:', locations);
+    //                 dispatch({
+    //                     type: 'GET_LOCATIONS',
+    //                     payload: locations.data.listLocations.items
+    //                 });
+    //                 // updateLocations(locations.data.listLocations.items);
+    //                 // initSelectedLocations(selected.id, locations.data.listLocations.items);
+    //             })
+    //             .catch(locationsError => {
+    //                 console.log('error fetching locations', locationsError);
+    //             });
+    //     };
+
+    //     return () => (isSubscribed = false);
+    // }, [globalState, dispatch]);
+
     useEffect(() => {
         const selected = globalState.stores && globalState.stores[0] ? 
             globalState.stores[0] : {};
         updateSelectStore({ ...selected, idx: 0 });
-    }, []);
+    }, [globalState]);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 

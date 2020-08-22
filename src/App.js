@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import StoreList from './components/list-stores';
-import Header from './components/header';
-import Landing from './components/landing';
-import Landing2 from './components/landing2';
+import React from 'react';
+// import StoreList from './components/list-stores';
+// import Header from './components/header';
+// import Landing from './components/landing';
+// import Landing2 from './components/landing2';
 import './App.css';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import UserPanel from './components/user-panel';
-import { Auth } from 'aws-amplify';
+// import { Switch, Route, Redirect } from 'react-router-dom';
+// import UserPanel from './components/user-panel';
+// import { Auth } from 'aws-amplify';
 import GlobalStore from './components/util/global-store';
 import Main from './components/main';
 

@@ -26,6 +26,21 @@ const Reducer = (state, action) => {
                 ...state,
                 stores: action.payload
             };
+        case 'GET_LOCATIONS':
+            return {
+                ...state,
+                locations: action.payload
+            };
+        case 'CREATE_LOCATION':
+            return {
+                ...state,
+                locations: state.locations.push(action.payload)
+            };
+        case 'UPDATE_LOCATION':
+            return {
+                ...state,
+                locations: action.payload
+            };
         default:
             return state;
     }
