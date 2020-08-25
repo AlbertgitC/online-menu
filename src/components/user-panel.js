@@ -5,7 +5,7 @@ import { signOut } from './util/util-auth';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Context } from './util/global-store';
+import { StoreContext, UserContext } from './util/global-store';
 
 function menuClick() {
     const menu = document.getElementsByClassName("dropdown_menu");
@@ -13,7 +13,8 @@ function menuClick() {
 };
 
 function UserPanel() {
-    const [globalState, dispatch] = useContext(Context);
+    const [storeData, dispatch] = useContext(StoreContext);
+    const [authState, authDispatch] = useContext(UserContext);
     const [currentComponent, updateComponent] = useState(<StoreComponent />);
     const history = useHistory();
 
@@ -29,6 +30,9 @@ function UserPanel() {
         signOut().then(
             () => {
                 dispatch({
+                    type: 'CLEAR_STORE'
+                });
+                authDispatch({
                     type: 'SIGN_OUT'
                 });
                 history.push("/");

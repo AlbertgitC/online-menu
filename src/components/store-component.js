@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Context } from './util/global-store';
+import { StoreContext, UserContext } from './util/global-store';
 import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';
 import './store-component.css';
@@ -10,7 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 
 function StoreComponent() {
-    const [globalState, dispatch] = useContext(Context);
+    const [authState, authDispatch] = useContext(UserContext);
+    const [globalState, dispatch] = useContext(StoreContext);
     const [selectedStore, updateSelectStore] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
     const [selectedLocations, updateSelectLocations] = useState([]);
@@ -21,7 +22,7 @@ function StoreComponent() {
                 return await API.graphql({
                     query: queries.storesByCreatedDate,
                     variables: {
-                        createdBy: globalState.user.username, sortDirection: "ASC"
+                        createdBy: authState.user.username, sortDirection: "ASC"
                     }
                 });
             } catch (err) {
@@ -34,7 +35,7 @@ function StoreComponent() {
                 return await API.graphql({
                     query: queries.listLocations,
                     variables: {
-                        filter: { createdBy: { eq: globalState.user.username } }
+                        filter: { createdBy: { eq: authState.user.username } }
                     }
                 });
             } catch (err) {
@@ -66,7 +67,7 @@ function StoreComponent() {
         };
         
         return () => (isSubscribed = false);
-    }, [globalState, dispatch]);
+    }, [globalState, dispatch, authState]);
 
     useEffect(() => {
         function initSelectedLocations(id, locationsArr) {
@@ -88,10 +89,13 @@ function StoreComponent() {
         const locationsData = globalState.locations ?
             globalState.locations : [];
 
-        updateSelectStore({ ...selected, idx: 0 });
+        if (!selectedStore.id) {
+            updateSelectStore({ ...selected, idx: 0 });
+        };
+        
         initSelectedLocations(selected.id, locationsData);
         
-    }, [globalState]);
+    }, [globalState, selectedStore]);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 

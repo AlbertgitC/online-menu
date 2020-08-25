@@ -1,30 +1,23 @@
-import { initialState } from './global-store';
+import { storeInitialState } from './global-store';
 
 const Reducer = (state, action) => {
     switch (action.type) {
         case 'SIGN_IN':
             return {
-                ...state,
                 user: action.payload
             };
         case 'SIGN_OUT':
             return {
-                ...initialState
+                user: null
             };
         case 'SET_STORES':
             return {
                 ...state,
                 stores: action.payload
             };
-        case 'CREATE_STORE':
+        case 'CLEAR_STORE':
             return {
-                ...state,
-                stores: action.payload
-            };
-        case 'UPDATE_STORE':
-            return {
-                ...state,
-                stores: action.payload
+                ...storeInitialState
             };
         case 'GET_LOCATIONS':
             return {

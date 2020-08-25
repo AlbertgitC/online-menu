@@ -3,7 +3,6 @@ import { SignupForm } from './signup-form';
 import './landing.css';
 
 function Landing(prop) {
-
     return (
         <div className="landing">
             <div className="slogan">

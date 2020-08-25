@@ -2,21 +2,33 @@ import React, { createContext, useReducer } from "react";
 import Reducer from './reducer'
 
 
-export const initialState = {
-    user: null,
+export const storeInitialState = {
     stores: null,
     locations: null
 };
 
-export const Context = createContext();
+export const userInitialState = {
+    user: null
+};
 
-const GlobalStore = ({ children }) => {
-    const [state, dispatch] = useReducer(Reducer, initialState);
+export const StoreContext = createContext();
+
+export const UserContext = createContext();
+
+export const GlobalStore = ({ children }) => {
+    const [state, dispatch] = useReducer(Reducer, storeInitialState);
     return (
-        <Context.Provider value={[state, dispatch]}>
+        <StoreContext.Provider value={[state, dispatch]}>
             {children}
-        </Context.Provider>
+        </StoreContext.Provider>
     )
 };
 
-export default GlobalStore;
+export const AuthState = ({ children }) => {
+    const [state, dispatch] = useReducer(Reducer, userInitialState);
+    return (
+        <UserContext.Provider value={[state, dispatch]}>
+            {children}
+        </UserContext.Provider>
+    )
+};

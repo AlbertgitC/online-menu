@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
-import { Context } from './util/global-store';
+import { UserContext } from './util/global-store';
+import { GlobalStore } from './util/global-store';
 import { Auth } from 'aws-amplify';
 import StoreList from './list-stores';
 import Header from './header';
@@ -9,7 +10,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import UserPanel from './user-panel';
 
 function Main() {
-    const [globalState, dispatch] = useContext(Context);
+    const [userState, dispatch] = useContext(UserContext);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -31,7 +32,7 @@ function Main() {
             <Route
                 {...rest}
                 render={({ location }) => {
-                    if (globalState.user) {
+                    if (userState.user) {
                         return children;
                     } else {
                         return (<Redirect
@@ -51,7 +52,7 @@ function Main() {
             <Route
                 {...rest}
                 render={({ location }) => {
-                    if (!globalState.user) {
+                    if (!userState.user) {
                         return children;
                     } else {
                         return (<Redirect
@@ -70,7 +71,9 @@ function Main() {
         <div className="main">
             <Switch>
                 <ProtectedRoute exact path="/user-panel">
-                    <UserPanel />
+                    <GlobalStore>
+                        <UserPanel />
+                    </GlobalStore>
                 </ProtectedRoute>
                 <PublicRoute path="/">
                     <Header />

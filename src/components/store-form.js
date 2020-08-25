@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect, useContext } from 'react';
-import { Context } from './util/global-store';
+import { StoreContext } from './util/global-store';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../graphql/mutations';
 import './store-form.css';
@@ -24,7 +24,7 @@ const initialState = {
 // };
 
 function StoreForm(prop) {
-    const [globalState, dispatch] = useContext(Context);
+    const [globalState, dispatch] = useContext(StoreContext);
     const [state, setState] = useState(initialState);
 
     useEffect(() => {

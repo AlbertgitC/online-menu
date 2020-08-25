@@ -7,7 +7,7 @@ import './App.css';
 // import { Switch, Route, Redirect } from 'react-router-dom';
 // import UserPanel from './components/user-panel';
 // import { Auth } from 'aws-amplify';
-import GlobalStore from './components/util/global-store';
+import { AuthState } from './components/util/global-store';
 import Main from './components/main';
 
 function App() {
@@ -65,9 +65,9 @@ function App() {
     // };
 
     return (
-        <GlobalStore>
+        <AuthState>
             <Main/>
-        </GlobalStore>
+        </AuthState>
     );
 }
 

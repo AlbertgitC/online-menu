@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify';
 import ResendConfirm from './resend-confirm';
 import './sign-in.css';
 import { useHistory } from 'react-router-dom';
-import { Context } from './util/global-store';
+import { UserContext } from './util/global-store';
 
 const initialState = {
     email: "",
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 function SignIn(prop) {
-    const [globalState, dispatch] = useContext(Context);
+    const [authState, dispatch] = useContext(UserContext);
     const [state, updateState] = useState(initialState);
     const { email, password, err } = state;
     const history = useHistory();
