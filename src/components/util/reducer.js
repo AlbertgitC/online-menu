@@ -19,17 +19,7 @@ const Reducer = (state, action) => {
             return {
                 ...storeInitialState
             };
-        case 'GET_LOCATIONS':
-            return {
-                ...state,
-                locations: action.payload
-            };
-        case 'CREATE_LOCATION':
-            return {
-                ...state,
-                locations: action.payload
-            };
-        case 'UPDATE_LOCATION':
+        case 'SET_LOCATIONS':
             return {
                 ...state,
                 locations: action.payload

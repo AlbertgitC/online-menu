@@ -47,8 +47,8 @@ function StoreComponent() {
         const locationsData = getLocations();
 
         let isSubscribed = true;
-
-        if (!globalState.stores && isSubscribed) {
+        // !globalState.stores && 
+        if (isSubscribed) {
             Promise.all([storesData, locationsData]).then(res => {
                 console.log('storeData:', res[0]);
                 dispatch({
@@ -57,7 +57,7 @@ function StoreComponent() {
                 });
                 console.log('locationData:', res[1]);
                 dispatch({
-                    type: 'GET_LOCATIONS',
+                    type: 'SET_LOCATIONS',
                     payload: res[1].data.listLocations.items
                 });
             }).catch(errors => {
@@ -65,12 +65,14 @@ function StoreComponent() {
                 console.log('error fetching locations', errors[1]);
             });
         };
-        
+        // globalState, dispatch, authState
         return () => (isSubscribed = false);
-    }, [globalState, dispatch, authState]);
+    }, [dispatch, authState]);
 
     useEffect(() => {
         function initSelectedLocations(id, locationsArr) {
+            if (!locationsArr[0]) return;
+
             const selectedLocations = [];
 
             for (const location of locationsArr) {
@@ -89,12 +91,12 @@ function StoreComponent() {
         const locationsData = globalState.locations ?
             globalState.locations : [];
 
-        if (!selectedStore.id) {
-            updateSelectStore({ ...selected, idx: 0 });
+        if (!selectedStore.id && globalState.stores[0]) {
+            updateSelectStore({ ...globalState.stores[0], idx: 0 });
         };
         
-        initSelectedLocations(selected.id, locationsData);
-        
+        initSelectedLocations(selectedStore.id, globalState.locations);
+        // globalState, selectedStore
     }, [globalState, selectedStore]);
 
     function createStoreForm() {
