@@ -18,8 +18,10 @@ function SignIn(prop) {
     const history = useHistory();
 
     useEffect(() => {
-        if (prop.email) { updateState({ ...state, email: prop.email }); };
-    },[prop, state]);
+        if (prop.email) { 
+            updateState( s => ({ ...s, email: prop.email })); 
+        };
+    },[prop]);
 
     async function signIn(e) {
         e.preventDefault();

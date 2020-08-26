@@ -1,0 +1,50 @@
+.menu-wrapper {
+    display: flex;
+}
+
+.side-panel {
+    width: 400px;
+    min-width: 400px;
+    height: 100vh;
+    background-color: #242526;
+    color: #ffffff;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+}
+
+ul.location-ul {
+    margin-top: 78px;
+    overflow: auto;
+}
+
+ul.location-ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+ul.location-ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+ 
+ul.location-ul::-webkit-scrollbar-thumb {
+  background: #808080;
+  border-radius: 10px;
+}
+
+ul.location-ul::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+ul.location-ul li {
+    cursor: pointer;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    margin: 8px 10px 8px 0;
+    padding: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+ul.location-ul li:first-of-type {
+    background-color: #000000;
+}

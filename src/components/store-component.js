@@ -47,8 +47,8 @@ function StoreComponent() {
         const locationsData = getLocations();
 
         let isSubscribed = true;
-        // !globalState.stores && 
-        if (isSubscribed) {
+        
+        if (isSubscribed && globalState.stores === null) {
             Promise.all([storesData, locationsData]).then(res => {
                 console.log('storeData:', res[0]);
                 dispatch({
@@ -65,7 +65,7 @@ function StoreComponent() {
                 console.log('error fetching locations', errors[1]);
             });
         };
-        // globalState, dispatch, authState
+        
         return () => (isSubscribed = false);
     }, [dispatch, authState]);
 
@@ -91,20 +91,18 @@ function StoreComponent() {
         const locationsData = globalState.locations ?
             globalState.locations : [];
 
-        if (!selectedStore.id && globalState.stores[0]) {
-            updateSelectStore({ ...globalState.stores[0], idx: 0 });
+        if (!selectedStore.id && selected.id) {
+            updateSelectStore({ ...selected, idx: 0 });
         };
         
-        initSelectedLocations(selectedStore.id, globalState.locations);
-        // globalState, selectedStore
+        initSelectedLocations(selectedStore.id, locationsData);
+        
     }, [globalState, selectedStore]);
 
     function createStoreForm() {
         updateModal({ component: <StoreForm 
             modalAction={updateModal}
-            // updateStores={updateStores}
             updateSelectStore={updateSelectStore}
-            // stores={stores}
             action="create"
         /> });
     };
@@ -114,8 +112,6 @@ function StoreComponent() {
             component: <StoreForm
                 modalAction={updateModal}
                 updateSelectStore={updateSelectStore}
-                // updateStores={updateStores}
-                // stores={stores}
                 selectedStore={selectedStore}
                 action="update"
             />
@@ -139,8 +135,6 @@ function StoreComponent() {
             component: <LocationForm
                 storeId={selectedStore.id}
                 modalAction={updateModal}
-                // updateLocations={updateLocations}
-                // locations={locations}
                 updateSelectLocations={updateSelectLocations}
                 selectedLocations={selectedLocations}
                 action="create"
@@ -152,8 +146,6 @@ function StoreComponent() {
         updateModal({
             component: <LocationForm
                 modalAction={updateModal}
-                // updateLocations={updateLocations}
-                // locations={locations}
                 updateSelectLocations={updateSelectLocations}
                 selectedLocations={selectedLocations}
                 targetLocationIdx={idx}

@@ -3,6 +3,7 @@ import { StoreContext } from './util/global-store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 import Modal from './modal/modal';
+import './menu-component.css';
 
 function MenuComponent() {
     const [storesData, dispatch] = useContext(StoreContext);

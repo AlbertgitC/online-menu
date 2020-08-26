@@ -3,8 +3,8 @@ import Reducer from './reducer'
 
 
 export const storeInitialState = {
-    stores: [],
-    locations: []
+    stores: null,
+    locations: null
 };
 
 export const userInitialState = {

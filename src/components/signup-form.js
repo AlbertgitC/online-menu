@@ -59,7 +59,6 @@ export function SignupForm(prop) {
             updateModal({ component: <ConfirmSignUp 
                 usernameProp={email} 
                 modalAction={updateModal}
-                setUser={prop.setUser}
                 /> });
             updateState(initialState);
         } catch (error) {
@@ -133,7 +132,6 @@ export function ConfirmSignUp(prop) {
             updateConfirm(initialConfirm);
             prop.modalAction({ component: <SignIn 
                 email={username}
-                setUser={prop.setUser}
             /> });
         } catch (error) {
             console.log('error confirming sign up', error);
