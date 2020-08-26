@@ -14,16 +14,20 @@ function Main() {
 
     useEffect(() => {
         let isSubscribed = true;
-        Auth.currentAuthenticatedUser()
-            .then(res => (
-                isSubscribed ? dispatch({
-                    type: 'SIGN_IN',
-                    payload: res
-                }) : null
-            ))
-            .catch(err => (
-                isSubscribed ? console.log("error finding user:", err) : null
-            ));
+
+        if (isSubscribed) {
+            Auth.currentAuthenticatedUser()
+                .then(res => {
+                    dispatch({
+                        type: 'SIGN_IN',
+                        payload: res
+                    });
+                })
+                .catch(err => (
+                    console.log("error finding user:", err)
+                ));
+        };
+
         return () => (isSubscribed = false);
     }, [dispatch]);
 

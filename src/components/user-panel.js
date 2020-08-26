@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './user-panel.css';
 import StoreComponent from './store-component';
+import MenuComponent from './menu-component';
 import { signOut } from './util/util-auth';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,8 +47,10 @@ function UserPanel() {
                 <FontAwesomeIcon icon={faBars} className="dropdown" onClick={menuClick}/>
                 <ul className="dropdown_menu">
                     <li className="dropdown_item-1">Orders</li>
-                    <li className="dropdown_item-2">Stores</li>
-                    <li className="dropdown_item-3">Menu</li>
+                    <li className="dropdown_item-2" onClick={() => {
+                        updateComponent(<StoreComponent />)}}>Stores</li>
+                    <li className="dropdown_item-3" onClick={() => {
+                        updateComponent(<MenuComponent />)}}>Menu</li>
                     <li className="dropdown_item-4">User Info</li>
                     <li className="dropdown_item-5" onClick={signOutRedirect}>Sign out</li>
                 </ul>
