@@ -38,10 +38,10 @@ function MenuComponent() {
             setLocation(locations[0]);
         };
 
-        const storeDropdown = document.getElementsByClassName("store-list");
-        if (storeDropdown[0]) {
-            storeDropdown[0].addEventListener('mouseleave', e => {
-                storeDropdown[0].style.display = "none";
+        const storeList = document.getElementsByClassName("store-list");
+        if (storeList[0]) {
+            storeList[0].addEventListener('mouseleave', e => {
+                storeList[0].style.display = "none";
             });
         };
     }, [storesData, locations]);
@@ -57,13 +57,41 @@ function MenuComponent() {
         // setSelectedLocations(selected.id);
     };
 
-    function changeStore() {
+    function changeStore(event, store) {
+        event.stopPropagation();
+        const storeList = document.getElementsByClassName("store-list");
+        storeList[0].style.display = "none";
+        setStore(store);
 
+        const selectedLocations = [];
+
+        for (const location of storesData.locations) {
+            if (location.storeId === store.id) { selectedLocations.push(location); };
+        };
+
+        selectedLocations.sort((a, b) => {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        });
+
+        setLocations(selectedLocations);
+
+        if (selectedLocations.length > 0) {
+            setLocation(selectedLocations[0]);
+            const locationLis = document.getElementsByClassName("location-li");
+            for (let i = 0; i < locationLis.length; i++) {
+                locationLis[i].style.backgroundColor = "#242526";
+            };
+            if (locationLis.length > 0) {
+                locationLis[0].style.backgroundColor = "#000000";
+            };
+        } else {
+            setLocation({});
+        };
     };
 
     function showStoreList() {
-        const menu = document.getElementsByClassName("store-list");
-        menu[0].style.display = "block";
+        const storeList = document.getElementsByClassName("store-list");
+        storeList[0].style.display = "block";
     }
 
     return (
@@ -101,7 +129,9 @@ function MenuComponent() {
                                         <ul className="store-list">
                                             {
                                                 storesData.stores.map((store, idx) => (
-                                                    <li key={idx} className="menu-store-li" onClick={changeStore}>
+                                                    <li key={idx} className="menu-store-li" onClick={
+                                                        e => {changeStore(e, store)}
+                                                        }>
                                                         {store.name}
                                                     </li>
                                                 ))
