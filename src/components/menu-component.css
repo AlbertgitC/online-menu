@@ -48,3 +48,39 @@ ul.location-ul li {
 ul.location-ul li:first-of-type {
     background-color: #000000;
 }
+
+.change-store {
+    height: min-content;
+    margin: 21px 0 0 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-head > div:first-of-type {
+    display: flex;
+}
+
+.menu-head {
+    word-break: break-word;
+}
+
+.store-list {
+    display: none;
+    position: absolute;
+    top: 95%;
+    left: 0;
+    width: 200px;
+    height: 185px;
+    overflow-y: scroll;
+}
+
+.store-list li {
+    background-color: #18191A;
+    color: white;
+    padding: 10px;
+    border-bottom: 1px solid #808080;
+}
+
+.store-list li:hover {
+    background-color: #000000;
+}

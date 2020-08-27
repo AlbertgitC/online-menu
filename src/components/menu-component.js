@@ -29,13 +29,20 @@ function MenuComponent() {
             setLocations(selectedLocations);
         };
 
-        if (storesData.stores[0] && !selectedStore.id) {
+        if (storesData.stores && storesData.stores[0] && !selectedStore.id) {
             setStore(storesData.stores[0]);
             initSelectedLocations(storesData.stores[0].id, storesData.locations);
         };
 
         if (locations[0] && !selectedLocation.id) {
             setLocation(locations[0]);
+        };
+
+        const storeDropdown = document.getElementsByClassName("store-list");
+        if (storeDropdown[0]) {
+            storeDropdown[0].addEventListener('mouseleave', e => {
+                storeDropdown[0].style.display = "none";
+            });
         };
     }, [storesData, locations]);
 
@@ -49,6 +56,15 @@ function MenuComponent() {
 
         // setSelectedLocations(selected.id);
     };
+
+    function changeStore() {
+
+    };
+
+    function showStoreList() {
+        const menu = document.getElementsByClassName("store-list");
+        menu[0].style.display = "block";
+    }
 
     return (
         <div className="menu-wrapper">
@@ -75,16 +91,31 @@ function MenuComponent() {
                 </ul>
             </div>
             <div className="user-panel-main">
-                <div>
-                    <div>
-                        <div className="store-head">
-                            <h1>{selectedStore.name}</h1>
-                            <p>{selectedLocation.description}</p>
-                        </div>
-                        <p>{selectedLocation.address}</p>
-                        <p>{selectedLocation.phoneNumber}</p>
-                        <p>{selectedLocation.email}</p>
-                    </div>
+                <div className="user-panel-header">
+                    {
+                        selectedStore.id ?
+                            <div className="menu-head">
+                                <div>
+                                    <h1>{selectedStore.name}</h1>
+                                    <div className="change-store" onClick={showStoreList}>Change Store
+                                        <ul className="store-list">
+                                            {
+                                                storesData.stores.map((store, idx) => (
+                                                    <li key={idx} className="menu-store-li" onClick={changeStore}>
+                                                        {store.name}
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>    
+                                <h2>{selectedLocation.address}</h2>
+                                <p>{selectedLocation.description}</p>
+                                <p>{selectedLocation.phoneNumber}</p>
+                                <p>{selectedLocation.email}</p>
+                            </div>
+                            : <div className="menu-head"></div>
+                    }
                     {
                         selectedLocation.id ?
                             <div className="edit-button">Edit Location</div>
