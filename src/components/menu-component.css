@@ -84,3 +84,11 @@ ul.location-ul li:first-of-type {
 .store-list li:hover {
     background-color: #000000;
 }
+
+ul.location-ul li:last-of-type {
+    width: fit-content;
+}
+
+ul.location-ul li:last-of-type svg{
+    margin: 0 5px 0 5px;
+}

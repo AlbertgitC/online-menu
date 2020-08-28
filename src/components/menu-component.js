@@ -3,6 +3,7 @@ import { StoreContext } from './util/global-store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 import Modal from './modal/modal';
+import LocationForm from './location-form';
 import './menu-component.css';
 
 function MenuComponent() {
@@ -35,7 +36,7 @@ function MenuComponent() {
         };
 
         if (locations[0] && !selectedLocation.id) {
-            setLocation(locations[0]);
+            setLocation({ ...locations[0], idx: 0 });
         };
 
         const storeList = document.getElementsByClassName("store-list");
@@ -47,7 +48,7 @@ function MenuComponent() {
     }, [storesData, locations]);
 
     function selectLocation(idx, event) {
-        setLocation(locations[idx]);
+        setLocation({ ...locations[idx], idx: idx });
         const locationLis = document.getElementsByClassName("location-li");
         for (let i = 0; i < locationLis.length; i++) {
             locationLis[i].style.backgroundColor = "#242526";
@@ -76,7 +77,7 @@ function MenuComponent() {
         setLocations(selectedLocations);
 
         if (selectedLocations.length > 0) {
-            setLocation(selectedLocations[0]);
+            setLocation({ ...selectedLocations[0], idx: 0 });
             const locationLis = document.getElementsByClassName("location-li");
             for (let i = 0; i < locationLis.length; i++) {
                 locationLis[i].style.backgroundColor = "#242526";
@@ -93,6 +94,31 @@ function MenuComponent() {
         const storeList = document.getElementsByClassName("store-list");
         storeList[0].style.display = "block";
     }
+
+    function createLocationForm() {
+        updateModal({
+            component: <LocationForm
+                storeId={selectedStore.id}
+                modalAction={updateModal}
+                updateSelectLocations={setLocations}
+                selectedLocations={locations}
+                action="create"
+            />
+        });
+    };
+
+    function updateLocationForm() {
+        updateModal({
+            component: <LocationForm
+                modalAction={updateModal}
+                updateSelectLocations={setLocations}
+                selectedLocations={locations}
+                targetLocationIdx={selectedLocation.idx}
+                setLocation={setLocation}
+                action="update"
+            />
+        });
+    };
 
     return (
         <div className="menu-wrapper">
@@ -112,7 +138,7 @@ function MenuComponent() {
                     }
                     {
                         selectedStore.id ?
-                            <li>
+                            <li onClick={createLocationForm}>
                                 <FontAwesomeIcon icon={faPlus} />
                             </li> : <></>
                     }
@@ -148,7 +174,7 @@ function MenuComponent() {
                     }
                     {
                         selectedLocation.id ?
-                            <div className="edit-button">Edit Location</div>
+                            <div className="edit-button" onClick={updateLocationForm}>Edit Location</div>
                             : <></>
                     }
                 </div>

@@ -114,6 +114,10 @@ function LocationForm(prop) {
                         selectedLocations.splice(prop.targetLocationIdx, 1, newLocation.data.updateLocation);
                         prop.updateSelectLocations(selectedLocations);
 
+                        if (prop.setLocation) {
+                            prop.setLocation({ ...newLocation.data.updateLocation, idx: prop.targetLocationIdx });
+                        };
+
                         console.log("location updated", newLocation);
                     });
                 // dispatch({ type: "CLEAR_INPUT" });
