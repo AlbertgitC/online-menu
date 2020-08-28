@@ -1,0 +1,94 @@
+.menu-wrapper {
+    display: flex;
+}
+
+.side-panel {
+    width: 400px;
+    min-width: 400px;
+    height: 100vh;
+    background-color: #242526;
+    color: #ffffff;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+}
+
+ul.location-ul {
+    margin-top: 78px;
+    overflow: auto;
+}
+
+ul.location-ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+ul.location-ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+ 
+ul.location-ul::-webkit-scrollbar-thumb {
+  background: #808080;
+  border-radius: 10px;
+}
+
+ul.location-ul::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+ul.location-ul li {
+    cursor: pointer;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    margin: 8px 10px 8px 0;
+    padding: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+ul.location-ul li:first-of-type {
+    background-color: #000000;
+}
+
+.change-store {
+    height: min-content;
+    margin: 21px 0 0 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-head > div:first-of-type {
+    display: flex;
+}
+
+.menu-head {
+    word-break: break-word;
+}
+
+.store-list {
+    display: none;
+    position: absolute;
+    top: 95%;
+    left: 0;
+    width: 200px;
+    height: 185px;
+    overflow-y: scroll;
+}
+
+.store-list li {
+    background-color: #18191A;
+    color: white;
+    padding: 10px;
+    border-bottom: 1px solid #808080;
+}
+
+.store-list li:hover {
+    background-color: #000000;
+}
+
+ul.location-ul li:last-of-type {
+    width: fit-content;
+}
+
+ul.location-ul li:last-of-type svg{
+    margin: 0 5px 0 5px;
+}

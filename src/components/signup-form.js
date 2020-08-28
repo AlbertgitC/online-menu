@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import Modal from './modal/modal';
+import SignIn from './sign-in';
 import './signup-form.css'
 
 const initialState = {
@@ -17,7 +18,7 @@ const initialConfirm = {
     err: ""
 };
 
-export function SignupForm() {
+export function SignupForm(prop) {
     const [state, updateState] = useState(initialState);
     const { email, password, name, phone_number, err } = state;
 
@@ -56,7 +57,9 @@ export function SignupForm() {
             console.log({ user });
             
             updateModal({ component: <ConfirmSignUp 
-                usernameProp={email} modalAction={updateModal}/> });
+                usernameProp={email} 
+                modalAction={updateModal}
+                /> });
             updateState(initialState);
         } catch (error) {
             console.log('error signing up:', error);
@@ -127,7 +130,9 @@ export function ConfirmSignUp(prop) {
         try {
             await Auth.confirmSignUp(username, code);
             updateConfirm(initialConfirm);
-            prop.modalAction({ component: "" });
+            prop.modalAction({ component: <SignIn 
+                email={username}
+            /> });
         } catch (error) {
             console.log('error confirming sign up', error);
             updateConfirm({ ...confirmState, err: error.message });

@@ -4,6 +4,7 @@
 
 .side-panel {
     width: 400px;
+    min-width: 400px;
     height: 100vh;
     background-color: #242526;
     color: #ffffff;
@@ -12,25 +13,25 @@
     flex-direction: column;
 }
 
-.side-panel ul {
+ul.stores-ul {
     margin-top: 78px;
     overflow: auto;
 }
 
-.side-panel ul::-webkit-scrollbar {
+ul.stores-ul::-webkit-scrollbar {
   width: 6px;
 }
 
-.side-panel ul::-webkit-scrollbar-track {
+ul.stores-ul::-webkit-scrollbar-track {
   background: transparent;
 }
  
-.side-panel ul::-webkit-scrollbar-thumb {
+ul.stores-ul::-webkit-scrollbar-thumb {
   background: #808080;
   border-radius: 10px;
 }
 
-.side-panel ul::-webkit-scrollbar-thumb:hover {
+ul.stores-ul::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
@@ -53,7 +54,7 @@
     color: #00CED1;
 }
 
-.side-panel ul li {
+ul.stores-ul li {
     cursor: pointer;
     border: 1px solid #808080;
     border-radius: 4px;
@@ -63,15 +64,15 @@
     white-space: nowrap;
 }
 
-.side-panel ul li:first-of-type {
+ul.stores-ul li:first-of-type {
     background-color: #000000;
 }
 
-.side-panel ul li:last-of-type {
+ul.stores-ul li:last-of-type {
     width: fit-content;
 }
 
-.side-panel ul li:last-of-type svg{
+ul.stores-ul li:last-of-type svg{
     margin: 0 5px 0 5px;
 }
 
@@ -106,5 +107,38 @@
 
 .user-panel-detail {
     padding-top: 15px;
-    border-top: 1px solid #808080;
+}
+
+ul.locations-ul {
+    display: grid;
+    justify-content: center;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, 240px);
+    margin-top: 16px;
+}
+
+ul.locations-ul li:last-of-type {
+    margin: auto 0;
+    padding-left: 11px;
+}
+
+ul.locations-ul li:last-of-type svg {
+    font-size: 230%;
+    cursor: pointer;
+}
+
+.location-li {
+    padding: 10px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+}
+
+.location-li > p:first-of-type {
+    font-weight: 600;
+}
+
+.location-li > svg {
+    float: right;
+    cursor: pointer;
+    font-size: 120%;
 }

@@ -1,4 +1,5 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { StoreContext } from './util/global-store';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../graphql/mutations';
 import './store-form.css';
@@ -11,29 +12,30 @@ const initialState = {
     err: ""
 };
 
-function reducer(state, action) {
-    switch(action.type) {
-        case "SET_INPUT":
-            return { ...state, [action.key]: action.value };
-        case "CLEAR_INPUT":
-            return { ...initialState };
-        default:
-            return state;
-    };
-};
+// function reducer(state, action) {
+//     switch(action.type) {
+//         case "SET_INPUT":
+//             return { ...state, [action.key]: action.value };
+//         case "CLEAR_INPUT":
+//             return { ...initialState };
+//         default:
+//             return state;
+//     };
+// };
 
 function StoreForm(prop) {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [globalState, dispatch] = useContext(StoreContext);
+    const [state, setState] = useState(initialState);
 
     useEffect(() => {
         if (prop.action === "update") {
             for (const key in prop.selectedStore) {
-                dispatch({ type: "SET_INPUT", key: key, value: prop.selectedStore[key] });
+                setState(s => ({ ...s, [key]: prop.selectedStore[key] }));
             };
             if (!prop.selectedStore.description) {
-                dispatch({ type: "SET_INPUT", key: "description", value: "" });
+                setState(s => ({ ...s, description: "" }));
             };
-            dispatch({ type: "SET_INPUT", key: "phoneNumber", value: prop.selectedStore.phoneNumber.slice(2) });
+            setState(s => ({ ...s, phoneNumber: prop.selectedStore.phoneNumber.slice(2) }));
         };
     }, [prop]);
 
@@ -49,35 +51,52 @@ function StoreForm(prop) {
 
         if (name === "" || state.phoneNumber === "" || email === "") {
             console.log("info missing");
-            dispatch({ type: "SET_INPUT", key: "err", value: "info missing" });
+            setState({ ...state, err: "info missing" });
             return;
         } else if (phoneNumber.length !== 12) {
             console.log("invalid phone number");
             console.log(phoneNumber);
-            dispatch({ type: "SET_INPUT", key: "err", value: "invalid phone number" });
+            setState({ ...state, err: "invalid phone number" });
             return;
         };
 
         const store = { name, description, phoneNumber, email };
 
         if (prop.action === "create") {
-            if (store.description === "") {
-                delete store.description;
-            };
+            // if (store.description === "") {
+            //     delete store.description;
+            // };
 
             try {
                 await API.graphql(graphqlOperation(mutations.createStore, { input: store }))
                     .then(newStore => {
-                        const currentStores = prop.stores;
-                        currentStores.push(newStore.data.createStore);
-                        prop.updateStores(currentStores);
-                        console.log("store created", newStore);
+                        // const currentStores = prop.stores;
+                        if (globalState.stores[0]) {
+                            const currentStores = globalState.stores;
+                            currentStores.push(newStore.data.createStore);
+                            dispatch({
+                                type: 'SET_STORES',
+                                payload: currentStores
+                            });
+                            // currentStores.push(newStore.data.createStore);
+                            // prop.updateStores(currentStores);
+                            console.log("store created", newStore);
+                        } else {
+                            dispatch({
+                                type: 'SET_STORES',
+                                payload: [newStore.data.createStore]
+                            });
+                            // currentStores.push(newStore.data.createStore);
+                            // prop.updateStores(currentStores);
+                            prop.updateSelectStore(newStore.data.createStore);
+                            console.log("store created", newStore);
+                        };
                     });
-                dispatch({ type: "CLEAR_INPUT" });
+                // setState(initialState);
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on creating store", error);
-                dispatch({ type: "SET_INPUT", key: "err", value: error });
+                setState({ ...state, err: error });
             };
         } else if (prop.action === "update") {
             store.id = state.id;
@@ -85,22 +104,27 @@ function StoreForm(prop) {
                 await API.graphql(graphqlOperation(mutations.updateStore, { input: store }))
                     .then(newStore => {
                         prop.updateSelectStore(newStore.data.updateStore);
-                        const currentStores = prop.stores;
+                        const currentStores = globalState.stores;
                         currentStores.splice(state.idx, 1, newStore.data.updateStore);
-                        prop.updateStores(currentStores);
+                        dispatch({
+                            type: 'SET_STORES',
+                            payload: currentStores
+                        });
+                        // prop.updateStores(currentStores);
                         console.log("store updated", newStore);
                     });
-                dispatch({ type: "CLEAR_INPUT" });
+                // dispatch({ type: "CLEAR_INPUT" });
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on updating store", error);
-                dispatch({ type: "SET_INPUT", key: "err", value: error });
+                setState({ ...state, err: error });
+                // dispatch({ type: "SET_INPUT", key: "err", value: error });
             };
         };
     };
 
     function handleInput(e) {
-        dispatch({ type: "SET_INPUT", key: e.target.name, value: e.target.value });
+        setState({ ...state, [e.target.name]: e.target.value });
     };
 
     function handleSubmit(e) {

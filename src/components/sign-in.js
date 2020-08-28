@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Auth } from 'aws-amplify';
 import ResendConfirm from './resend-confirm';
 import './sign-in.css';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from './util/global-store';
 
 const initialState = {
     email: "",
@@ -11,9 +12,16 @@ const initialState = {
 };
 
 function SignIn(prop) {
+    const [authState, dispatch] = useContext(UserContext);
     const [state, updateState] = useState(initialState);
     const { email, password, err } = state;
     const history = useHistory();
+
+    useEffect(() => {
+        if (prop.email) { 
+            updateState( s => ({ ...s, email: prop.email })); 
+        };
+    },[prop]);
 
     async function signIn(e) {
         e.preventDefault();
@@ -27,7 +35,10 @@ function SignIn(prop) {
         try {
             await Auth.signIn(email, password).then(
                 res => {
-                    prop.setUser(res);
+                    dispatch({
+                        type: 'SIGN_IN',
+                        payload: res
+                    });
                     history.push("/user-panel");
                 }
             );
