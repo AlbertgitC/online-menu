@@ -12,17 +12,6 @@ const initialState = {
     err: ""
 };
 
-// function reducer(state, action) {
-//     switch(action.type) {
-//         case "SET_INPUT":
-//             return { ...state, [action.key]: action.value };
-//         case "CLEAR_INPUT":
-//             return { ...initialState };
-//         default:
-//             return state;
-//     };
-// };
-
 function StoreForm(prop) {
     const [globalState, dispatch] = useContext(StoreContext);
     const [state, setState] = useState(initialState);
@@ -63,14 +52,10 @@ function StoreForm(prop) {
         const store = { name, description, phoneNumber, email };
 
         if (prop.action === "create") {
-            // if (store.description === "") {
-            //     delete store.description;
-            // };
 
             try {
                 await API.graphql(graphqlOperation(mutations.createStore, { input: store }))
                     .then(newStore => {
-                        // const currentStores = prop.stores;
                         if (globalState.stores[0]) {
                             const currentStores = globalState.stores;
                             currentStores.push(newStore.data.createStore);
@@ -78,21 +63,16 @@ function StoreForm(prop) {
                                 type: 'SET_STORES',
                                 payload: currentStores
                             });
-                            // currentStores.push(newStore.data.createStore);
-                            // prop.updateStores(currentStores);
                             console.log("store created", newStore);
                         } else {
                             dispatch({
                                 type: 'SET_STORES',
                                 payload: [newStore.data.createStore]
                             });
-                            // currentStores.push(newStore.data.createStore);
-                            // prop.updateStores(currentStores);
                             prop.updateSelectStore(newStore.data.createStore);
                             console.log("store created", newStore);
                         };
                     });
-                // setState(initialState);
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on creating store", error);
@@ -110,15 +90,12 @@ function StoreForm(prop) {
                             type: 'SET_STORES',
                             payload: currentStores
                         });
-                        // prop.updateStores(currentStores);
                         console.log("store updated", newStore);
                     });
-                // dispatch({ type: "CLEAR_INPUT" });
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on updating store", error);
                 setState({ ...state, err: error });
-                // dispatch({ type: "SET_INPUT", key: "err", value: error });
             };
         };
     };
