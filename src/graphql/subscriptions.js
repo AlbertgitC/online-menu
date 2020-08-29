@@ -144,11 +144,11 @@ export const onCreateItem = /* GraphQL */ `
     onCreateItem {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id
@@ -168,11 +168,11 @@ export const onUpdateItem = /* GraphQL */ `
     onUpdateItem {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id
@@ -192,11 +192,11 @@ export const onDeleteItem = /* GraphQL */ `
     onDeleteItem {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id

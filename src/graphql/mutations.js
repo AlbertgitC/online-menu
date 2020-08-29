@@ -165,11 +165,11 @@ export const createItem = /* GraphQL */ `
     createItem(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id
@@ -192,11 +192,11 @@ export const updateItem = /* GraphQL */ `
     updateItem(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id
@@ -219,11 +219,11 @@ export const deleteItem = /* GraphQL */ `
     deleteItem(input: $input, condition: $condition) {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id

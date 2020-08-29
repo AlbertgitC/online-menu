@@ -51,10 +51,15 @@ type Item @model @auth (
       { allow: private, operations: [read] },
       { allow: public, operations: [read], provider: iam }
     ]
-  )
-  @key(name: "byStore", fields: ["storeId", "name"]) {
+  ) 
+  @key(
+    name: "byStore", 
+    fields: ["storeId", "name"], 
+    queryField: "itemsByName"
+  ) {
   id: ID!
   createdBy: String
+  createdAt: String
   storeId: ID!
   store: Store @connection(fields: ["storeId"])
   name: String!

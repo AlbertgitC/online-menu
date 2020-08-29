@@ -39,13 +39,13 @@ function MenuComponent() {
             setLocation({ ...locations[0], idx: 0 });
         };
 
-        const storeList = document.getElementsByClassName("store-list");
-        if (storeList[0]) {
+        if (selectedStore.id) {
+            const storeList = document.getElementsByClassName("store-list");
             storeList[0].addEventListener('mouseleave', e => {
                 storeList[0].style.display = "none";
             });
         };
-    }, [storesData, locations]);
+    }, [storesData, locations, selectedStore]);
 
     function selectLocation(idx, event) {
         setLocation({ ...locations[idx], idx: idx });
@@ -178,8 +178,9 @@ function MenuComponent() {
                             : <></>
                     }
                 </div>
-                <div className="user-panel-detail">Menu:
-                    <ul className="menu">
+                <div className="user-panel-detail">
+                    <button className="add-item">Add Item</button>
+                    <ul className="menu">Menu:
                         <li>some categories</li>
                         {/* {
                             selectedLocations.map((location, idx) => (

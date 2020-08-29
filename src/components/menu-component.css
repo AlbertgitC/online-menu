@@ -71,7 +71,7 @@ ul.location-ul li:first-of-type {
     left: 0;
     width: 200px;
     height: 185px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .store-list li {
@@ -91,4 +91,13 @@ ul.location-ul li:last-of-type {
 
 ul.location-ul li:last-of-type svg{
     margin: 0 5px 0 5px;
+}
+
+button.add-item {
+    height: 40px;
+    width: 125px;
+    background-color: #242526;
+    color: #00CED1;
+    cursor: pointer;
+    border-radius: 9px;
 }

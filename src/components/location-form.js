@@ -13,35 +13,18 @@ const initialState = {
     err: ""
 };
 
-// function reducer(state, action) {
-//     switch (action.type) {
-//         case "SET_INPUT":
-//             return { ...state, [action.key]: action.value };
-//         case "CLEAR_INPUT":
-//             return { ...initialState };
-//         default:
-//             return state;
-//     };
-// };
-
 function LocationForm(prop) {
     const [storeData, dispatch] = useContext(StoreContext);
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
         setState(s => ({ ...s, storeId: prop.storeId }));
-        // dispatch({ type: "SET_INPUT", key: "storeId", value: prop.storeId });
         if (prop.action === "update") {
             const targetLocation = prop.selectedLocations[prop.targetLocationIdx];
             for (const key in targetLocation) {
                 setState(s => ({ ...s, [key]: targetLocation[key] }));
-                // dispatch({ type: "SET_INPUT", key: key, value: targetLocation[key] });
             };
-            // if (!prop.selectedStore.description) {
-            //     dispatch({ type: "SET_INPUT", key: "description", value: "" });
-            // };
             setState(s => ({ ...s, phoneNumber: targetLocation.phoneNumber.slice(2) }));
-            // dispatch({ type: "SET_INPUT", key: "phoneNumber", value: targetLocation.phoneNumber.slice(2) });
         };
     }, [prop]);
 
@@ -58,13 +41,11 @@ function LocationForm(prop) {
         if (address === "" || state.phoneNumber === "" || email === "") {
             console.log("info missing");
             setState({ ...state, err: "info missing" });
-            // dispatch({ type: "SET_INPUT", key: "err", value: "info missing" });
             return;
         } else if (phoneNumber.length !== 12) {
             console.log("invalid phone number");
             console.log(phoneNumber);
             setState({ ...state, err: "invalid phone number" });
-            // dispatch({ type: "SET_INPUT", key: "err", value: "invalid phone number" });
             return;
         };
 
@@ -83,15 +64,12 @@ function LocationForm(prop) {
                             type: 'SET_LOCATIONS',
                             payload: allLocations
                         });
-                        // prop.updateLocations(allLocations);
                         console.log("location created", newLocation);
                     });
-                // dispatch({ type: "CLEAR_INPUT" });
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on creating location", error);
                 setState({ ...state, err: error });
-                // dispatch({ type: "SET_INPUT", key: "err", value: error });
             };
         } else if (prop.action === "update") {
             location.id = state.id;
@@ -106,7 +84,6 @@ function LocationForm(prop) {
                                     type: 'SET_LOCATIONS',
                                     payload: allLocations
                                 });
-                                // prop.updateLocations(allLocations);
                                 break
                             };
                         };
@@ -120,19 +97,16 @@ function LocationForm(prop) {
 
                         console.log("location updated", newLocation);
                     });
-                // dispatch({ type: "CLEAR_INPUT" });
                 prop.modalAction({ component: "" });
             } catch (error) {
                 console.log("error on updating location", error);
                 setState({ ...state, err: error });
-                // dispatch({ type: "SET_INPUT", key: "err", value: error });
             };
         };
     };
 
     function handleInput(e) {
         setState({ ...state, [e.target.name]: e.target.value });
-        // dispatch({ type: "SET_INPUT", key: e.target.name, value: e.target.value });
     };
 
     function handleSubmit(e) {
