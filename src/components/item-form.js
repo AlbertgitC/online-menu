@@ -7,7 +7,7 @@ import './item-form.css';
 const initialState = {
     storeId: "",
     name: "",
-    price: 0,
+    price: "",
     description: "",
     err: ""
 };
@@ -28,10 +28,16 @@ function ItemForm(prop) {
     }, [prop]);
 
     async function itemAction() {
-        const { storeId, name, description, price } = state;
+        const { storeId, name, description } = state;
 
+        let price = state.price;
+        const priceMatch = price.match(/^\s*-?(\d+(\.\d{1,2})?|\.\d{1,2})\s*$/);
+        if (priceMatch) {
+            price = parseFloat(priceMatch[0]);
+        } else {
+            price = "";
+        };
         
-        console.log(price.toString().split('.'));
         if (name === "") {
             console.log("name missing");
             setState({ ...state, err: "name missing" });
@@ -39,7 +45,7 @@ function ItemForm(prop) {
         } else if (typeof price !== "number") {
             console.log("invalid price");
             console.log(price);
-            setState({ ...state, err: "invalid price" });
+            setState({ ...state, err: "invalid price, at most 2 decimals" });
             return;
         };
 
