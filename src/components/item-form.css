@@ -1,0 +1,38 @@
+.item-form {
+    background-color: #242526;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    color: #ffffff;
+    padding: 26px;
+    border-radius: .25rem;
+    align-items: center;
+}
+
+.item-form h3 {
+    font-size: 150%;
+    margin-bottom: 10px;
+}
+
+.item-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-form input,
+.item-form button {
+    width: 380px;
+    height: 40px;
+    border:none;
+    border-radius: .25rem;
+    margin: 10px 0 10px 0;
+}
+
+.item-form input {
+    padding-left: 12px;
+    margin-bottom: 27px;
+}
+
+.item-form button {
+    cursor: pointer;
+}

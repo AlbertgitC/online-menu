@@ -1,17 +1,51 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StoreContext } from './util/global-store';
+import { StoreContext, UserContext } from './util/global-store';
+import { API } from 'aws-amplify';
+import * as queries from '../graphql/queries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 import Modal from './modal/modal';
 import LocationForm from './location-form';
+import ItemForm from './item-form';
 import './menu-component.css';
 
 function MenuComponent() {
+    const [authState, authDispatch] = useContext(UserContext);
     const [storesData, dispatch] = useContext(StoreContext);
     const [selectedStore, setStore] = useState({});
     const [locations, setLocations] = useState([]);
     const [selectedLocation, setLocation] = useState({});
     const [modalState, updateModal] = useState({ component: "" });
+
+    useEffect(() => {
+        async function getItems() {
+            try {
+                return await API.graphql({
+                    query: queries.listItems,
+                    variables: {
+                        filter: { createdBy: { eq: authState.user.username } }
+                    }
+                });
+            } catch (err) {
+                return err;
+            };
+        };
+
+        let isSubscribed = true;
+        if (isSubscribed && storesData.items === null) {
+            getItems().then(res => {
+                console.log('itemData:', res);
+                dispatch({
+                    type: 'SET_ITEMS',
+                    payload: res.data.listItems.items
+                });
+            }).catch(error => {
+                console.log('error fetching items', error);
+            });
+        };
+
+        return () => (isSubscribed = false);
+    }, [dispatch, authState, storesData]);
 
     useEffect(() => {
         function initSelectedLocations(storeId, locationsArr) {
@@ -39,13 +73,13 @@ function MenuComponent() {
             setLocation({ ...locations[0], idx: 0 });
         };
 
-        const storeList = document.getElementsByClassName("store-list");
-        if (storeList[0]) {
+        if (selectedStore.id) {
+            const storeList = document.getElementsByClassName("store-list");
             storeList[0].addEventListener('mouseleave', e => {
                 storeList[0].style.display = "none";
             });
         };
-    }, [storesData, locations]);
+    }, [storesData, locations, selectedStore, selectedLocation]);
 
     function selectLocation(idx, event) {
         setLocation({ ...locations[idx], idx: idx });
@@ -120,6 +154,18 @@ function MenuComponent() {
         });
     };
 
+    function createItemForm() {
+        updateModal({
+            component: <ItemForm
+                storeId={selectedStore.id}
+                modalAction={updateModal}
+                // updateSelectLocations={setLocations}
+                // selectedLocations={locations}
+                action="create"
+            />
+        });
+    };
+
     return (
         <div className="menu-wrapper">
             <div className="side-panel">
@@ -178,8 +224,9 @@ function MenuComponent() {
                             : <></>
                     }
                 </div>
-                <div className="user-panel-detail">Menu:
-                    <ul className="menu">
+                <div className="user-panel-detail">
+                    <button className="add-item" onClick={createItemForm}>Create Item</button>
+                    <ul className="menu">Menu:
                         <li>some categories</li>
                         {/* {
                             selectedLocations.map((location, idx) => (
