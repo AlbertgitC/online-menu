@@ -160,11 +160,11 @@ export const getItem = /* GraphQL */ `
     getItem(id: $id) {
       id
       createdBy
+      createdAt
       storeId
       name
       price
       description
-      createdAt
       updatedAt
       store {
         id
@@ -189,11 +189,42 @@ export const listItems = /* GraphQL */ `
       items {
         id
         createdBy
+        createdAt
         storeId
         name
         price
         description
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const itemsByName = /* GraphQL */ `
+  query ItemsByName(
+    $storeId: ID
+    $name: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    itemsByName(
+      storeId: $storeId
+      name: $name
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdBy
         createdAt
+        storeId
+        name
+        price
+        description
         updatedAt
       }
       nextToken
