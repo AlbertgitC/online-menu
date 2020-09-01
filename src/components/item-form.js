@@ -45,7 +45,7 @@ function ItemForm(prop) {
         } else if (typeof price !== "number") {
             console.log("invalid price");
             console.log(price);
-            setState({ ...state, err: "invalid price, at most 2 decimals" });
+            setState({ ...state, err: "invalid price, numbers only and at most 2 decimals" });
             return;
         };
 

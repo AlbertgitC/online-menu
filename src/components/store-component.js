@@ -67,7 +67,7 @@ function StoreComponent() {
         };
         
         return () => (isSubscribed = false);
-    }, [dispatch, authState]);
+    }, [dispatch, authState, globalState]);
 
     useEffect(() => {
         function initSelectedLocations(id, locationsArr) {

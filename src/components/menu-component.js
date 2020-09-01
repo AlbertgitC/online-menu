@@ -45,7 +45,7 @@ function MenuComponent() {
         };
 
         return () => (isSubscribed = false);
-    }, [dispatch, authState]);
+    }, [dispatch, authState, storesData]);
 
     useEffect(() => {
         function initSelectedLocations(storeId, locationsArr) {
@@ -79,7 +79,7 @@ function MenuComponent() {
                 storeList[0].style.display = "none";
             });
         };
-    }, [storesData, locations, selectedStore]);
+    }, [storesData, locations, selectedStore, selectedLocation]);
 
     function selectLocation(idx, event) {
         setLocation({ ...locations[idx], idx: idx });
