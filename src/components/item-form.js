@@ -55,16 +55,17 @@ function ItemForm(prop) {
             try {
                 await API.graphql(graphqlOperation(mutations.createItem, { input: item }))
                     .then(newItem => {
-                        // const currentLocations = prop.selectedLocations;
                         const allItems = storeData.items;
                         allItems.push(newItem.data.createItem);
-                        // prop.updateSelectLocations(currentLocations);
-                        // allLocations.push(newLocation.data.createLocation);
                         dispatch({
                             type: 'SET_ITEMS',
                             payload: allItems
                         });
                         console.log("item created", newItem);
+                        
+                        const currentItems = prop.selectedItems;
+                        currentItems.push(newItem.data.createItem);
+                        prop.updateSelectItems(currentItems);
                     });
                 prop.modalAction({ component: "" });
             } catch (error) {

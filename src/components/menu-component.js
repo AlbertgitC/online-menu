@@ -15,37 +15,38 @@ function MenuComponent() {
     const [selectedStore, setStore] = useState({});
     const [locations, setLocations] = useState([]);
     const [selectedLocation, setLocation] = useState({});
+    const [selectedItems, setItems] = useState([]);
     const [modalState, updateModal] = useState({ component: "" });
 
-    useEffect(() => {
-        async function getItems() {
-            try {
-                return await API.graphql({
-                    query: queries.listItems,
-                    variables: {
-                        filter: { createdBy: { eq: authState.user.username } }
-                    }
-                });
-            } catch (err) {
-                return err;
-            };
-        };
+    // useEffect(() => {
+    //     async function getItems() {
+    //         try {
+    //             return await API.graphql({
+    //                 query: queries.listItems,
+    //                 variables: {
+    //                     filter: { createdBy: { eq: authState.user.username } }
+    //                 }
+    //             });
+    //         } catch (err) {
+    //             return err;
+    //         };
+    //     };
 
-        let isSubscribed = true;
-        if (isSubscribed && storesData.items === null) {
-            getItems().then(res => {
-                console.log('itemData:', res);
-                dispatch({
-                    type: 'SET_ITEMS',
-                    payload: res.data.listItems.items
-                });
-            }).catch(error => {
-                console.log('error fetching items', error);
-            });
-        };
+    //     let isSubscribed = true;
+    //     if (isSubscribed && storesData.items === null) {
+    //         getItems().then(res => {
+    //             console.log('itemData:', res);
+    //             dispatch({
+    //                 type: 'SET_ITEMS',
+    //                 payload: res.data.listItems.items
+    //             });
+    //         }).catch(error => {
+    //             console.log('error fetching items', error);
+    //         });
+    //     };
 
-        return () => (isSubscribed = false);
-    }, [dispatch, authState, storesData]);
+    //     return () => (isSubscribed = false);
+    // }, [dispatch, authState, storesData]);
 
     useEffect(() => {
         function initSelectedLocations(storeId, locationsArr) {
@@ -64,9 +65,26 @@ function MenuComponent() {
             setLocations(selectedLocations);
         };
 
+        function initSelectedItems(storeId, itemsArr) {
+            if (!itemsArr[0]) return;
+
+            const selectedItems = [];
+
+            for (const item of itemsArr) {
+                if (item.storeId === storeId) { selectedItems.push(item); };
+            };
+
+            selectedItems.sort((a, b) => {
+                return a.name - b.name;
+            });
+            
+            setItems(selectedItems);
+        };
+
         if (storesData.stores && storesData.stores[0] && !selectedStore.id) {
             setStore(storesData.stores[0]);
             initSelectedLocations(storesData.stores[0].id, storesData.locations);
+            initSelectedItems(storesData.stores[0].id, storesData.items);
         };
 
         if (locations[0] && !selectedLocation.id) {
@@ -109,6 +127,18 @@ function MenuComponent() {
         });
 
         setLocations(selectedLocations);
+
+        const selectedItems = [];
+
+        for (const item of storesData.items) {
+            if (item.storeId === store.id) { selectedItems.push(item); };
+        };
+
+        selectedItems.sort((a, b) => {
+            return a.name - b.name;
+        });
+
+        setItems(selectedItems);
 
         if (selectedLocations.length > 0) {
             setLocation({ ...selectedLocations[0], idx: 0 });
@@ -159,8 +189,8 @@ function MenuComponent() {
             component: <ItemForm
                 storeId={selectedStore.id}
                 modalAction={updateModal}
-                // updateSelectLocations={setLocations}
-                // selectedLocations={locations}
+                updateSelectItems={setItems}
+                selectedItems={selectedItems}
                 action="create"
             />
         });
@@ -228,6 +258,14 @@ function MenuComponent() {
                     <button className="add-item" onClick={createItemForm}>Create Item</button>
                     <ul className="menu">Menu:
                         <li>some categories</li>
+                        {
+                            selectedItems.map((item, idx) => (
+                                <li key={idx}>
+                                    <p>{item.name}</p>
+                                    <p>{item.price}</p>
+                                </li>
+                            ))
+                        }
                         {/* {
                             selectedLocations.map((location, idx) => (
                                 <li key={idx} className="location-li">
