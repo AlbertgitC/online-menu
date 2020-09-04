@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StoreContext, UserContext } from './util/global-store';
-import { API } from 'aws-amplify';
-import * as queries from '../graphql/queries';
+import { API, graphqlOperation } from 'aws-amplify';
+import * as mutations from '../graphql/mutations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 import Modal from './modal/modal';
@@ -10,43 +10,13 @@ import ItemForm from './item-form';
 import './menu-component.css';
 
 function MenuComponent() {
-    const [authState, authDispatch] = useContext(UserContext);
     const [storesData, dispatch] = useContext(StoreContext);
     const [selectedStore, setStore] = useState({});
     const [locations, setLocations] = useState([]);
     const [selectedLocation, setLocation] = useState({});
     const [selectedItems, setItems] = useState([]);
+    const [category, setCategory] = useState({ name: "", items: [] });
     const [modalState, updateModal] = useState({ component: "" });
-
-    // useEffect(() => {
-    //     async function getItems() {
-    //         try {
-    //             return await API.graphql({
-    //                 query: queries.listItems,
-    //                 variables: {
-    //                     filter: { createdBy: { eq: authState.user.username } }
-    //                 }
-    //             });
-    //         } catch (err) {
-    //             return err;
-    //         };
-    //     };
-
-    //     let isSubscribed = true;
-    //     if (isSubscribed && storesData.items === null) {
-    //         getItems().then(res => {
-    //             console.log('itemData:', res);
-    //             dispatch({
-    //                 type: 'SET_ITEMS',
-    //                 payload: res.data.listItems.items
-    //             });
-    //         }).catch(error => {
-    //             console.log('error fetching items', error);
-    //         });
-    //     };
-
-    //     return () => (isSubscribed = false);
-    // }, [dispatch, authState, storesData]);
 
     useEffect(() => {
         function initSelectedLocations(storeId, locationsArr) {
@@ -196,6 +166,45 @@ function MenuComponent() {
         });
     };
 
+    function showCategoryInput() {
+        const categoryInput = document.getElementsByClassName("category-input")[0];
+        const style = window.getComputedStyle(categoryInput);
+        if (style.getPropertyValue('display') === "none") {
+            categoryInput.style.display = "block";
+        } else {
+            categoryInput.style.display = "none";
+        }
+    };
+
+    function handleCategoryInput(e) {
+        setCategory({ ...category, name: e.target.value });
+    };
+
+    async function createCategory() {
+        if (!category.name) return;
+
+        let { id, menuCategories } = selectedLocation;
+        const categoryString = JSON.stringify(category);
+
+        if (!menuCategories) {
+            menuCategories = [categoryString];
+        } else {
+            menuCategories.push(categoryString);
+        };
+        console.log(menuCategories);
+        try {
+            await API.graphql(graphqlOperation(mutations.updateLocation, { input: {
+                id: id,
+                menuCategories: menuCategories
+            } })).then(res => {
+                    console.log(res);
+                    setCategory({ ...category, name: "" });
+                });
+        } catch (err) {
+            console.log(err);
+        };
+    };
+
     return (
         <div className="menu-wrapper">
             <div className="side-panel">
@@ -256,7 +265,23 @@ function MenuComponent() {
                 </div>
                 <div className="user-panel-detail">
                     <button className="add-item" onClick={createItemForm}>Create Item</button>
-                    <ul className="menu">Menu:
+                    <div>Menu:</div>
+                    {
+                        selectedLocation.id ?
+                            <div className="create-category">
+                                <div onClick={showCategoryInput}>Create Menu Category</div>
+                                <div className="category-input">
+                                    <input name='name'
+                                        onChange={handleCategoryInput}
+                                        value={category.name}
+                                        placeholder='category name'
+                                    ></input>
+                                    <FontAwesomeIcon icon={faPlus} onClick={createCategory}/>
+                                </div>
+                            </div>
+                            : <></>
+                    }
+                    <ul className="menu">
                         <li>some categories</li>
                         {
                             selectedItems.map((item, idx) => (
@@ -266,24 +291,6 @@ function MenuComponent() {
                                 </li>
                             ))
                         }
-                        {/* {
-                            selectedLocations.map((location, idx) => (
-                                <li key={idx} className="location-li">
-                                    <p>{location.address}</p>
-                                    <p>{location.description}</p>
-                                    <p>{location.phoneNumber}</p>
-                                    <p>{location.email}</p>
-                                    <FontAwesomeIcon icon={faCog} onClick={() => updateLocationForm(idx)} />
-                                </li>
-                            ))
-                        }
-                        {
-                            selectedStore.id ?
-                                <li onClick={createLocationForm}>
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </li>
-                                : <div></div>
-                        } */}
                     </ul>
                 </div>
             </div>
