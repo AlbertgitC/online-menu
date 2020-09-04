@@ -191,17 +191,18 @@ function MenuComponent() {
         } else {
             menuCategories.push(categoryString);
         };
-        console.log(menuCategories);
+        
         try {
             await API.graphql(graphqlOperation(mutations.updateLocation, { input: {
                 id: id,
                 menuCategories: menuCategories
             } })).then(res => {
-                    console.log(res);
+                    console.log("category created:", res);
+                    setLocation(res.data.updateLocation);
                     setCategory({ ...category, name: "" });
                 });
         } catch (err) {
-            console.log(err);
+            console.log("error creating category:", err);
         };
     };
 
@@ -282,14 +283,18 @@ function MenuComponent() {
                             : <></>
                     }
                     <ul className="menu">
-                        <li>some categories</li>
                         {
-                            selectedItems.map((item, idx) => (
-                                <li key={idx}>
-                                    <p>{item.name}</p>
-                                    <p>{item.price}</p>
-                                </li>
-                            ))
+                            selectedLocation.menuCategories ?
+                                selectedLocation.menuCategories.map((category, idx) => {
+                                    const categoryObj = JSON.parse(category);
+                                    const items = categoryObj.items.toString();
+                                    return (
+                                        <li key={idx}>
+                                            <p>{categoryObj.name}</p>
+                                            <p>Items: {items}</p>
+                                        </li>
+                                    )
+                                }) : <></>
                         }
                     </ul>
                 </div>
