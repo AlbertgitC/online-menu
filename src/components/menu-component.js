@@ -206,6 +206,24 @@ function MenuComponent() {
         };
     };
 
+    function showItems(idx) {
+        const categoryInput = document.getElementsByClassName("item-list")[idx];
+        const style = window.getComputedStyle(categoryInput);
+        if (style.getPropertyValue('display') === "none") {
+            categoryInput.style.display = "block";
+        } else {
+            categoryInput.style.display = "none";
+        }
+    };
+
+    function addItemToMenu(itemId, categoryObj, idx) {
+        categoryObj.items.push(itemId);
+        const categoryString = JSON.stringify(categoryObj);
+        const menu = selectedLocation.menuCategories;
+        menu.splice(idx, 1, categoryString);
+        setLocation({ ...selectedLocation, menuCategories: menu });
+    };
+
     return (
         <div className="menu-wrapper">
             <div className="side-panel">
@@ -290,7 +308,19 @@ function MenuComponent() {
                                     const items = categoryObj.items.toString();
                                     return (
                                         <li key={idx}>
-                                            <p>{categoryObj.name}</p>
+                                            <div>
+                                                <p>{categoryObj.name}</p>
+                                                <FontAwesomeIcon icon={faPlus} onClick={() => {showItems(idx)}}/>
+                                                <ul className="item-list">
+                                                    {
+                                                        selectedItems.map((item, i) => (
+                                                            <li key={i} onClick={() => { addItemToMenu(item.id, categoryObj, idx)}}>
+                                                                <p>{item.name}</p>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
                                             <p>Items: {items}</p>
                                         </li>
                                     )

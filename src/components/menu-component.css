@@ -126,3 +126,11 @@ button.add-item {
 .category-input svg {
     cursor: pointer;
 }
+
+.menu li > div {
+    display: flex;
+}
+
+ul.item-list {
+    display: none;
+}
