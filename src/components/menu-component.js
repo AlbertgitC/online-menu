@@ -258,13 +258,14 @@ function MenuComponent() {
                                     <div className="change-store" onClick={showStoreList}>Change Store
                                         <ul className="store-list">
                                             {
+                                                storesData.stores ?
                                                 storesData.stores.map((store, idx) => (
                                                     <li key={idx} className="menu-store-li" onClick={
                                                         e => {changeStore(e, store)}
                                                         }>
                                                         {store.name}
                                                     </li>
-                                                ))
+                                                )) : <></>
                                             }
                                         </ul>
                                     </div>
@@ -305,7 +306,15 @@ function MenuComponent() {
                             selectedLocation.menuCategories ?
                                 selectedLocation.menuCategories.map((category, idx) => {
                                     const categoryObj = JSON.parse(category);
-                                    const items = categoryObj.items.toString();
+                                    const items = [];
+                                    for (const itemId of categoryObj.items) {
+                                        for (const itemObj of selectedItems) {
+                                            if (itemObj.id === itemId) {
+                                                items.push(itemObj);
+                                                break;
+                                            }
+                                        };
+                                    };
                                     return (
                                         <li key={idx}>
                                             <div>
@@ -321,7 +330,15 @@ function MenuComponent() {
                                                     }
                                                 </ul>
                                             </div>
-                                            <p>Items: {items}</p>
+                                            <ul>Items:
+                                                {
+                                                    items.map((item, idx) => (
+                                                        <li key={idx}>
+                                                            <p>{item.name}</p>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
                                         </li>
                                     )
                                 }) : <></>
