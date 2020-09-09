@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StoreContext, UserContext } from './util/global-store';
-import { API } from 'aws-amplify';
-import * as queries from '../graphql/queries';
+import { API, graphqlOperation } from 'aws-amplify';
+import * as mutations from '../graphql/mutations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCog } from '@fortawesome/free-solid-svg-icons'
 import Modal from './modal/modal';
@@ -10,42 +10,13 @@ import ItemForm from './item-form';
 import './menu-component.css';
 
 function MenuComponent() {
-    const [authState, authDispatch] = useContext(UserContext);
     const [storesData, dispatch] = useContext(StoreContext);
     const [selectedStore, setStore] = useState({});
     const [locations, setLocations] = useState([]);
     const [selectedLocation, setLocation] = useState({});
+    const [selectedItems, setItems] = useState([]);
+    const [category, setCategory] = useState({ name: "", items: [] });
     const [modalState, updateModal] = useState({ component: "" });
-
-    useEffect(() => {
-        async function getItems() {
-            try {
-                return await API.graphql({
-                    query: queries.listItems,
-                    variables: {
-                        filter: { createdBy: { eq: authState.user.username } }
-                    }
-                });
-            } catch (err) {
-                return err;
-            };
-        };
-
-        let isSubscribed = true;
-        if (isSubscribed && storesData.items === null) {
-            getItems().then(res => {
-                console.log('itemData:', res);
-                dispatch({
-                    type: 'SET_ITEMS',
-                    payload: res.data.listItems.items
-                });
-            }).catch(error => {
-                console.log('error fetching items', error);
-            });
-        };
-
-        return () => (isSubscribed = false);
-    }, [dispatch, authState, storesData]);
 
     useEffect(() => {
         function initSelectedLocations(storeId, locationsArr) {
@@ -64,9 +35,26 @@ function MenuComponent() {
             setLocations(selectedLocations);
         };
 
+        function initSelectedItems(storeId, itemsArr) {
+            if (!itemsArr[0]) return;
+
+            const selectedItems = [];
+
+            for (const item of itemsArr) {
+                if (item.storeId === storeId) { selectedItems.push(item); };
+            };
+
+            selectedItems.sort((a, b) => {
+                return a.name - b.name;
+            });
+            
+            setItems(selectedItems);
+        };
+
         if (storesData.stores && storesData.stores[0] && !selectedStore.id) {
             setStore(storesData.stores[0]);
             initSelectedLocations(storesData.stores[0].id, storesData.locations);
+            initSelectedItems(storesData.stores[0].id, storesData.items);
         };
 
         if (locations[0] && !selectedLocation.id) {
@@ -109,6 +97,18 @@ function MenuComponent() {
         });
 
         setLocations(selectedLocations);
+
+        const selectedItems = [];
+
+        for (const item of storesData.items) {
+            if (item.storeId === store.id) { selectedItems.push(item); };
+        };
+
+        selectedItems.sort((a, b) => {
+            return a.name - b.name;
+        });
+
+        setItems(selectedItems);
 
         if (selectedLocations.length > 0) {
             setLocation({ ...selectedLocations[0], idx: 0 });
@@ -159,11 +159,69 @@ function MenuComponent() {
             component: <ItemForm
                 storeId={selectedStore.id}
                 modalAction={updateModal}
-                // updateSelectLocations={setLocations}
-                // selectedLocations={locations}
+                updateSelectItems={setItems}
+                selectedItems={selectedItems}
                 action="create"
             />
         });
+    };
+
+    function showCategoryInput() {
+        const categoryInput = document.getElementsByClassName("category-input")[0];
+        const style = window.getComputedStyle(categoryInput);
+        if (style.getPropertyValue('display') === "none") {
+            categoryInput.style.display = "block";
+        } else {
+            categoryInput.style.display = "none";
+        }
+    };
+
+    function handleCategoryInput(e) {
+        setCategory({ ...category, name: e.target.value });
+    };
+
+    async function createCategory() {
+        if (!category.name) return;
+
+        let { id, menuCategories } = selectedLocation;
+        const categoryString = JSON.stringify(category);
+
+        if (!menuCategories) {
+            menuCategories = [categoryString];
+        } else {
+            menuCategories.push(categoryString);
+        };
+        
+        try {
+            await API.graphql(graphqlOperation(mutations.updateLocation, { input: {
+                id: id,
+                menuCategories: menuCategories
+            } })).then(res => {
+                    console.log("category created:", res);
+                    setLocation(res.data.updateLocation);
+                    setCategory({ ...category, name: "" });
+                });
+        } catch (err) {
+            console.log("error creating category:", err);
+        };
+    };
+
+    function showItems(idx) {
+        const categoryInput = document.getElementsByClassName("item-list")[idx];
+        const style = window.getComputedStyle(categoryInput);
+        if (style.getPropertyValue('display') === "none") {
+            categoryInput.style.display = "block";
+        } else {
+            categoryInput.style.display = "none";
+        }
+    };
+
+    function addItemToMenu(itemId, categoryObj, idx) {
+        categoryObj.items.push(itemId);
+        const categoryString = JSON.stringify(categoryObj);
+        const menu = selectedLocation.menuCategories;
+        menu.splice(idx, 1, categoryString);
+        setLocation({ ...selectedLocation, menuCategories: menu });
     };
 
     return (
@@ -200,13 +258,14 @@ function MenuComponent() {
                                     <div className="change-store" onClick={showStoreList}>Change Store
                                         <ul className="store-list">
                                             {
+                                                storesData.stores ?
                                                 storesData.stores.map((store, idx) => (
                                                     <li key={idx} className="menu-store-li" onClick={
                                                         e => {changeStore(e, store)}
                                                         }>
                                                         {store.name}
                                                     </li>
-                                                ))
+                                                )) : <></>
                                             }
                                         </ul>
                                     </div>
@@ -226,26 +285,66 @@ function MenuComponent() {
                 </div>
                 <div className="user-panel-detail">
                     <button className="add-item" onClick={createItemForm}>Create Item</button>
-                    <ul className="menu">Menu:
-                        <li>some categories</li>
-                        {/* {
-                            selectedLocations.map((location, idx) => (
-                                <li key={idx} className="location-li">
-                                    <p>{location.address}</p>
-                                    <p>{location.description}</p>
-                                    <p>{location.phoneNumber}</p>
-                                    <p>{location.email}</p>
-                                    <FontAwesomeIcon icon={faCog} onClick={() => updateLocationForm(idx)} />
-                                </li>
-                            ))
-                        }
+                    <div>Menu:</div>
+                    {
+                        selectedLocation.id ?
+                            <div className="create-category">
+                                
+                                <div onClick={showCategoryInput}>Create Menu Category</div>
+
+                                <div className="category-input">
+                                    <input name='name'
+                                        onChange={handleCategoryInput}
+                                        value={category.name}
+                                        placeholder='category name'
+                                    ></input>
+                                    <FontAwesomeIcon icon={faPlus} onClick={createCategory}/>
+                                </div>
+                            </div>
+                            : <></>
+                    }
+                    <ul className="menu">
                         {
-                            selectedStore.id ?
-                                <li onClick={createLocationForm}>
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </li>
-                                : <div></div>
-                        } */}
+                            selectedLocation.menuCategories ?
+                                selectedLocation.menuCategories.map((category, idx) => {
+                                    const categoryObj = JSON.parse(category);
+                                    const items = [];
+                                    for (const itemId of categoryObj.items) {
+                                        for (const itemObj of selectedItems) {
+                                            if (itemObj.id === itemId) {
+                                                items.push(itemObj);
+                                                break;
+                                            }
+                                        };
+                                    };
+                                    return (
+                                        <li key={idx}>
+                                            <div>
+                                                <p>{categoryObj.name}</p>
+                                                <FontAwesomeIcon icon={faPlus} onClick={() => {showItems(idx)}}/>
+                                                <ul className="item-list">
+                                                    {
+                                                        selectedItems.map((item, i) => (
+                                                            <li key={i} onClick={() => { addItemToMenu(item.id, categoryObj, idx)}}>
+                                                                <p>{item.name}</p>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <ul>Items:
+                                                {
+                                                    items.map((item, idx) => (
+                                                        <li key={idx}>
+                                                            <p>{item.name}</p>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </li>
+                                    )
+                                }) : <></>
+                        }
                     </ul>
                 </div>
             </div>

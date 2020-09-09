@@ -101,3 +101,36 @@ button.add-item {
     cursor: pointer;
     border-radius: 9px;
 }
+
+.create-category {
+    width: fit-content;
+    padding: 9px 20px;
+    background-color: #242526;
+    color: #00CED1;
+    border-radius: 9px;
+}
+
+.create-category > div:first-of-type {
+    cursor: pointer;
+    width: fit-content;
+}
+
+.category-input {
+    display: none;
+}
+
+.category-input input {
+    margin-right: 8px;
+}
+
+.category-input svg {
+    cursor: pointer;
+}
+
+.menu li > div {
+    display: flex;
+}
+
+ul.item-list {
+    display: none;
+}

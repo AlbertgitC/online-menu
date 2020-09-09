@@ -43,13 +43,27 @@ function StoreComponent() {
             };
         };
 
+        async function getItems() {
+            try {
+                return await API.graphql({
+                    query: queries.listItems,
+                    variables: {
+                        filter: { createdBy: { eq: authState.user.username } }
+                    }
+                });
+            } catch (err) {
+                return err;
+            };
+        };
+
         const storesData = getStores();
         const locationsData = getLocations();
+        const itemsData = getItems();
 
         let isSubscribed = true;
         
         if (isSubscribed && globalState.stores === null) {
-            Promise.all([storesData, locationsData]).then(res => {
+            Promise.all([storesData, locationsData, itemsData]).then(res => {
                 console.log('storeData:', res[0]);
                 dispatch({
                     type: 'SET_STORES',
@@ -60,9 +74,15 @@ function StoreComponent() {
                     type: 'SET_LOCATIONS',
                     payload: res[1].data.listLocations.items
                 });
+                console.log('itemData:', res[2]);
+                dispatch({
+                    type: 'SET_ITEMS',
+                    payload: res[2].data.listItems.items
+                });
             }).catch(errors => {
                 console.log('error fetching stores', errors[0]);
                 console.log('error fetching locations', errors[1]);
+                console.log('error fetching items', errors[2]);
             });
         };
         
