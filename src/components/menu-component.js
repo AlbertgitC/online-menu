@@ -289,7 +289,9 @@ function MenuComponent() {
                     {
                         selectedLocation.id ?
                             <div className="create-category">
+                                
                                 <div onClick={showCategoryInput}>Create Menu Category</div>
+
                                 <div className="category-input">
                                     <input name='name'
                                         onChange={handleCategoryInput}
